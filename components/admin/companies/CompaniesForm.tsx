@@ -38,7 +38,7 @@ export default function CompaniesForm(props: ICompaniesFormProps) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<CompaniesForm>({
+  } = useForm<any>({
     resolver: yupResolver(schema),
     defaultValues: {
       companies: props.companies?.data
@@ -154,11 +154,13 @@ export default function CompaniesForm(props: ICompaniesFormProps) {
                         />
                       )}
                     />
-                    {errors.companies && errors.companies[index]?.imageURL && (
-                      <p className="text-red-700 text-sm">
-                        * {errors.companies[index]?.imageURL?.message}
-                      </p>
-                    )}
+                    {errors.companies &&
+                      (errors as any).companies[index]?.imageURL && (
+                        <p className="text-red-700 text-sm">
+                          *{" "}
+                          {(errors as any).companies[index]?.imageURL?.message}
+                        </p>
+                      )}
                   </div>
                   <div>
                     <div>
@@ -171,11 +173,12 @@ export default function CompaniesForm(props: ICompaniesFormProps) {
                         placeholder="Company Name"
                         {...register(`companies.${index}.name`)}
                       />
-                      {errors.companies && errors.companies[index]?.name && (
-                        <p className="text-red-700 text-sm">
-                          * {errors.companies[index]?.name?.message}
-                        </p>
-                      )}
+                      {errors.companies &&
+                        (errors as any).companies[index]?.name && (
+                          <p className="text-red-700 text-sm">
+                            * {(errors as any).companies[index]?.name?.message}
+                          </p>
+                        )}
                     </div>
                   </div>
                 </FormSectionContainer>

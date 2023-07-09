@@ -41,7 +41,7 @@ const schema = yup
 
 export default function PackagesForm(props: IPackages) {
   const objForm = useForm<PackagesForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema as any),
     defaultValues: {
       packages: props?.packages?.data?.packages
         ? props?.packages?.data?.packages[0]?.packages

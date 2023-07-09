@@ -37,7 +37,7 @@ export default function FAQsForm(props: IFAQsForm) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FAQsForm>({
+  } = useForm<any>({
     resolver: yupResolver(schema),
     defaultValues: {
       faqs: props?.faqs?.data?.faqs
@@ -117,9 +117,9 @@ export default function FAQsForm(props: IFAQsForm) {
                     placeholder="Question"
                     {...register(`faqs.${index}.question`)}
                   />
-                  {errors.faqs && errors.faqs[index]?.question && (
+                  {errors.faqs && (errors as any).faqs[index]?.question && (
                     <p className="text-red-700 mt-2 text-sm">
-                      * {errors.faqs[index]?.question?.message}
+                      * {(errors as any).faqs[index]?.question?.message}
                     </p>
                   )}
                 </div>
@@ -137,9 +137,9 @@ export default function FAQsForm(props: IFAQsForm) {
                     placeholder="Answer..."
                     {...register(`faqs.${index}.answer`)}
                   ></textarea>
-                  {errors.faqs && errors.faqs[index]?.answer && (
+                  {errors.faqs && (errors as any).faqs[index]?.answer && (
                     <p className="text-red-700 mt-2 text-sm">
-                      * {errors.faqs[index]?.answer?.message}
+                      * {(errors as any).faqs[index]?.answer?.message}
                     </p>
                   )}
                 </div>

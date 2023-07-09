@@ -40,7 +40,7 @@ export default function FiguresForm(props: IFigures) {
     handleSubmit,
     formState: { errors },
   } = useForm<FiguresForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema as any),
     defaultValues: {
       figures: props?.figures?.data?.figures
         ? props?.figures?.data?.figures[0]?.figures

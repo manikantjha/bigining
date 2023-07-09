@@ -40,12 +40,12 @@ export default function CelebsForm(props: ICelebsFormProps) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<CelebsForm>({
+  } = useForm<any>({
     resolver: yupResolver(schema),
     defaultValues: {
       celebs: props.celebs?.data
         ? props.celebs?.data?.celebs[0]?.celebs
-        : [{ name: "", imageURL: "", description: "" }],
+        : [{ imageURL: "", name: "", description: "" }],
     },
   });
 
@@ -155,11 +155,12 @@ export default function CelebsForm(props: ICelebsFormProps) {
                         />
                       )}
                     />
-                    {errors.celebs && errors.celebs[index]?.imageURL && (
-                      <p className="text-red-700 text-sm">
-                        * {errors.celebs[index]?.imageURL?.message}
-                      </p>
-                    )}
+                    {errors.celebs &&
+                      (errors as any).celebs[index]?.imageURL && (
+                        <p className="text-red-700 text-sm">
+                          * {(errors as any).celebs[index]?.imageURL?.message}
+                        </p>
+                      )}
                   </div>
                   <div>
                     <div>
@@ -172,9 +173,9 @@ export default function CelebsForm(props: ICelebsFormProps) {
                         placeholder="Celebrity Name"
                         {...register(`celebs.${index}.name`)}
                       />
-                      {errors.celebs && errors.celebs[index]?.name && (
+                      {errors.celebs && (errors as any).celebs[index]?.name && (
                         <p className="text-red-700 text-sm">
-                          * {errors.celebs[index]?.name?.message}
+                          * {(errors as any).celebs[index]?.name?.message}
                         </p>
                       )}
                     </div>
@@ -190,11 +191,13 @@ export default function CelebsForm(props: ICelebsFormProps) {
                       placeholder="Celebrity Description"
                       {...register(`celebs.${index}.description`)}
                     />
-                    {errors.celebs && errors.celebs[index]?.description && (
-                      <p className="text-red-700 text-sm">
-                        * {errors.celebs[index]?.description?.message}
-                      </p>
-                    )}
+                    {errors.celebs &&
+                      (errors as any).celebs[index]?.description && (
+                        <p className="text-red-700 text-sm">
+                          *{" "}
+                          {(errors as any).celebs[index]?.description?.message}
+                        </p>
+                      )}
                   </div>
                 </FormSectionContainer>
               </div>

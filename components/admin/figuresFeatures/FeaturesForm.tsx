@@ -36,7 +36,7 @@ export default function FeaturesForm(props: IFeatures) {
     handleSubmit,
     formState: { errors },
   } = useForm<FeaturesForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema as any),
     defaultValues: {
       features: props?.features?.data?.features
         ? props?.features?.data?.features[0]?.features

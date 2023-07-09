@@ -31,7 +31,7 @@ export default function AboutHeroForm(props: IHeroFormProps) {
     control,
     formState: { errors },
   } = useForm<HeroForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema as any),
     defaultValues: props.hero.data ? { ...props.hero.data.hero } : {},
   });
 

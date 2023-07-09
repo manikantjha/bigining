@@ -41,7 +41,7 @@ export default function TeamMembersForm(props: ITeamMembersFormProps) {
     handleSubmit,
     formState: { errors },
   } = useForm<TeamMembersForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema as any),
     defaultValues: {
       teamMembers: props.teamMembers?.data
         ? props.teamMembers?.data?.teamMembers[0]?.teamMembers

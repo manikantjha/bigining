@@ -41,7 +41,7 @@ export default function WorksForm(props: IWorksFormProps) {
     handleSubmit,
     formState: { errors },
   } = useForm<WorksForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema as any),
     defaultValues: {
       works: props.works?.data?.works
         ? props.works?.data?.works[0]?.works

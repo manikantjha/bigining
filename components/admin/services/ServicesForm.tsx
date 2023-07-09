@@ -35,7 +35,7 @@ const schema = yup
 
 export default function ServicesForm(props: IServices) {
   const objForm = useForm<ServicesForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema as any),
     defaultValues: {
       services: props?.services?.data?.services
         ? props?.services?.data?.services[0]?.services
