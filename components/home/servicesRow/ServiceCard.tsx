@@ -11,7 +11,7 @@ interface IServiceCard extends IRowTheme {
 
 export default function ServiceCard(props: IServiceCard) {
   return (
-    <Card theme={props.theme} className="!p-0">
+    <Card theme={props.theme} className="!p-0 !text-left">
       <div
         className="bg-white rounded-lg"
         id="about"
