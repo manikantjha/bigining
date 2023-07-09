@@ -45,7 +45,7 @@ export default function CelebsForm(props: ICelebsFormProps) {
     defaultValues: {
       celebs: props.celebs?.data
         ? props.celebs?.data?.celebs[0]?.celebs
-        : [{ name: "", imageURL: "" }],
+        : [{ name: "", imageURL: "", description: "" }],
     },
   });
 
