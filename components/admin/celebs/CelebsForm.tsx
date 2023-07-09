@@ -16,7 +16,7 @@ type CelebsForm = {
   celebs: {
     imageURL: string;
     name: string;
-    description: string;
+    description?: string;
   }[];
 };
 
