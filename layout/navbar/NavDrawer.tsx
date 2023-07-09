@@ -18,7 +18,7 @@ export default function NavDrawer(props: INavDrawerNavDrawer) {
     >
       <button
         type="button"
-        className="text-gray-400 bg-gray-200 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 w-fit ml-auto inline-flex items-center"
+        className="text-accentLighter bg-primaryDark hover:bg- hover:text-gray-900 rounded-lg text-sm p-1.5 w-fit ml-auto inline-flex items-center"
         onClick={() => props.setIsOpen(false)}
       >
         <svg

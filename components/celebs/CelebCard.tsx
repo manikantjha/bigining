@@ -13,7 +13,7 @@ interface ICelebCard extends IRowTheme {
 export default function CelebCard(props: ICelebCard) {
   return (
     <Card theme={props.theme} className="flex flex-col items-center p-8">
-      <div className="w-[75px] h-[75px] md:w-[150px] md:h-[150px] overflow-hidden rounded-full border border-black">
+      <div className="w-[150px] h-[150px] overflow-hidden rounded-full border border-black">
         <img
           src={props.objCeleb.imageURL}
           alt={props.objCeleb.name}
