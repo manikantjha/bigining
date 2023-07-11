@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 export async function getCelebs(req: NextApiRequest, res: NextApiResponse) {
   try {
     const celebs = await Celebs.find({});
-    if (!celebs) return res.status(404).json({ error: "No Data Found" });
+    if (!celebs) return res.status(404).json({ error: "No data found!" });
     return res.status(200).json({ celebs });
   } catch (error) {
     res.status(404).json({ error });
@@ -16,11 +16,11 @@ export async function getCeleb(req: NextApiRequest, res: NextApiResponse) {
   try {
     const data = req.query;
     if (!data || !data.id) {
-      return res.status(404).json({ error: "Form Datat Not Provided" });
+      return res.status(404).json({ error: "Celebs ID not provided!" });
     }
     const { id }: { id?: string } = data;
     const celebs = await Celebs.findById(new ObjectId(id));
-    if (!celebs) return res.status(404).json({ error: "No Data Found" });
+    if (!celebs) return res.status(404).json({ error: "No data found!" });
     return res.status(200).json({ celebs });
   } catch (error) {
     res.status(404).json({ error });
@@ -32,12 +32,12 @@ export async function addUpdateCeleb(
   res: NextApiResponse
 ) {
   try {
-    const { id, ...data } = req.body;
+    const { _id, ...data } = req.body;
     if (!data) {
-      return res.status(404).json({ error: "Form Datat Not Provided" });
+      return res.status(404).json({ error: "Form data not provided!" });
     }
-    if (id) {
-      const response = await Celebs.findByIdAndUpdate(id, data);
+    if (_id) {
+      const response = await Celebs.findByIdAndUpdate(_id, data);
       return res.status(200).json({ response });
     } else {
       const response = await Celebs.create(data);
@@ -45,18 +45,5 @@ export async function addUpdateCeleb(
     }
   } catch (error) {
     res.status(500).json({ error });
-  }
-}
-
-export async function deleteCeleb(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    const { id } = req.body;
-    if (!id) {
-      return res.status(404).json({ error: "Id Not Provided" });
-    }
-    const response = await Celebs.findByIdAndDelete(id);
-    return res.status(200).json({ response });
-  } catch (error) {
-    res.status(404).json({ error });
   }
 }

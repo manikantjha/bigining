@@ -1,26 +1,18 @@
 import { addUpdatePackage } from "@/services/apiServices";
+import { IPackages } from "@/types/packages";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { UseQueryResult, useMutation } from "react-query";
+import { ToastOptions, toast } from "react-toastify";
 import * as yup from "yup";
+import AddMoreButton from "../common/AddMoreButton";
 import FormSectionContainer from "../common/FormSectionContainer";
 import FormSectionWrapper from "../common/FormSectionWrapper";
-import PackagesListForm from "./PackagesListForm";
-import AddMoreButton from "../common/AddMoreButton";
 import SubmitButton from "../common/SubmitButton";
-import { ToastOptions, toast } from "react-toastify";
 import Toast from "../common/Toast";
+import PackagesListForm from "./PackagesListForm";
 
-type PackagesForm = {
-  packages: {
-    title: string;
-    price: number;
-    list: string[];
-  }[];
-};
-
-interface IPackages {
+interface IPackagesFormProps {
   packages: UseQueryResult<any, unknown>;
 }
 
@@ -39,8 +31,8 @@ const schema = yup
   })
   .required();
 
-export default function PackagesForm(props: IPackages) {
-  const objForm = useForm<PackagesForm>({
+export default function PackagesForm(props: IPackagesFormProps) {
+  const objForm = useForm<IPackages>({
     resolver: yupResolver(schema as any),
     defaultValues: {
       packages: props?.packages?.data?.packages
@@ -67,12 +59,12 @@ export default function PackagesForm(props: IPackages) {
     onSuccess: () => {},
   });
 
-  const onSubmit = (data: PackagesForm) => {
-    const id = props?.packages?.data?.packages
+  const onSubmit = (data: IPackages) => {
+    const _id = props?.packages?.data?.packages
       ? props?.packages?.data?.packages[0]?._id
       : undefined;
     addUpdatePackagesMutation.mutate(
-      { ...data, id: id },
+      { ...data, _id },
       {
         onSuccess: () => {
           notify("Submitted succesfully!", { type: "success" });

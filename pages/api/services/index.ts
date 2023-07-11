@@ -1,9 +1,9 @@
 import {
   addUpdateServices,
-  deleteServices,
   getServices,
 } from "@/controllers/servicesControllers";
 import connect from "@/database/connection";
+import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -11,7 +11,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   connect().catch(() =>
-    res.status(405).json({ error: "Error in connection." })
+    res.status(405).json({ error: "Error in connection!" })
   );
 
   switch (req.method) {
@@ -19,14 +19,10 @@ export default async function handler(
       await getServices(req, res);
       break;
     case "POST":
-      await addUpdateServices(req, res);
-      break;
-    case "DELETE":
-      await deleteServices(req, res);
+      await jwtMiddleware(req, res, addUpdateServices);
       break;
     default:
-      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
-      res.status(405).end(`Method ${req.method} Not Allowed`);
+      res.status(405).end(`Method ${req.method} not allowed!`);
       break;
   }
 }

@@ -1,27 +1,27 @@
-import emailjs from "@emailjs/browser";
+import { sendContactForm } from "@/services/apiServices";
+import { ISendMessage } from "@/types/contact";
+import { phoneRegex } from "@/utils/utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import * as yup from "yup";
 import Modal from "../common/Modal";
 import ContactModalContent from "./ContactModalContent";
-import { contact } from "@/services/apiServices";
-
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const schema = yup
   .object({
     name: yup.string().required("Name is required"),
     phone: yup
       .string()
-      .matches(phoneRegExp, "A valid phone number is required"),
+      .matches(phoneRegex, "A valid phone number is required")
+      .required("Phone number is required!"),
     email: yup.string().email().required("Email is required"),
     message: yup.string().required("Message is required"),
   })
   .required();
 
-type FormData = yup.InferType<typeof schema>;
+// type FormData = yup.InferType<typeof schema>;
 
 export default function ContactForm() {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,18 +48,21 @@ export default function ContactForm() {
 
   const form = useRef<HTMLFormElement>(null);
 
-  const onSubmit = (data: FormData) => {
-    if (form.current) {
-      contact(form.current)
-        .then(() => {
-          setIsSuccess(true);
-          setIsOpen(true);
-        })
-        .catch(() => {
-          setIsSuccess(false);
-          setIsOpen(true);
-        });
-    }
+  const contactMutation = useMutation(sendContactForm, {
+    onSuccess(data, variables, context) {
+      setIsSuccess(true);
+      setIsOpen(true);
+      reset();
+    },
+    onError(error, variables, context) {
+      setIsOpen(true);
+      setIsSuccess(false);
+      reset();
+    },
+  });
+
+  const onSubmit = (data: ISendMessage) => {
+    contactMutation.mutate(data);
   };
 
   return (

@@ -11,14 +11,7 @@ import Toast from "../common/Toast";
 import { ToastOptions, toast } from "react-toastify";
 import { deleteObject, ref } from "firebase/storage";
 import { storage } from "@/services/firebaseServices";
-
-type TeamMembersForm = {
-  teamMembers: {
-    imageURL: string;
-    name: string;
-    description: string;
-  }[];
-};
+import { ITeamMembers } from "@/types/teamMembers";
 
 interface ITeamMembersFormProps {
   teamMembers?: UseQueryResult<any, unknown>;
@@ -40,7 +33,7 @@ export default function TeamMembersForm(props: ITeamMembersFormProps) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<TeamMembersForm>({
+  } = useForm<ITeamMembers>({
     resolver: yupResolver(schema as any),
     defaultValues: {
       teamMembers: props.teamMembers?.data
@@ -88,13 +81,13 @@ export default function TeamMembersForm(props: ITeamMembersFormProps) {
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
   function onSubmit(data: any) {
-    const id = props.teamMembers?.data?.teamMembers
+    const _id = props.teamMembers?.data?.teamMembers
       ? props.teamMembers?.data?.teamMembers[0]?._id
       : "";
     addUpdateTeamMemberMutation.mutate(
       {
         ...data,
-        id: id,
+        _id,
       },
       {
         onSuccess: () => {

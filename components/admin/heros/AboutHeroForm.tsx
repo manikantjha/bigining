@@ -8,7 +8,8 @@ import FormSectionContainer from "../common/FormSectionContainer";
 import ImageUploader from "../common/ImageUploader";
 import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
-import { HeroForm, IHeroFormProps } from "./HomeHeroForm";
+import { IHeroFormProps } from "./HomeHeroForm";
+import { IHero } from "@/types/hero";
 
 const schema = yup
   .object({
@@ -30,17 +31,17 @@ export default function AboutHeroForm(props: IHeroFormProps) {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<HeroForm>({
+  } = useForm<IHero>({
     resolver: yupResolver(schema as any),
     defaultValues: props.hero.data ? { ...props.hero.data.hero } : {},
   });
 
-  async function onSubmit(data: HeroForm) {
+  async function onSubmit(data: IHero) {
     addUpdateHeroMutation.mutate(
       {
         ...data,
         pageId: "about",
-        id: props?.hero?.data?.hero?._id || "",
+        _id: props?.hero?.data?.hero?._id || "",
       },
       {
         onSuccess: () => {

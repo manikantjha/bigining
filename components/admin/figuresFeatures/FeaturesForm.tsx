@@ -2,20 +2,14 @@ import { addUpdateFeature } from "@/services/apiServices";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { UseQueryResult, useMutation } from "react-query";
+import { ToastOptions, toast } from "react-toastify";
 import * as yup from "yup";
 import FormSectionContainer from "../common/FormSectionContainer";
 import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
-import { ToastOptions, toast } from "react-toastify";
+import { IFeatures } from "@/types/features";
 
-type FeaturesForm = {
-  features: {
-    title: string;
-    description: string;
-  }[];
-};
-
-interface IFeatures {
+interface IFeaturesFormProps {
   features: UseQueryResult<any, unknown>;
 }
 
@@ -30,12 +24,12 @@ const schema = yup
   })
   .required();
 
-export default function FeaturesForm(props: IFeatures) {
+export default function FeaturesForm(props: IFeaturesFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FeaturesForm>({
+  } = useForm<IFeatures>({
     resolver: yupResolver(schema as any),
     defaultValues: {
       features: props?.features?.data?.features
@@ -50,12 +44,12 @@ export default function FeaturesForm(props: IFeatures) {
     onSuccess: () => {},
   });
 
-  const onSubmit = (data: FeaturesForm) => {
-    const id = props?.features?.data?.features
+  const onSubmit = (data: IFeatures) => {
+    const _id = props?.features?.data?.features
       ? props?.features?.data?.features[0]?._id
       : undefined;
     addUpdateFeaturesMutation.mutate(
-      { ...data, id: id },
+      { ...data, _id },
       {
         onSuccess: () => {
           notify("Submitted succesfully!", { type: "success" });

@@ -1,17 +1,17 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import connect from "@/database/connection";
 import {
   addUpdateContactInfo,
-  deleteContactInfo,
   getContactInfos,
 } from "@/controllers/contactInfoControllers";
+import connect from "@/database/connection";
+import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   connect().catch(() =>
-    res.status(405).json({ error: "Error in connection." })
+    res.status(405).json({ error: "Error in connection!" })
   );
 
   switch (req.method) {
@@ -19,14 +19,10 @@ export default async function handler(
       await getContactInfos(req, res);
       break;
     case "POST":
-      await addUpdateContactInfo(req, res);
-      break;
-    case "DELETE":
-      await deleteContactInfo(req, res);
+      await jwtMiddleware(req, res, addUpdateContactInfo);
       break;
     default:
-      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
-      res.status(405).end(`Method ${req.method} Not Allowed`);
+      res.status(405).end(`Method ${req.method} not allowed!`);
       break;
   }
 }

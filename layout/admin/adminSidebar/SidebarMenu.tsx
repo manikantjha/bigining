@@ -1,16 +1,12 @@
 import { lstAdminNavBarMenu } from "@/data/adminData";
-import React from "react";
+import { signout } from "@/services/apiServices";
 import SidebarMenuItem from "./SidebarMenuItem";
-import { useAuth } from "@/contexts/AuthContext";
-import { useRouter } from "next/navigation";
 
 interface ISidebarMenuProps {
   isSidebarOpen: boolean;
 }
 
 export default function SidebarMenu(props: ISidebarMenuProps) {
-  const { user, logout } = useAuth();
-  const router = useRouter();
   return (
     <aside
       id="default-sidebar"
@@ -28,9 +24,8 @@ export default function SidebarMenu(props: ISidebarMenuProps) {
           ))}
 
           <li
-            onClick={() => {
-              logout();
-              router.push("/login");
+            onClick={async () => {
+              await signout();
             }}
             className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
           >

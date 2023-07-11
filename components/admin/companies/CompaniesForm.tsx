@@ -12,13 +12,6 @@ import ImageUploader from "../common/ImageUploader";
 import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
 
-type CompaniesForm = {
-  companies: {
-    imageURL: string;
-    name: string;
-  }[];
-};
-
 interface ICompaniesFormProps {
   companies?: UseQueryResult<any, unknown>;
 }
@@ -85,13 +78,13 @@ export default function CompaniesForm(props: ICompaniesFormProps) {
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
   function onSubmit(data: any) {
-    const id = props.companies?.data?.companies
+    const _id = props.companies?.data?.companies
       ? props.companies?.data?.companies[0]?._id
       : "";
     addUpdateCompanyMutation.mutate(
       {
         ...data,
-        id: id,
+        _id,
       },
       {
         onSuccess: () => {

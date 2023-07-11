@@ -12,14 +12,6 @@ import ImageUploader from "../common/ImageUploader";
 import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
 
-type CelebsForm = {
-  celebs: {
-    imageURL: string;
-    name: string;
-    description?: string;
-  }[];
-};
-
 interface ICelebsFormProps {
   celebs?: UseQueryResult<any, unknown>;
 }
@@ -87,13 +79,13 @@ export default function CelebsForm(props: ICelebsFormProps) {
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
   function onSubmit(data: any) {
-    const id = props.celebs?.data?.celebs
+    const _id = props.celebs?.data?.celebs
       ? props.celebs?.data?.celebs[0]?._id
       : "";
     addUpdateCelebMutation.mutate(
       {
         ...data,
-        id: id,
+        _id,
       },
       {
         onSuccess: () => {

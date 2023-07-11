@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   connect().catch(() =>
-    res.status(405).json({ error: "Error in connection." })
+    res.status(405).json({ error: "Error in connection!" })
   );
 
   switch (req.method) {
@@ -15,8 +15,7 @@ export default async function handler(
       await getFAQ(req, res);
       break;
     default:
-      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
-      res.status(405).end(`Method ${req.method} Not Allowed`);
+      res.status(405).end(`Method ${req.method} not allowed!`);
       break;
   }
 }

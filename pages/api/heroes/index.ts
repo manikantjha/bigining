@@ -1,38 +1,26 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { addUpdateHero, getHeroes } from "@/controllers/heroControllers";
 import connect from "@/database/connection";
+import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-// type Data = {
-//   name: string;
-// };
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<any> // Data
+  res: NextApiResponse
 ) {
   connect().catch(() =>
-    res.status(405).json({ error: "Error in the Connection" })
+    res.status(405).json({ error: "Error in connection!" })
   );
 
-  const { method } = req;
-
-  switch (method) {
+  switch (req.method) {
     case "GET":
       await getHeroes(req, res);
       break;
     case "POST":
-      await addUpdateHero(req, res);
+      await jwtMiddleware(req, res, addUpdateHero);
       break;
-    // case "PUT":
-    // await updateHero(req, res);
-    // break;
-    // case "DELETE":
-    // await deleteHero(req, res);
-    // break;
     default:
-      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
-      res.status(405).end(`Method ${method} Not Allowed`);
+      res.status(405).end(`Method ${req.method} not allowed!`);
       break;
   }
 }

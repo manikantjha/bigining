@@ -1,12 +1,11 @@
 import Figures from "@/models/figures";
 import { ObjectId } from "mongodb";
-import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export async function getFigures(req: NextApiRequest, res: NextApiResponse) {
   try {
     const figures = await Figures.find({});
-    if (!figures) return res.status(404).json({ error: "No Data Found" });
+    if (!figures) return res.status(404).json({ error: "No data found!" });
     return res.status(200).json({ figures });
   } catch (error) {
     res.status(404).json({ error });
@@ -17,11 +16,11 @@ export async function getFigure(req: NextApiRequest, res: NextApiResponse) {
   try {
     const data = req.query;
     if (!data || !data.id) {
-      return res.status(404).json({ error: "Form Datat Not Provided" });
+      return res.status(404).json({ error: "Figures ID not provided!" });
     }
     const { id }: { id?: string } = data;
     const figures = await Figures.findById(new ObjectId(id));
-    if (!figures) return res.status(404).json({ error: "No Data Found" });
+    if (!figures) return res.status(404).json({ error: "No data found!" });
     return res.status(200).json({ figures });
   } catch (error) {
     res.status(404).json({ error });
@@ -33,13 +32,13 @@ export async function addUpdateFigure(
   res: NextApiResponse
 ) {
   try {
-    const { id, ...data } = req.body;
+    const { _id, ...data } = req.body;
     if (!data) {
-      return res.status(404).json({ error: "Form Datat Not Provided" });
+      return res.status(404).json({ error: "Form data not provided!" });
     }
-    if (id) {
+    if (_id) {
       // Update Case
-      const response = await Figures.findByIdAndUpdate(id, data);
+      const response = await Figures.findByIdAndUpdate(_id, data);
       return res.status(200).json({ response });
     } else {
       // Add Case
@@ -48,18 +47,5 @@ export async function addUpdateFigure(
     }
   } catch (error) {
     res.status(500).json({ error });
-  }
-}
-
-export async function deleteFigures(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    const { id } = req.body;
-    if (!id) {
-      return res.status(404).json({ error: "Id Not Provided" });
-    }
-    const response = await Figures.findByIdAndDelete(id);
-    return res.status(200).json({ response });
-  } catch (error) {
-    res.status(404).json({ error });
   }
 }

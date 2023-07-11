@@ -1,4 +1,5 @@
 import { addUpdateService } from "@/services/apiServices";
+import { IServices } from "@/types/services";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { UseQueryResult, useMutation } from "react-query";
@@ -11,14 +12,7 @@ import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
 import ServicesListForm from "./ServicesListForm";
 
-export type ServicesForm = {
-  services: {
-    title: string;
-    list: string[];
-  }[];
-};
-
-interface IServices {
+interface IServicesFormProps {
   services: UseQueryResult<any, unknown>;
 }
 
@@ -33,8 +27,8 @@ const schema = yup
   })
   .required();
 
-export default function ServicesForm(props: IServices) {
-  const objForm = useForm<ServicesForm>({
+export default function ServicesForm(props: IServicesFormProps) {
+  const objForm = useForm<IServices>({
     resolver: yupResolver(schema as any),
     defaultValues: {
       services: props?.services?.data?.services
@@ -61,12 +55,12 @@ export default function ServicesForm(props: IServices) {
     onSuccess: () => {},
   });
 
-  const onSubmit = (data: ServicesForm) => {
-    const id = props?.services?.data?.services
+  const onSubmit = (data: IServices) => {
+    const _id = props?.services?.data?.services
       ? props?.services?.data?.services[0]?._id
       : undefined;
     addUpdateServicesMutation.mutate(
-      { ...data, id: id },
+      { ...data, _id },
       {
         onSuccess: () => {
           notify("Submitted succesfully!", { type: "success" });

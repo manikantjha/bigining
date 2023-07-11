@@ -8,7 +8,7 @@ export async function getContactInfos(
 ) {
   try {
     const contactInfos = await ContactInfos.find({});
-    if (!contactInfos) return res.status(404).json({ error: "No Data Found" });
+    if (!contactInfos) return res.status(404).json({ error: "No data found!" });
     return res.status(200).json({ contactInfos });
   } catch (error) {
     res.status(404).json({ error });
@@ -22,11 +22,11 @@ export async function getContactInfo(
   try {
     const data = req.query;
     if (!data || !data.id) {
-      return res.status(404).json({ error: "Form Datat Not Provided" });
+      return res.status(404).json({ error: "Contact info ID not provided!" });
     }
     const { id }: { id?: string } = data;
     const contactInfos = await ContactInfos.findById(new ObjectId(id));
-    if (!contactInfos) return res.status(404).json({ error: "No Data Found" });
+    if (!contactInfos) return res.status(404).json({ error: "No data found!" });
     return res.status(200).json({ contactInfos });
   } catch (error) {
     res.status(404).json({ error });
@@ -38,12 +38,12 @@ export async function addUpdateContactInfo(
   res: NextApiResponse
 ) {
   try {
-    const { id, ...data } = req.body;
+    const { _id, ...data } = req.body;
     if (!data) {
-      return res.status(404).json({ error: "Form Datat Not Provided" });
+      return res.status(404).json({ error: "Form data not provided!" });
     }
-    if (id) {
-      const response = await ContactInfos.findByIdAndUpdate(id, data);
+    if (_id) {
+      const response = await ContactInfos.findByIdAndUpdate(_id, data);
       return res.status(200).json({ response });
     } else {
       const response = await ContactInfos.create(data);
@@ -51,21 +51,5 @@ export async function addUpdateContactInfo(
     }
   } catch (error) {
     res.status(500).json({ error });
-  }
-}
-
-export async function deleteContactInfo(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  try {
-    const { id } = req.body;
-    if (!id) {
-      return res.status(404).json({ error: "Id Not Provided" });
-    }
-    const response = await ContactInfos.findByIdAndDelete(id);
-    return res.status(200).json({ response });
-  } catch (error) {
-    res.status(404).json({ error });
   }
 }

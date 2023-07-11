@@ -1,35 +1,37 @@
-// const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH || "";
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH || "";
+import { IUserCredentials } from "@/types/auth";
+import { ICelebs } from "@/types/celebs";
+import { ICompanies } from "@/types/companies";
+import { ISendMessage } from "@/types/contact";
+import { IContactInfo } from "@/types/contactInfo";
+import { IFAQs } from "@/types/faqs";
+import { IFeatures } from "@/types/features";
+import { IFigures } from "@/types/figures";
+import { IHero } from "@/types/hero";
+import { IPackages } from "@/types/packages";
+import { IServices } from "@/types/services";
+import { ITeamMembers } from "@/types/teamMembers";
+import { IWorks } from "@/types/works";
+import { getEnvVariable } from "@/utils/helpers";
+import Router from "next/router";
+import { get, post } from "./fetchServices";
+
+const BASE_URL = getEnvVariable("NEXT_PUBLIC_DEV_BASE_PATH");
+// const BASE_URL = getEnvVariable("NEXT_PUBLIC_BASE_PATH");
 
 //  Heroes --------------------------------------------------!
 
 export const getHeroes = async () => {
-  const response = await fetch(`${BASE_URL}/api/heroes`);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/heroes`);
 };
 
 export const getHero = async (pageId: string) => {
-  const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ pageId }),
-  };
-  const response = await fetch(`${BASE_URL}/api/heroes/${pageId}`, options);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/heroes/${pageId}`);
 };
 
-export const addUpdateHero = async (data: any) => {
+export const addUpdateHero = async (data: IHero) => {
+  const token = localStorage.getItem("token");
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/heroes`, options);
-    const json = await response.json();
-    return json;
+    return await post(`${BASE_URL}/api/heroes`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -38,32 +40,17 @@ export const addUpdateHero = async (data: any) => {
 //  Figures --------------------------------------------------!
 
 export const getFigures = async () => {
-  const response = await fetch(`${BASE_URL}/api/figures`);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/figures`);
 };
 
 export const getFigure = async (id: string) => {
-  const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ pageId: id }),
-  };
-  const response = await fetch(`${BASE_URL}/api/figures/${id}`, options);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/figures/${id}`);
 };
 
-export const addUpdateFigure = async (data: any) => {
+export const addUpdateFigure = async (data: IFigures) => {
+  const token = localStorage.getItem("token");
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/figures`, options);
-    const json = await response.json();
-    return json;
+    return await post(`${BASE_URL}/api/figures`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -72,32 +59,17 @@ export const addUpdateFigure = async (data: any) => {
 //  Features --------------------------------------------------!
 
 export const getFeatures = async () => {
-  const response = await fetch(`${BASE_URL}/api/features`);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/features`);
 };
 
 export const getFeature = async (id: string) => {
-  const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ pageId: id }),
-  };
-  const response = await fetch(`${BASE_URL}/api/features/${id}`, options);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/features/${id}`);
 };
 
-export const addUpdateFeature = async (data: any) => {
+export const addUpdateFeature = async (data: IFeatures) => {
+  const token = localStorage.getItem("token");
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/features`, options);
-    const json = await response.json();
-    return json;
+    return await post(`${BASE_URL}/api/features`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -106,32 +78,17 @@ export const addUpdateFeature = async (data: any) => {
 //  Services --------------------------------------------------!
 
 export const getServices = async () => {
-  const response = await fetch(`${BASE_URL}/api/services`);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/services`);
 };
 
 export const getService = async (id: string) => {
-  const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ pageId: id }),
-  };
-  const response = await fetch(`${BASE_URL}/api/services/${id}`, options);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/services/${id}`);
 };
 
-export const addUpdateService = async (data: any) => {
+export const addUpdateService = async (data: IServices) => {
+  const token = localStorage.getItem("token");
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/services`, options);
-    const json = await response.json();
-    return json;
+    return await post(`${BASE_URL}/api/services`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -140,32 +97,17 @@ export const addUpdateService = async (data: any) => {
 //  Packages --------------------------------------------------!
 
 export const getPackages = async () => {
-  const response = await fetch(`${BASE_URL}/api/packages`);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/packages`);
 };
 
 export const getPackage = async (id: string) => {
-  const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ pageId: id }),
-  };
-  const response = await fetch(`${BASE_URL}/api/packages/${id}`, options);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/packages/${id}`);
 };
 
-export const addUpdatePackage = async (data: any) => {
+export const addUpdatePackage = async (data: IPackages) => {
+  const token = localStorage.getItem("token");
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/packages`, options);
-    const json = await response.json();
-    return json;
+    return await post(`${BASE_URL}/api/packages`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -174,32 +116,17 @@ export const addUpdatePackage = async (data: any) => {
 //  FAQs --------------------------------------------------!
 
 export const getFAQs = async () => {
-  const response = await fetch(`${BASE_URL}/api/faqs`);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/faqs`);
 };
 
 export const getFAQ = async (id: string) => {
-  const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ pageId: id }),
-  };
-  const response = await fetch(`${BASE_URL}/api/faqs/${id}`, options);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/faqs/${id}`);
 };
 
-export const addUpdateFAQ = async (data: any) => {
+export const addUpdateFAQ = async (data: IFAQs) => {
+  const token = localStorage.getItem("token");
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/faqs`, options);
-    const json = await response.json();
-    return json;
+    return await post(`${BASE_URL}/api/faqs`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -208,32 +135,17 @@ export const addUpdateFAQ = async (data: any) => {
 //  Contact Info --------------------------------------------------!
 
 export const getContactInfos = async () => {
-  const response = await fetch(`${BASE_URL}/api/contactInfos`);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/contactInfos`);
 };
 
 export const getContactInfo = async (id: string) => {
-  const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ pageId: id }),
-  };
-  const response = await fetch(`${BASE_URL}/api/contactInfos/${id}`, options);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/contactInfos/${id}`);
 };
 
-export const addUpdateContactInfo = async (data: any) => {
+export const addUpdateContactInfo = async (data: IContactInfo) => {
+  const token = localStorage.getItem("token");
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/contactInfos`, options);
-    const json = await response.json();
-    return json;
+    return await post(`${BASE_URL}/api/contactInfos`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -242,32 +154,17 @@ export const addUpdateContactInfo = async (data: any) => {
 //  Team Members --------------------------------------------------!
 
 export const getTeamMembers = async () => {
-  const response = await fetch(`${BASE_URL}/api/teamMembers`);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/teamMembers`);
 };
 
 export const getTeamMember = async (id: string) => {
-  const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ pageId: id }),
-  };
-  const response = await fetch(`${BASE_URL}/api/teamMembers/${id}`, options);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/teamMembers/${id}`);
 };
 
-export const addUpdateTeamMember = async (data: any) => {
+export const addUpdateTeamMember = async (data: ITeamMembers) => {
+  const token = localStorage.getItem("token");
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/teamMembers`, options);
-    const json = await response.json();
-    return json;
+    return await post(`${BASE_URL}/api/teamMembers`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -276,32 +173,17 @@ export const addUpdateTeamMember = async (data: any) => {
 //  Works --------------------------------------------------!
 
 export const getWorks = async () => {
-  const response = await fetch(`${BASE_URL}/api/works`);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/works`);
 };
 
 export const getWork = async (id: string) => {
-  const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ pageId: id }),
-  };
-  const response = await fetch(`${BASE_URL}/api/works/${id}`, options);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/works/${id}`);
 };
 
-export const addUpdateWork = async (data: any) => {
+export const addUpdateWork = async (data: IWorks) => {
+  const token = localStorage.getItem("token");
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/works`, options);
-    const json = await response.json();
-    return json;
+    return await post(`${BASE_URL}/api/works`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -309,46 +191,27 @@ export const addUpdateWork = async (data: any) => {
 
 //  Auth --------------------------------------------------!
 
-export const signup = async (data: any) => {
+export const signup = async (data: IUserCredentials) => {
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/signup`, options);
-    const json = await response.json();
-    return json;
+    return await post(`${BASE_URL}/api/signup`, data);
   } catch (error) {
     console.log("Error: ", error);
   }
 };
 
-export const login = async (data: any) => {
+export const signin = async (data: IUserCredentials) => {
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/login`, options);
-    const json = await response.json();
-    return json;
+    return await post(`${BASE_URL}/api/signin`, data);
   } catch (error) {
     console.log("Error: ", error);
   }
 };
 
-export const signout = async (data: any) => {
+export const signout = async () => {
+  localStorage.removeItem("token");
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/signout`, options);
-    const json = await response.json();
-    return json;
+    await get(`${BASE_URL}/api/signout`);
+    Router.push("/login");
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -356,50 +219,29 @@ export const signout = async (data: any) => {
 
 //  Contact --------------------------------------------------!
 
-export const contact = async (data: any) => {
-  try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/contact`, options);
-    const json = await response.json();
-    return json;
-  } catch (error) {
-    console.log("Error: ", error);
-  }
-};
+export async function sendContactForm(data: ISendMessage) {
+  return post(`${BASE_URL}/api/contact`, data).then((res) => {
+    if (!res.ok) {
+      throw new Error("Failed to send message!");
+    }
+    return res.json();
+  });
+}
 
 //  Companies --------------------------------------------------!
 
 export const getCompanies = async () => {
-  const response = await fetch(`${BASE_URL}/api/companies`);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/companies`);
 };
 
 export const getCompany = async (id: string) => {
-  const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ pageId: id }),
-  };
-  const response = await fetch(`${BASE_URL}/api/companies/${id}`, options);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/companies/${id}`);
 };
 
-export const addUpdateCompany = async (data: any) => {
+export const addUpdateCompany = async (data: ICompanies) => {
+  const token = localStorage.getItem("token");
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/companies`, options);
-    const json = await response.json();
-    return json;
+    return await post(`${BASE_URL}/api/companies`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -408,32 +250,17 @@ export const addUpdateCompany = async (data: any) => {
 //  Celebs --------------------------------------------------!
 
 export const getCelebs = async () => {
-  const response = await fetch(`${BASE_URL}/api/celebs`);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/celebs`);
 };
 
 export const getCeleb = async (id: string) => {
-  const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ pageId: id }),
-  };
-  const response = await fetch(`${BASE_URL}/api/celebs/${id}`, options);
-  const json = await response.json();
-  return json;
+  return await get(`${BASE_URL}/api/celebs/${id}`);
 };
 
-export const addUpdateCeleb = async (data: any) => {
+export const addUpdateCeleb = async (data: ICelebs) => {
+  const token = localStorage.getItem("token");
   try {
-    const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-    const response = await fetch(`${BASE_URL}/api/celebs`, options);
-    const json = await response.json();
-    return json;
+    return await post(`${BASE_URL}/api/celebs`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }

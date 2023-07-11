@@ -8,15 +8,9 @@ import FormSectionContainer from "../common/FormSectionContainer";
 import FormSectionWrapper from "../common/FormSectionWrapper";
 import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
+import { IFigures } from "@/types/figures";
 
-type FiguresForm = {
-  figures: {
-    figure: string;
-    description: string;
-  }[];
-};
-
-interface IFigures {
+interface IFiguresFormProps {
   figures: UseQueryResult<any, unknown>;
 }
 
@@ -34,12 +28,12 @@ const schema = yup
   })
   .required();
 
-export default function FiguresForm(props: IFigures) {
+export default function FiguresForm(props: IFiguresFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FiguresForm>({
+  } = useForm<IFigures>({
     resolver: yupResolver(schema as any),
     defaultValues: {
       figures: props?.figures?.data?.figures
@@ -54,12 +48,12 @@ export default function FiguresForm(props: IFigures) {
     onSuccess: () => {},
   });
 
-  const onSubmit = (data: FiguresForm) => {
-    const id = props?.figures?.data?.figures
+  const onSubmit = (data: IFigures) => {
+    const _id = props?.figures?.data?.figures
       ? props?.figures?.data?.figures[0]?._id
       : undefined;
     addUpdateFiguresMutation.mutate(
-      { ...data, id: id },
+      { ...data, _id },
       {
         onSuccess: () => {
           notify("Submitted succesfully!", { type: "success" });

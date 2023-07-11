@@ -1,49 +1,53 @@
 import Users from "@/models/users";
 import { auth } from "@/services/firebaseServices";
+import { getEnvVariable } from "@/utils/helpers";
+import { signJWT } from "@/utils/token";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
 import { NextApiRequest, NextApiResponse } from "next";
-const jwt = require("jsonwebtoken");
 
 export async function signup(req: NextApiRequest, res: NextApiResponse) {
   try {
     const data = req.body;
-    const key = process.env.JWT_SECRET;
+
     if (!data) {
-      return res.status(404).json({ error: "Form Datat Not Provided" });
+      return res.status(404).json({ error: "Form data not provided!" });
     }
-    if (!key) {
-      throw new Error("Failed to get token!");
-    }
+
     const users = await Users.find();
+
     if (users.length > 0) {
       throw new Error("Max users limit reached!");
     }
-    const firebaseResponse = await createUserWithEmailAndPassword(
+
+    const response = await createUserWithEmailAndPassword(
       auth,
       data.email,
       data.password
     );
-    if (!firebaseResponse || (firebaseResponse && !firebaseResponse.user)) {
+
+    if (!response || (response && !response.user)) {
       throw new Error("Something went wrong! User not created!");
     }
-    const response = await Users.create({
-      uid: firebaseResponse.user.uid,
+
+    await Users.create({
+      uid: response.user.uid,
       name: "",
-      email: firebaseResponse.user.email,
+      email: response.user.email,
     });
-    const token = jwt.sign(
+
+    const token = await signJWT(
       {
-        uid: firebaseResponse.user.uid,
-        displayName: firebaseResponse.user.displayName,
-        email: firebaseResponse.user.email,
+        uid: response.user.uid,
+        displayName: response.user.displayName,
+        email: response.user.email,
       },
-      key,
       { expiresIn: "7d" }
     );
+
     return res.status(200).json({ token });
   } catch (error: any) {
     return res.status(500).json({
@@ -52,18 +56,15 @@ export async function signup(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export async function login(req: NextApiRequest, res: NextApiResponse) {
+export async function signin(req: NextApiRequest, res: NextApiResponse) {
   try {
     const data = req.body;
-    if (!data) {
-      return res.status(404).json({ error: "Form Datat Not Provided" });
-    }
-    const email = process.env.ADMIN_EMAIL;
-    const key = process.env.JWT_SECRET;
 
-    if (!key) {
-      throw new Error("Failed to get key!");
+    if (!data) {
+      return res.status(404).json({ error: "Form data not provided!" });
     }
+
+    const email = getEnvVariable("ADMIN_EMAIL");
 
     if (email != data.email) {
       throw new Error("Unauthorized email address!");
@@ -75,13 +76,12 @@ export async function login(req: NextApiRequest, res: NextApiResponse) {
       data.password
     );
 
-    const token = jwt.sign(
+    const token = await signJWT(
       {
         uid: response.user.uid,
         displayName: response.user.displayName,
         email: response.user.email,
       },
-      key,
       { expiresIn: "7d" }
     );
 

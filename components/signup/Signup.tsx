@@ -1,4 +1,5 @@
 import { signup } from "@/services/apiServices";
+import { ISignupForm, IUserCredentials } from "@/types/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -8,12 +9,6 @@ import { ToastOptions, toast } from "react-toastify";
 import * as yup from "yup";
 import Toast from "../admin/common/Toast";
 import Logo from "../common/Logo";
-
-type SignupForm = {
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
 
 const schema = yup
   .object({
@@ -35,7 +30,7 @@ export default function Signup() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignupForm>({
+  } = useForm<ISignupForm>({
     resolver: yupResolver(schema),
   });
   const router = useRouter();
@@ -44,7 +39,7 @@ export default function Signup() {
 
   const signupMutation = useMutation(signup);
 
-  const onSubmit = async (data: SignupForm) => {
+  const onSubmit = async (data: IUserCredentials) => {
     try {
       const response = await signupMutation.mutateAsync({
         email: data.email,

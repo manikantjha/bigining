@@ -1,24 +1,17 @@
-import { addUpdateTeamMember, addUpdateWork } from "@/services/apiServices";
+import { addUpdateWork } from "@/services/apiServices";
+import { storage } from "@/services/firebaseServices";
+import { IWorks } from "@/types/works";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { deleteObject, ref } from "firebase/storage";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { UseQueryResult, useMutation } from "react-query";
+import { ToastOptions, toast } from "react-toastify";
 import * as yup from "yup";
 import AddMoreButton from "../common/AddMoreButton";
 import FormSectionContainer from "../common/FormSectionContainer";
 import ImageUploader from "../common/ImageUploader";
 import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
-import { ToastOptions, toast } from "react-toastify";
-import { storage } from "@/services/firebaseServices";
-import { deleteObject, ref } from "firebase/storage";
-
-type WorksForm = {
-  works: {
-    imageURL: string;
-    name: string;
-    description: string;
-  }[];
-};
 
 interface IWorksFormProps {
   works?: UseQueryResult<any, unknown>;
@@ -40,7 +33,7 @@ export default function WorksForm(props: IWorksFormProps) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<WorksForm>({
+  } = useForm<IWorks>({
     resolver: yupResolver(schema as any),
     defaultValues: {
       works: props.works?.data?.works
@@ -87,11 +80,13 @@ export default function WorksForm(props: IWorksFormProps) {
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
   function onSubmit(data: any) {
-    const id = props.works?.data?.works ? props.works?.data?.works[0]?._id : "";
+    const _id = props.works?.data?.works
+      ? props.works?.data?.works[0]?._id
+      : "";
     addUpdateWorkMutation.mutate(
       {
         ...data,
-        id: id,
+        _id,
       },
       {
         onSuccess: () => {

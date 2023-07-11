@@ -1,4 +1,4 @@
-import { login } from "@/controllers/authControllers";
+import { signin } from "@/controllers/authControllers";
 import connect from "@/database/connection";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -7,16 +7,15 @@ export default async function handler(
   res: NextApiResponse
 ) {
   connect().catch(() =>
-    res.status(405).json({ error: "Error in connection." })
+    res.status(405).json({ error: "Error in connection!" })
   );
 
   switch (req.method) {
     case "POST":
-      await login(req, res);
+      await signin(req, res);
       break;
     default:
-      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
-      res.status(405).end(`Method ${req.method} Not Allowed`);
+      res.status(405).end(`Method ${req.method} not allowed!`);
       break;
   }
 }

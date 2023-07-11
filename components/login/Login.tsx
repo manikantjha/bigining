@@ -1,4 +1,5 @@
-import { login } from "@/services/apiServices";
+import { signin } from "@/services/apiServices";
+import { IUserCredentials } from "@/types/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -8,11 +9,6 @@ import { ToastOptions, toast } from "react-toastify";
 import * as yup from "yup";
 import Toast from "../admin/common/Toast";
 import Logo from "../common/Logo";
-
-type LoginForm = {
-  email: string;
-  password: string;
-};
 
 const schema = yup
   .object({
@@ -30,17 +26,17 @@ export default function Login() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginForm>({
+  } = useForm<IUserCredentials>({
     resolver: yupResolver(schema),
   });
   const router = useRouter();
 
-  const loginMutation = useMutation(login);
+  const signinMutation = useMutation(signin);
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
-  const onSubmit = async (data: LoginForm) => {
+  const onSubmit = async (data: IUserCredentials) => {
     try {
-      const response = await loginMutation.mutateAsync({
+      const response = await signinMutation.mutateAsync({
         email: data.email,
         password: data.password,
       });

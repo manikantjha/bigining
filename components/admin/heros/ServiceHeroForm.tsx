@@ -1,4 +1,5 @@
 import { addUpdateHero } from "@/services/apiServices";
+import { IHero } from "@/types/hero";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
@@ -8,7 +9,7 @@ import FormSectionContainer from "../common/FormSectionContainer";
 import ImageUploader from "../common/ImageUploader";
 import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
-import { HeroForm, IHeroFormProps } from "./HomeHeroForm";
+import { IHeroFormProps } from "./HomeHeroForm";
 
 const schema = yup
   .object({
@@ -25,7 +26,7 @@ export default function ServiceHeroForm(props: IHeroFormProps) {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<HeroForm>({
+  } = useForm<IHero>({
     resolver: yupResolver(schema as any),
     defaultValues: props.hero.data ? { ...props.hero.data.hero } : {},
   });
@@ -36,12 +37,12 @@ export default function ServiceHeroForm(props: IHeroFormProps) {
     onSuccess: () => {},
   });
 
-  function onSubmit(data: HeroForm) {
+  function onSubmit(data: IHero) {
     addUpdateHeroMutation.mutate(
       {
         ...data,
         pageId: "service",
-        id: props?.hero?.data?.hero?._id || "",
+        _id: props?.hero?.data?.hero?._id || "",
       },
       {
         onSuccess: () => {

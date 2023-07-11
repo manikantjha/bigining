@@ -1,22 +1,14 @@
-import { phoneRegEx } from "@/utils/utils";
+import { addUpdateContactInfo } from "@/services/apiServices";
+import { IContactInfo } from "@/types/contactInfo";
+import { phoneRegex } from "@/utils/utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { UseQueryResult, useMutation } from "react-query";
+import { ToastOptions, toast } from "react-toastify";
 import * as yup from "yup";
 import FormSectionContainer from "../common/FormSectionContainer";
-import { UseQueryResult, useMutation } from "react-query";
-import { addUpdateContactInfo } from "@/services/apiServices";
 import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
-import { ToastOptions, toast } from "react-toastify";
-
-type ContactInfoForm = {
-  title: string;
-  description: string;
-  email: string;
-  phone1: string;
-  phone2: string | undefined;
-  address: string;
-};
 
 interface IContactInfoFormProps {
   contactInfos: UseQueryResult<any, unknown>;
@@ -29,11 +21,11 @@ const schema = yup
     email: yup.string().email().required("Email is required"),
     phone1: yup
       .string()
-      .matches(phoneRegEx, "Please provide a valid phone number")
+      .matches(phoneRegex, "Please provide a valid phone number")
       .required("Phone number is required"),
     phone2: yup
       .string()
-      .matches(phoneRegEx, "Please provide a valid phone number"),
+      .matches(phoneRegex, "Please provide a valid phone number"),
     address: yup.string().required("Address is required"),
   })
   .required();
@@ -47,7 +39,7 @@ export default function ContactInfoForm(props: IContactInfoFormProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ContactInfoForm>({
+  } = useForm<IContactInfo>({
     resolver: yupResolver(schema),
     defaultValues: defaults,
   });
@@ -58,12 +50,12 @@ export default function ContactInfoForm(props: IContactInfoFormProps) {
 
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
-  const onSubmit = (data: ContactInfoForm) => {
-    const id = props?.contactInfos?.data?.contactInfos
+  const onSubmit = (data: IContactInfo) => {
+    const _id = props?.contactInfos?.data?.contactInfos
       ? props?.contactInfos?.data?.contactInfos[0]?._id
       : undefined;
     addUpdateContactInfosMutation.mutate(
-      { ...data, id: id },
+      { ...data, _id },
       {
         onSuccess: () => {
           notify("Submitted succesfully!", { type: "success" });

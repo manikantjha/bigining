@@ -1,4 +1,5 @@
 import { addUpdateFAQ } from "@/services/apiServices";
+import { IFAQs } from "@/types/faqs";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useFieldArray, useForm } from "react-hook-form";
 import { UseQueryResult, useMutation } from "react-query";
@@ -9,14 +10,7 @@ import FormSectionContainer from "../common/FormSectionContainer";
 import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
 
-type FAQsForm = {
-  faqs: {
-    question: string;
-    answer: string;
-  }[];
-};
-
-interface IFAQsForm {
+interface IFAQsFormProps {
   faqs: UseQueryResult<any, unknown>;
 }
 
@@ -31,7 +25,7 @@ const schema = yup
   })
   .required();
 
-export default function FAQsForm(props: IFAQsForm) {
+export default function FAQsForm(props: IFAQsFormProps) {
   const {
     register,
     control,
@@ -57,12 +51,12 @@ export default function FAQsForm(props: IFAQsForm) {
     onSuccess: () => {},
   });
 
-  const onSubmit = (data: FAQsForm) => {
-    const id = props?.faqs?.data?.faqs
+  const onSubmit = (data: IFAQs) => {
+    const _id = props?.faqs?.data?.faqs
       ? props?.faqs?.data?.faqs[0]?._id
       : undefined;
     addUpdateFAQsMutation.mutate(
-      { ...data, id: id },
+      { ...data, _id },
       {
         onSuccess: () => {
           notify("Submitted succesfully!", { type: "success" });
