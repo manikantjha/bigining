@@ -11,12 +11,11 @@ import { IPackages } from "@/types/packages";
 import { IServices } from "@/types/services";
 import { ITeamMembers } from "@/types/teamMembers";
 import { IWorks } from "@/types/works";
-import { getEnvVariable } from "@/utils/helpers";
-import Router from "next/router";
 import { get, post } from "./fetchServices";
+import Router from "next/router";
 
-const BASE_URL = getEnvVariable("NEXT_PUBLIC_DEV_BASE_PATH");
-// const BASE_URL = getEnvVariable("NEXT_PUBLIC_BASE_PATH");
+// const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
 
 //  Heroes --------------------------------------------------!
 

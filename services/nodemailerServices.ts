@@ -1,8 +1,7 @@
-import { getEnvVariable } from "@/utils/helpers";
 import nodemailer from "nodemailer";
 
-const email = getEnvVariable("EMAIL");
-const pass = getEnvVariable("EMAIL_PASS");
+const email = process.env.EMAIL;
+const pass = process.env.EMAIL_PASS;
 
 export const transporter = nodemailer.createTransport({
   service: "gmail",
