@@ -55,8 +55,8 @@ export default function ContactForm() {
       reset();
     },
     onError(error, variables, context) {
-      setIsOpen(true);
       setIsSuccess(false);
+      setIsOpen(true);
       reset();
     },
   });
