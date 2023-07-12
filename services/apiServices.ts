@@ -219,12 +219,7 @@ export const signout = async () => {
 //  Contact --------------------------------------------------!
 
 export async function sendContactForm(data: ISendMessage) {
-  return post(`${BASE_URL}/api/contact`, data).then((res) => {
-    if (!res.ok) {
-      throw new Error("Failed to send message!");
-    }
-    return res.json();
-  });
+  return await post(`${BASE_URL}/api/contact`, data);
 }
 
 //  Companies --------------------------------------------------!

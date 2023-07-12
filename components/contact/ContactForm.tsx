@@ -159,7 +159,7 @@ export default function ContactForm() {
           )}
           renderButtons={() => (
             <button
-              className="block mx-auto text-center p-2 md:p-3 font-bold bg-accentDark text-white rounded-full !w-[200px] hover:bg-orange-800 hover:shadow-sm"
+              className="block mx-auto text-center p-2 md:p-3 font-bold bg-black text-accentLighter rounded-full !w-[200px] hover:bg-secondaryDark hover:shadow-sm"
               onClick={() => {
                 handleClose();
                 reset();
