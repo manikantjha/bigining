@@ -18,15 +18,15 @@ export default function Modal(props: IModal) {
       >
         <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-2xl w-full max-h-full p-4">
           {/* <!-- Modal content --> */}
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="relative bg-accentLighter rounded-lg shadow">
             {/* <!-- Modal header --> */}
             <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+              <h3 className="text-xl font-semibold text-black">
                 {props.modalTitle}
               </h3>
               <button
                 type="button"
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                 onClick={props.handleClose}
               >
                 <svg
