@@ -18,13 +18,16 @@ interface IWorksFormProps {
 }
 
 const schema = yup.object({
-  works: yup.array().of(
-    yup.object({
-      imageURL: yup.string().required("Image is required"),
-      name: yup.string(),
-      description: yup.string(),
-    })
-  ),
+  works: yup
+    .array()
+    .of(
+      yup.object({
+        imageURL: yup.string().required("Image is required"),
+        name: yup.string(),
+        description: yup.string(),
+      })
+    )
+    .required(),
 });
 
 export default function WorksForm(props: IWorksFormProps) {
@@ -79,7 +82,7 @@ export default function WorksForm(props: IWorksFormProps) {
 
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
-  function onSubmit(data: any) {
+  function onSubmit(data: IWorks) {
     const _id = props.works?.data?.works
       ? props.works?.data?.works[0]?._id
       : "";
@@ -113,6 +116,8 @@ export default function WorksForm(props: IWorksFormProps) {
                       onClick={() => {
                         deleteFile(index);
                         remove(index);
+                        const temp = fields.filter((work, i) => i !== index);
+                        onSubmit({ works: temp });
                       }}
                     >
                       <svg
@@ -141,12 +146,7 @@ export default function WorksForm(props: IWorksFormProps) {
                           onChange={onChange}
                           index={index}
                           id={`works.${index}.imageURL`}
-                          imageURL={
-                            (props.works?.data?.works &&
-                              props.works?.data?.works[0]?.works[index]
-                                ?.imageURL) ||
-                            ""
-                          }
+                          imageURL={fields[index].imageURL || ""}
                         />
                       )}
                     />
@@ -164,7 +164,7 @@ export default function WorksForm(props: IWorksFormProps) {
                       <input
                         type="text"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-                        placeholder="Member Name"
+                        placeholder="Work Name"
                         {...register(`works.${index}.name`)}
                       />
                     </div>
@@ -175,7 +175,7 @@ export default function WorksForm(props: IWorksFormProps) {
                       <input
                         type="text"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-                        placeholder="Hero Short Description"
+                        placeholder="Work Short Description"
                         {...register(`works.${index}.description`)}
                       />
                     </div>

@@ -16,6 +16,7 @@ interface IImageUploader {
   imageURL?: string;
   onChange: any;
   index?: number;
+  isVideo?: boolean;
 }
 
 export default function ImageUploader(props: IImageUploader) {
@@ -34,6 +35,7 @@ export default function ImageUploader(props: IImageUploader) {
       console.log("File size too large!");
     }
   }
+  console.log("isVideo", props?.isVideo);
 
   function handleFileUpload(image: File) {
     if (image) {
@@ -128,11 +130,18 @@ export default function ImageUploader(props: IImageUploader) {
                     </svg>
                   </button>
                 </div>
-                <img
-                  src={downloadURL}
-                  alt={downloadURL}
-                  className="object-cover h-full w-auto mx-auto"
-                />
+                {props.isVideo ? (
+                  <video
+                    src={downloadURL}
+                    className="object-cover h-full w-auto mx-auto"
+                  />
+                ) : (
+                  <img
+                    src={downloadURL}
+                    alt={downloadURL}
+                    className="object-cover h-full w-auto mx-auto"
+                  />
+                )}
               </div>
             ) : (
               <>

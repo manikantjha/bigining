@@ -2,7 +2,8 @@ export interface IHero {
   _id?: string;
   pageId: string;
   title: string;
-  description: string;
+  description?: string;
   imageURL: string;
-  hasContactButton: boolean;
+  hasContactButton?: boolean;
+  isVideo?: boolean;
 }

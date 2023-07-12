@@ -20,6 +20,7 @@ const schema = yup
     description: yup.string(),
     imageURL: yup.string().required("Image is required!"),
     hasContactButton: yup.boolean(),
+    isVideo: yup.boolean(),
   })
   .required();
 
@@ -29,10 +30,14 @@ export default function HeroForm(props: IHeroFormProps) {
     handleSubmit,
     control,
     formState: { errors },
+    getValues,
+    watch,
   } = useForm<IHero>({
     resolver: yupResolver(schema as any),
     defaultValues: props.hero.data ? { ...props.hero.data.hero } : {},
   });
+
+  watch("isVideo");
 
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
@@ -99,16 +104,32 @@ export default function HeroForm(props: IHeroFormProps) {
               />
             </div>
           </div>
+          <div className="flex items-center mb-4">
+            <input
+              id="isVideo-checkbox"
+              type="checkbox"
+              value=""
+              className="w-4 h-4 text-accentDark bg-gray-100 border-gray-300 rounded focus:ring-accentDark dark:focus:ring-accentDark dark:ring-offset-gray-800 focus:ring-2"
+              {...register("isVideo")}
+            />
+            <label
+              htmlFor="isVideo-checkbox"
+              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Is Video
+            </label>
+          </div>
           <div className="mb-4">
             <Controller
               control={control}
               name={`imageURL`}
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <ImageUploader
-                  label="Hero Image"
+                  label={getValues("isVideo") ? "Hero Video" : "Hero Image"}
                   onChange={onChange}
                   id={`home_hero_imageURL`}
                   imageURL={props?.hero?.data?.hero?.imageURL || ""}
+                  isVideo={getValues("isVideo")}
                 />
               )}
             />

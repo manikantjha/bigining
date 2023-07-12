@@ -2,7 +2,7 @@ export interface ICeleb {
   _id?: string;
   imageURL: string;
   name: string;
-  description: string;
+  description?: string;
 }
 
 export interface ICelebs {

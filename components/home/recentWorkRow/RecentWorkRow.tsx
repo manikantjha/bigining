@@ -61,48 +61,50 @@ function SamplePrevArrow(props: CustomArrowProps) {
   );
 }
 
-const settings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 4,
-  initialSlide: 0,
-  autoplay: true,
-  nextArrow: <SampleNextArrow />,
-  prevArrow: <SamplePrevArrow />,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        infinite: true,
-        dots: true,
-      },
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 2,
-        initialSlide: 2,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
-  ],
-};
-
 export default function RecentWorkRow(props: IWorkGalleryProps) {
   const works =
     (props?.works?.data?.works && props?.works?.data?.works[0]?.works) || [];
   const worksImages = works.map((work: any) => work.imageURL);
+
+  if (!worksImages.length) return null;
+
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: worksImages.length > 4 ? 4 : worksImages.length,
+    slidesToScroll: worksImages.length > 4 ? 4 : worksImages.length,
+    initialSlide: 0,
+    autoplay: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: worksImages.length > 3 ? 3 : worksImages.length,
+          slidesToScroll: worksImages.length > 3 ? 3 : worksImages.length,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: worksImages.length > 2 ? 2 : worksImages.length,
+          slidesToScroll: worksImages.length > 2 ? 2 : worksImages.length,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
 
   return (
     <RowWrapper

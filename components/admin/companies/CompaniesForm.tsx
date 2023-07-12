@@ -1,5 +1,6 @@
 import { addUpdateCompany } from "@/services/apiServices";
 import { storage } from "@/services/firebaseServices";
+import { ICompanies } from "@/types/companies";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { deleteObject, ref } from "firebase/storage";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
@@ -17,12 +18,15 @@ interface ICompaniesFormProps {
 }
 
 const schema = yup.object({
-  companies: yup.array().of(
-    yup.object({
-      imageURL: yup.string().required("Company logo is required!"),
-      name: yup.string().required("Company name is required!"),
-    })
-  ),
+  companies: yup
+    .array()
+    .of(
+      yup.object({
+        imageURL: yup.string().required("Company logo is required!"),
+        name: yup.string().required("Company name is required!"),
+      })
+    )
+    .required(),
 });
 
 export default function CompaniesForm(props: ICompaniesFormProps) {
@@ -31,7 +35,7 @@ export default function CompaniesForm(props: ICompaniesFormProps) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<any>({
+  } = useForm<ICompanies>({
     resolver: yupResolver(schema),
     defaultValues: {
       companies: props.companies?.data
@@ -77,7 +81,7 @@ export default function CompaniesForm(props: ICompaniesFormProps) {
 
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
-  function onSubmit(data: any) {
+  function onSubmit(data: ICompanies) {
     const _id = props.companies?.data?.companies
       ? props.companies?.data?.companies[0]?._id
       : "";
@@ -111,6 +115,8 @@ export default function CompaniesForm(props: ICompaniesFormProps) {
                       onClick={() => {
                         deleteFile(index);
                         remove(index);
+                        const temp = fields.filter((company, i) => i !== index);
+                        onSubmit({ companies: temp });
                       }}
                     >
                       <svg
@@ -139,11 +145,7 @@ export default function CompaniesForm(props: ICompaniesFormProps) {
                           onChange={onChange}
                           index={index}
                           id={`companies.${index}.imageURL`}
-                          imageURL={
-                            props.companies?.data?.companies[0]?.companies[
-                              index
-                            ]?.imageURL || ""
-                          }
+                          imageURL={fields[index]?.imageURL || ""}
                         />
                       )}
                     />

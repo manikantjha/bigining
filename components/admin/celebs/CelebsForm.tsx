@@ -1,5 +1,6 @@
 import { addUpdateCeleb } from "@/services/apiServices";
 import { storage } from "@/services/firebaseServices";
+import { ICelebs } from "@/types/celebs";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { deleteObject, ref } from "firebase/storage";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
@@ -17,13 +18,16 @@ interface ICelebsFormProps {
 }
 
 const schema = yup.object({
-  celebs: yup.array().of(
-    yup.object({
-      imageURL: yup.string().required("Celeb image is required!"),
-      name: yup.string().required("Celeb name is required!"),
-      description: yup.string(),
-    })
-  ),
+  celebs: yup
+    .array()
+    .of(
+      yup.object({
+        imageURL: yup.string().required("Celeb image is required!"),
+        name: yup.string().required("Celeb name is required!"),
+        description: yup.string(),
+      })
+    )
+    .required(),
 });
 
 export default function CelebsForm(props: ICelebsFormProps) {
@@ -32,7 +36,7 @@ export default function CelebsForm(props: ICelebsFormProps) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<any>({
+  } = useForm<ICelebs>({
     resolver: yupResolver(schema),
     defaultValues: {
       celebs: props.celebs?.data
@@ -78,7 +82,7 @@ export default function CelebsForm(props: ICelebsFormProps) {
 
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
-  function onSubmit(data: any) {
+  function onSubmit(data: ICelebs) {
     const _id = props.celebs?.data?.celebs
       ? props.celebs?.data?.celebs[0]?._id
       : "";
@@ -112,6 +116,8 @@ export default function CelebsForm(props: ICelebsFormProps) {
                       onClick={() => {
                         deleteFile(index);
                         remove(index);
+                        const temp = fields.filter((celeb, i) => i !== index);
+                        onSubmit({ celebs: temp });
                       }}
                     >
                       <svg
@@ -140,10 +146,7 @@ export default function CelebsForm(props: ICelebsFormProps) {
                           onChange={onChange}
                           index={index}
                           id={`celebs.${index}.imageURL`}
-                          imageURL={
-                            props.celebs?.data?.celebs[0]?.celebs[index]
-                              ?.imageURL || ""
-                          }
+                          imageURL={fields[index]?.imageURL || ""}
                         />
                       )}
                     />

@@ -6,6 +6,7 @@ const heroSchema = new Schema({
   description: String,
   imageURL: String,
   hasContactButton: Boolean,
+  isVideo: Boolean,
 });
 
 const Heroes = models.hero || model("hero", heroSchema);

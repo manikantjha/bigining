@@ -50,6 +50,7 @@ export default function Home() {
           errorText="Failed to load image :("
         >
           <Hero
+            isVideo={hero?.data?.hero?.isVideo}
             imgSrc={hero?.data?.hero?.imageURL}
             imgAlt="home hero"
             hasContent
@@ -95,7 +96,7 @@ export default function Home() {
           errorContainerClassName="h-[500px] w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load services :("
         >
-          <ServicesRow showButton services={services} />
+          <ServicesRow showButton services={services} isHomePage />
         </RenderAppropriateComponent>
         <RenderAppropriateComponent
           queryResult={works}

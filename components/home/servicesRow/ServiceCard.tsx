@@ -12,12 +12,7 @@ interface IServiceCard extends IRowTheme {
 export default function ServiceCard(props: IServiceCard) {
   return (
     <Card theme={props.theme} className="!p-0 !bg-primaryLighter !text-left">
-      <div
-        className="bg-white rounded-lg"
-        id="about"
-        role="tabpanel"
-        aria-labelledby="about-tab"
-      >
+      <div className="rounded-lg">
         <div
           className={`flex items-center space-x-4 px-5 md:px-6 py-4 md:py-6 bg-gradient-to-br from-primaryDark via-secondaryLight to-accentLight border-b border-black`}
         >

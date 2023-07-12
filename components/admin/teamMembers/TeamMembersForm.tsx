@@ -1,30 +1,33 @@
 import { addUpdateTeamMember } from "@/services/apiServices";
+import { storage } from "@/services/firebaseServices";
+import { ITeamMembers } from "@/types/teamMembers";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { deleteObject, ref } from "firebase/storage";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { UseQueryResult, useMutation } from "react-query";
+import { ToastOptions, toast } from "react-toastify";
 import * as yup from "yup";
 import AddMoreButton from "../common/AddMoreButton";
 import FormSectionContainer from "../common/FormSectionContainer";
 import ImageUploader from "../common/ImageUploader";
 import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
-import { ToastOptions, toast } from "react-toastify";
-import { deleteObject, ref } from "firebase/storage";
-import { storage } from "@/services/firebaseServices";
-import { ITeamMembers } from "@/types/teamMembers";
 
 interface ITeamMembersFormProps {
   teamMembers?: UseQueryResult<any, unknown>;
 }
 
 const schema = yup.object({
-  teamMembers: yup.array().of(
-    yup.object({
-      imageURL: yup.string(),
-      name: yup.string().required("Name is required"),
-      description: yup.string().required("Description is required"),
-    })
-  ),
+  teamMembers: yup
+    .array()
+    .of(
+      yup.object({
+        imageURL: yup.string().required("Image is required"),
+        name: yup.string().required("Name is required"),
+        description: yup.string().required("Description is required"),
+      })
+    )
+    .required(),
 });
 
 export default function TeamMembersForm(props: ITeamMembersFormProps) {
@@ -34,7 +37,7 @@ export default function TeamMembersForm(props: ITeamMembersFormProps) {
     handleSubmit,
     formState: { errors },
   } = useForm<ITeamMembers>({
-    resolver: yupResolver(schema as any),
+    resolver: yupResolver(schema),
     defaultValues: {
       teamMembers: props.teamMembers?.data
         ? props.teamMembers?.data?.teamMembers[0]?.teamMembers
@@ -80,7 +83,7 @@ export default function TeamMembersForm(props: ITeamMembersFormProps) {
 
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
-  function onSubmit(data: any) {
+  function onSubmit(data: ITeamMembers) {
     const _id = props.teamMembers?.data?.teamMembers
       ? props.teamMembers?.data?.teamMembers[0]?._id
       : "";
@@ -115,6 +118,8 @@ export default function TeamMembersForm(props: ITeamMembersFormProps) {
                       onClick={() => {
                         deleteFile(index);
                         remove(index);
+                        const temp = fields.filter((member, i) => i !== index);
+                        onSubmit({ teamMembers: temp });
                       }}
                     >
                       <svg
@@ -143,10 +148,7 @@ export default function TeamMembersForm(props: ITeamMembersFormProps) {
                           onChange={onChange}
                           index={index}
                           id={`teamMembers.${index}.imageURL`}
-                          imageURL={
-                            props.teamMembers?.data?.teamMembers[0]
-                              ?.teamMembers[index]?.imageURL || ""
-                          }
+                          imageURL={fields[index]?.imageURL || ""}
                         />
                       )}
                     />
@@ -176,7 +178,7 @@ export default function TeamMembersForm(props: ITeamMembersFormProps) {
                       <input
                         type="text"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-                        placeholder="Hero Short Description"
+                        placeholder="Member Short Description"
                         {...register(`teamMembers.${index}.description`)}
                       />
                       {errors.teamMembers &&
