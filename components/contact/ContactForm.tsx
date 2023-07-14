@@ -66,7 +66,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="w-full p-4 bg-accentLighter rounded-lg sm:p-6 md:p-8 border border-black">
+    <div className="w-full p-4 bg-bgLight rounded-lg sm:p-6 md:p-8 border border-black">
       <form ref={form} className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label

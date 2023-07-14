@@ -18,15 +18,15 @@ export default function Modal(props: IModal) {
       >
         <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-2xl w-full max-h-full p-4">
           {/* <!-- Modal content --> */}
-          <div className="relative bg-accentLighter rounded-lg shadow">
+          <div className="relative bg-bgLight rounded-lg shadow">
             {/* <!-- Modal header --> */}
-            <div className="flex items-start bg-primaryDark justify-between p-4 border-b rounded-t dark:border-black">
-              <h3 className="text-xl font-semibold text-accentLighter">
+            <div className="flex items-start bg-bgDark justify-between p-4 border-b rounded-t dark:border-black">
+              <h3 className="text-xl font-semibold text-textLight">
                 {props.modalTitle}
               </h3>
               <button
                 type="button"
-                className="text-accentLighter bg-transparent hover:bg-accentLighter hover:text-primaryDark rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                className="text-textLight bg-transparent hover:bg-bgLight hover:text-textDark rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                 onClick={props.handleClose}
               >
                 <svg
@@ -49,7 +49,7 @@ export default function Modal(props: IModal) {
             {props.renderContent && props.renderContent()}
             {/* <!-- Modal footer --> */}
             {props.renderButtons && (
-              <div className="flex items-center p-4 md:p-5 space-x-2 border-t border-primaryDark rounded-b dark:border-gray-600">
+              <div className="flex items-center p-4 md:p-5 space-x-2 border-t border-borderDark rounded-b">
                 {props.renderButtons()}
               </div>
             )}

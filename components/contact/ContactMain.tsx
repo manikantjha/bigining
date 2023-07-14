@@ -17,7 +17,7 @@ export default function ContactMain(props: IContactMain) {
   const contactInfos = useQuery("contactInfos", () => getContactInfos());
   return (
     <RowWrapper theme={props.theme}>
-      <div className="bg-primaryLighter shadow p-4 lg:p-8 max-w-7xl rounded-lg grid xs:grid-cols-1 md:grid-cols-1 lg:grid-cols-[2fr_3fr] gap-4 mx-auto">
+      <div className="bg-bgDarkLight shadow p-4 lg:p-8 max-w-7xl rounded-lg grid xs:grid-cols-1 md:grid-cols-1 lg:grid-cols-[2fr_3fr] gap-4 mx-auto">
         <div className="grid grid-rows-[1fr_auto] rounded-xl p-6 border border-black bg-gradient-to-br from-primaryLight via-secondaryLight to-accentLight">
           <RenderAppropriateComponent
             queryResult={contactInfos}

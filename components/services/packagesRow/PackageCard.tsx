@@ -15,7 +15,7 @@ export default function PackageCard(props: IPackageCard) {
     <Card theme={props.theme} className="!p-0">
       <div
         className={`${
-          props.theme === "dark" ? "bg-accentLighter" : "bg-primaryLighter"
+          props.theme === "dark" ? "bg-bgLight" : "bg-bgDarkLight"
         } text-center`}
       >
         <div className="p-4 lg:p-6 bg-gradient-to-br from-primaryDark via-secondaryLight to-accentLight border-b border-black">

@@ -11,7 +11,7 @@ interface IServiceCard extends IRowTheme {
 
 export default function ServiceCard(props: IServiceCard) {
   return (
-    <Card theme={props.theme} className="!p-0 !bg-primaryLighter !text-left">
+    <Card theme={props.theme} className="!p-0 !bg-bgDarkLight !text-left">
       <div className="rounded-lg">
         <div
           className={`flex items-center space-x-4 px-5 md:px-6 py-4 md:py-6 bg-gradient-to-br from-primaryDark via-secondaryLight to-accentLight border-b border-black`}
@@ -31,7 +31,7 @@ export default function ServiceCard(props: IServiceCard) {
           </h2>
         </div>
         <hr />
-        <div className="p-5 md:p-6 bg-primaryLighter">
+        <div className="p-5 md:p-6 bg-bgDarkLight">
           <ul role="list" className="space-y-2">
             {props.objService?.list?.map((item, index) => (
               <ServiceChecklistItem key={index} checklistItem={item} />

@@ -12,8 +12,8 @@ export default function LinkBtn(props: ISeeAllBtn) {
       href={props.href}
       className={`block mx-auto text-center p-3 font-bold ${
         props.theme === "dark"
-          ? "bg-accentLighter hover:bg-black text-black hover:text-accentLighter"
-          : "bg-primaryDark hover:bg-black text-accentLighter hover:text-accentLighter"
+          ? "bg-bgLight hover:bg-black text-black hover:text-textLight"
+          : "bg-bgDark hover:bg-black text-textLight hover:text-textLight"
       } rounded-full !w-[200px] hover:shadow-sm`}
     >
       {props.text || "See All"}

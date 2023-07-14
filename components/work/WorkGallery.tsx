@@ -76,7 +76,7 @@ export default function WorkGallery(props: IWorkGalleryProps) {
   };
 
   return (
-    <div className="p-1 lg:p-2 min-h-[calc(100vh-76px)] bg-accentLighter">
+    <div className="p-1 lg:p-2 min-h-[calc(100vh-76px)] bg-bgLight">
       <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 4 }}>
         <Masonry>
           {worksImages.map((image: string, index: number) => (

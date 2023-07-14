@@ -14,7 +14,7 @@ export default function RowWrapper(props: IRowWrapperProps) {
   return (
     <ContainerWrapper
       containerClassName={`${
-        props.theme === "dark" ? "bg-primaryDark" : "bg-accentLighter"
+        props.theme === "dark" ? "bg-bgDark" : "bg-bgLight"
       } ${props.containerWrapperClassName}`}
     >
       {props.title && (
@@ -22,10 +22,10 @@ export default function RowWrapper(props: IRowWrapperProps) {
           title={props.title}
           description={props.description || ""}
           titleClassName={`${
-            props.theme === "dark" ? "text-accentLighter" : "text-primaryDark"
+            props.theme === "dark" ? "text-textLight" : "text-textDark"
           }`}
           descriptionClassName={`${
-            props.theme === "dark" ? "text-accentLighter" : "text-primaryDark"
+            props.theme === "dark" ? "text-textLight" : "text-textDark"
           }`}
         />
       )}

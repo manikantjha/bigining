@@ -4,18 +4,26 @@ import TeamRow from "@/components/about/teamRow/TeamRow";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
 import Hero from "@/components/common/Hero";
 import LinkBtn from "@/components/common/LinkBtn";
+import CompaniesRow from "@/components/home/companiesRow/CompaniesRow";
 import FiguresRow from "@/components/home/figuresRow/FiguresRow";
+import CompaniesRowSkeleton from "@/components/skeletons/CompaniesRowSkeleton";
 import FiguresRowSkeleton from "@/components/skeletons/FiguresRowSkeleton";
 import HeroSkeleton from "@/components/skeletons/HeroSkeleton";
 import OurTeamRowSkeleton from "@/components/skeletons/OurTeamRowSkeleton";
 import Layout from "@/layout/Layout";
-import { getFigures, getHero, getTeamMembers } from "@/services/apiServices";
+import {
+  getCompanies,
+  getFigures,
+  getHero,
+  getTeamMembers,
+} from "@/services/apiServices";
 import Head from "next/head";
 import { useQuery } from "react-query";
 
 export default function About() {
   const hero = useQuery("aboutHero", () => getHero("about"));
   const figures = useQuery("figures", () => getFigures());
+  const companies = useQuery("companies", () => getCompanies());
   const teamMembers = useQuery("teamMembers", () => getTeamMembers());
 
   return (
@@ -48,7 +56,16 @@ export default function About() {
             }
           />
         </RenderAppropriateComponent>
+        <RenderAppropriateComponent
+          queryResult={companies}
+          loadingComponent={<CompaniesRowSkeleton />}
+          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
+          errorText="Failed to load features :("
+        >
+          <CompaniesRow companies={companies} theme="dark" />
+        </RenderAppropriateComponent>
         <StoryRow />
+
         <FounderRow theme="dark" />
         <RenderAppropriateComponent
           queryResult={figures}

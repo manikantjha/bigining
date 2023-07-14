@@ -7,7 +7,7 @@ import Layout from "@/layout/Layout";
 export default function PageNotFound() {
   return (
     <Layout>
-      <ContainerWrapper containerClassName="bg-accentLighter">
+      <ContainerWrapper containerClassName="bg-bgLight">
         <div className="max-w-lg mx-auto text-center grid grid-rows-[auto_1fr_auto] md:gap-6 gap-12">
           <div className="grid grid-rows-[auto_auto] gap-6">
             <Title

@@ -19,6 +19,13 @@ module.exports = {
         accentDark: "#F37021",
         accentLight: "#FCB316",
         accentLighter: "#ffe2c1",
+        bgLight: "#ffe2c1",
+        bgDark: "#4B2D87",
+        bgDarkLight: "#c6bcff",
+        borderDark: "#4B2D87",
+        borderLight: "#ffe2c1",
+        textLight: "#ffe2c1",
+        textDark: "#4B2D87",
       },
     },
     fontFamily: {

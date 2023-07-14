@@ -10,7 +10,7 @@ export default function Card(props: ICardProps) {
   return (
     <div
       className={`block p-6 ${
-        props.theme === "dark" ? "bg-accentLighter" : "bg-primaryLighter"
+        props.theme === "dark" ? "bg-bgLight" : "bg-bgDarkLight"
       } border border-black rounded-lg shadow-sm-light text-center w-full overflow-hidden ${
         props.className || ""
       }`}

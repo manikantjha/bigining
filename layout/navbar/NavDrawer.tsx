@@ -14,11 +14,11 @@ export default function NavDrawer(props: INavDrawerNavDrawer) {
     <div
       className={`fixed top-[73] ${
         props.isOpen ? "left-0" : "left-[-100vw]"
-      }  h-[calc(100vh_-_73px)] z-[1000] p-4 overflow-y-auto bg-accentLighter w-full shadow-lg grid grid-rows-[auto_1fr] gap-4 transition-all lg:hidden`}
+      }  h-[calc(100vh_-_73px)] z-[1000] p-4 overflow-y-auto bg-bgLight w-full shadow-lg grid grid-rows-[auto_1fr] gap-4 transition-all lg:hidden`}
     >
       <button
         type="button"
-        className="text-accentLighter bg-primaryDark hover:bg- hover:text-gray-900 rounded-lg text-sm p-1.5 w-fit ml-auto inline-flex items-center"
+        className="text-textLight bg-bgDark hover:bg- hover:text-gray-900 rounded-lg text-sm p-1.5 w-fit ml-auto inline-flex items-center"
         onClick={() => props.setIsOpen(false)}
       >
         <svg

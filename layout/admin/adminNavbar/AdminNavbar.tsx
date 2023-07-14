@@ -11,7 +11,7 @@ export default function AdminNavbar() {
   }
 
   return (
-    <nav className="bg-primaryDark border-gray-200 dark:bg-gray-900 sticky top-0 z-[100]">
+    <nav className="bg-bgDark border-gray-200 dark:bg-gray-900 sticky top-0 z-[100]">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between md:justify-center mx-auto p-4">
         <Link href="/admin/heros" className="flex items-center">
           <Logo isWhite />

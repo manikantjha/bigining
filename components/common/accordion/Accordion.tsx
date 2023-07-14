@@ -27,7 +27,7 @@ export default function Accordion(props: IAccordion) {
             props.index === props.listLength - 1 && !isExpanded
               ? "rounded-b-xl"
               : "rounded-b-none"
-          } focus:bg-primaryLighter hover:bg-primaryLighter`}
+          } focus:bg-bgDarkLight hover:bg-bgDarkLight`}
           onClick={() => props.setExpanded(props.index)}
         >
           <span className="flex items-center">
