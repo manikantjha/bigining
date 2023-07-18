@@ -17,7 +17,7 @@ export default function Logo(props: ILogoProps) {
     >
       <Image
         src={props?.isWhite ? logoWhite : logoDark}
-        className="md:h-14 mr-3 h-10 w-fit"
+        className="md:h-14 mr-3 h-12 w-fit"
         alt="RJ Interior Logo"
       />
     </div>

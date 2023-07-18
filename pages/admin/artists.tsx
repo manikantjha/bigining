@@ -1,21 +1,21 @@
-import CelebsForm from "@/components/admin/celebs/CelebsForm";
+import ArtistsForm from "@/components/admin/artists/ArtistsForm";
 import FormSectionTitle from "@/components/admin/common/FormSectionTitle";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
 import AdminLayout from "@/layout/admin/AdminLayout";
-import { getCelebs } from "@/services/apiServices";
+import { getArtists } from "@/services/apiServices";
 import { useQuery } from "react-query";
 
-export default function Celebs() {
-  const celebs = useQuery("celebs", () => getCelebs());
+export default function Artists() {
+  const artists = useQuery("artists", () => getArtists());
 
   return (
     <AdminLayout>
-      <FormSectionTitle title="Celebrities" />
+      <FormSectionTitle title="Artists" />
       <RenderAppropriateComponent
-        queryResult={celebs}
+        queryResult={artists}
         loaderContainerHeightWidth="h-[400px] w-full"
       >
-        <CelebsForm celebs={celebs} />
+        <ArtistsForm artists={artists} />
       </RenderAppropriateComponent>
     </AdminLayout>
   );

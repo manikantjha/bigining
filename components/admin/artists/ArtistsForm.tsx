@@ -1,6 +1,6 @@
-import { addUpdateCeleb } from "@/services/apiServices";
+import { addUpdateArtist } from "@/services/apiServices";
 import { storage } from "@/services/firebaseServices";
-import { ICelebs } from "@/types/celebs";
+import { IArtists } from "@/types/artists";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { deleteObject, ref } from "firebase/storage";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
@@ -13,60 +13,62 @@ import ImageUploader from "../common/ImageUploader";
 import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
 
-interface ICelebsFormProps {
-  celebs?: UseQueryResult<any, unknown>;
+interface IArtistsFormProps {
+  artists?: UseQueryResult<any, unknown>;
 }
 
 const schema = yup.object({
-  celebs: yup
+  artists: yup
     .array()
     .of(
       yup.object({
-        imageURL: yup.string().required("Celeb image is required!"),
-        name: yup.string().required("Celeb name is required!"),
+        imageURL: yup.string().required("Artist image is required!"),
+        name: yup.string().required("Artist name is required!"),
         description: yup.string(),
       })
     )
     .required(),
 });
 
-export default function CelebsForm(props: ICelebsFormProps) {
+type TArtistsForm = yup.InferType<typeof schema>;
+
+export default function ArtistsForm(props: IArtistsFormProps) {
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<ICelebs>({
+  } = useForm<TArtistsForm>({
     resolver: yupResolver(schema),
     defaultValues: {
-      celebs: props.celebs?.data
-        ? props.celebs?.data?.celebs[0]?.celebs
+      artists: props.artists?.data
+        ? props.artists?.data?.artists[0]?.artists
         : [{ imageURL: "", name: "", description: "" }],
     },
   });
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "celebs",
+    name: "artists",
   });
 
-  const addUpdateCelebMutation = useMutation(addUpdateCeleb, {
+  const addUpdateArtistMutation = useMutation(addUpdateArtist, {
     onSuccess: () => {},
   });
 
   function deleteFile(index: number) {
     if (
       !(
-        props.celebs?.data?.celebs &&
-        props.celebs?.data?.celebs[0]?.celebs[index]?.imageURL
+        props.artists?.data?.artists &&
+        props.artists?.data?.artists[0]?.artists[index]?.imageURL
       )
     ) {
       return;
     }
     const imageRef = ref(
       storage,
-      (props.celebs?.data?.celebs &&
-        props.celebs?.data?.celebs[0]?.celebs[index]?.imageURL) ||
+      (props.artists?.data?.artists &&
+        props.artists?.data?.artists[0]?.artists[index]?.imageURL) ||
         ""
     );
 
@@ -82,11 +84,11 @@ export default function CelebsForm(props: ICelebsFormProps) {
 
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
-  function onSubmit(data: ICelebs) {
-    const _id = props.celebs?.data?.celebs
-      ? props.celebs?.data?.celebs[0]?._id
+  function onSubmit(data: IArtists) {
+    const _id = props.artists?.data?.artists
+      ? props.artists?.data?.artists[0]?._id
       : "";
-    addUpdateCelebMutation.mutate(
+    addUpdateArtistMutation.mutate(
       {
         ...data,
         _id,
@@ -116,8 +118,8 @@ export default function CelebsForm(props: ICelebsFormProps) {
                       onClick={() => {
                         deleteFile(index);
                         remove(index);
-                        const temp = fields.filter((celeb, i) => i !== index);
-                        onSubmit({ celebs: temp });
+                        const temp = fields.filter((artist, i) => i !== index);
+                        onSubmit({ artists: temp });
                       }}
                     >
                       <svg
@@ -139,58 +141,59 @@ export default function CelebsForm(props: ICelebsFormProps) {
                   <div className="mb-4">
                     <Controller
                       control={control}
-                      name={`celebs.${index}.imageURL`}
+                      name={`artists.${index}.imageURL`}
                       render={({ field: { onChange, onBlur, value, ref } }) => (
                         <ImageUploader
-                          label="Celebrity Image"
+                          label="Artist Image"
                           onChange={onChange}
                           index={index}
-                          id={`celebs.${index}.imageURL`}
+                          id={`artists.${index}.imageURL`}
                           imageURL={fields[index]?.imageURL || ""}
                         />
                       )}
                     />
-                    {errors.celebs &&
-                      (errors as any).celebs[index]?.imageURL && (
+                    {errors.artists &&
+                      (errors as any).artists[index]?.imageURL && (
                         <p className="text-red-700 text-sm">
-                          * {(errors as any).celebs[index]?.imageURL?.message}
+                          * {(errors as any).artists[index]?.imageURL?.message}
                         </p>
                       )}
                   </div>
                   <div>
                     <div>
                       <p className="block mb-2 text-sm font-medium text-gray-900">
-                        Celebrity Name
+                        Artist Name
                       </p>
                       <input
                         type="text"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-                        placeholder="Celebrity Name"
-                        {...register(`celebs.${index}.name`)}
+                        placeholder="Artist Name"
+                        {...register(`artists.${index}.name`)}
                       />
-                      {errors.celebs && (errors as any).celebs[index]?.name && (
-                        <p className="text-red-700 text-sm">
-                          * {(errors as any).celebs[index]?.name?.message}
-                        </p>
-                      )}
+                      {errors.artists &&
+                        (errors as any).artists[index]?.name && (
+                          <p className="text-red-700 text-sm">
+                            * {(errors as any).artists[index]?.name?.message}
+                          </p>
+                        )}
                     </div>
                   </div>
 
                   <div className="mt-2">
                     <p className="block mb-2 text-sm font-medium text-gray-900">
-                      Celebrity Description
+                      Artist Description
                     </p>
                     <input
                       type="text"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-                      placeholder="Celebrity Description"
-                      {...register(`celebs.${index}.description`)}
+                      placeholder="Artist Description"
+                      {...register(`artists.${index}.description`)}
                     />
-                    {errors.celebs &&
-                      (errors as any).celebs[index]?.description && (
+                    {errors.artists &&
+                      (errors as any).artists[index]?.description && (
                         <p className="text-red-700 text-sm">
                           *{" "}
-                          {(errors as any).celebs[index]?.description?.message}
+                          {(errors as any).artists[index]?.description?.message}
                         </p>
                       )}
                   </div>
@@ -204,9 +207,9 @@ export default function CelebsForm(props: ICelebsFormProps) {
               onClick={() =>
                 append({ name: "", imageURL: "", description: "" })
               }
-              text="Add Celebrity"
+              text="Add Artist"
             />
-            <SubmitButton isLoading={addUpdateCelebMutation.isLoading} />
+            <SubmitButton isLoading={addUpdateArtistMutation.isLoading} />
           </div>
         </FormSectionContainer>
       </form>

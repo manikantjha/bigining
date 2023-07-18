@@ -101,8 +101,8 @@ export const lstAdminNavBarMenu = [
         />
       </svg>
     ),
-    name: "Celebrities",
-    path: "/admin/celebs",
+    name: "Artists",
+    path: "/admin/artists",
   },
   {
     id: 4,

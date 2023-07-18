@@ -2,27 +2,29 @@ import React from "react";
 import Card from "../common/Card";
 import { IRowTheme } from "@/types/row";
 
-interface ICelebCard extends IRowTheme {
-  objCeleb: {
+interface IArtistCard extends IRowTheme {
+  objArtist: {
     imageURL: string;
     name: string;
     description: string;
   };
 }
 
-export default function CelebCard(props: ICelebCard) {
+export default function ArtistCard(props: IArtistCard) {
   return (
     <Card theme={props.theme} className="flex flex-col items-center p-8">
       <div className="w-[150px] h-[150px] overflow-hidden rounded-full border border-black">
         <img
-          src={props.objCeleb.imageURL}
-          alt={props.objCeleb.name}
+          src={props.objArtist.imageURL}
+          alt={props.objArtist.name}
           className="h-full w-full object-cover"
         />
       </div>
       <div className="text-center">
-        <p className="text-xl mt-4 mb-3 font-semibold">{props.objCeleb.name}</p>
-        <p className="text-base text-black">{props.objCeleb.description}</p>
+        <p className="text-xl mt-4 mb-3 font-semibold">
+          {props.objArtist.name}
+        </p>
+        <p className="text-base text-black">{props.objArtist.description}</p>
       </div>
     </Card>
   );

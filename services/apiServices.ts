@@ -1,5 +1,5 @@
 import { IUserCredentials } from "@/types/auth";
-import { ICelebs } from "@/types/celebs";
+import { IArtists } from "@/types/artists";
 import { ICompanies } from "@/types/companies";
 import { ISendMessage } from "@/types/contact";
 import { IContactInfo } from "@/types/contactInfo";
@@ -241,20 +241,20 @@ export const addUpdateCompany = async (data: ICompanies) => {
   }
 };
 
-//  Celebs --------------------------------------------------!
+//  Artists --------------------------------------------------!
 
-export const getCelebs = async () => {
-  return await get(`${BASE_URL}/api/celebs`);
+export const getArtists = async () => {
+  return await get(`${BASE_URL}/api/artists`);
 };
 
-export const getCeleb = async (id: string) => {
-  return await get(`${BASE_URL}/api/celebs/${id}`);
+export const getArtist = async (id: string) => {
+  return await get(`${BASE_URL}/api/artists/${id}`);
 };
 
-export const addUpdateCeleb = async (data: ICelebs) => {
+export const addUpdateArtist = async (data: IArtists) => {
   const token = localStorage.getItem("token");
   try {
-    return await post(`${BASE_URL}/api/celebs`, data, token);
+    return await post(`${BASE_URL}/api/artists`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }

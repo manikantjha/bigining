@@ -3,7 +3,7 @@ import Title from "../common/Title";
 
 export default function PrivacyMain() {
   return (
-    <ContainerWrapper>
+    <ContainerWrapper containerClassName="bg-bgLight min-h-[100vh]">
       <Title title="Privacy Policy" />
       <p>
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus,

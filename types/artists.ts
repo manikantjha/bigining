@@ -1,11 +1,11 @@
-export interface ICeleb {
+export interface IArtist {
   _id?: string;
   imageURL: string;
   name: string;
   description?: string;
 }
 
-export interface ICelebs {
+export interface IArtists {
   _id?: string;
-  celebs: Array<ICeleb>;
+  artists: Array<IArtist>;
 }

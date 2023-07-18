@@ -1,5 +1,5 @@
 import { addUpdateContactInfo } from "@/services/apiServices";
-import { IContactInfo } from "@/types/contactInfo";
+import { IContactInfo, IContactInfoForm } from "@/types/contactInfo";
 import { phoneRegex } from "@/utils/utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -17,7 +17,7 @@ interface IContactInfoFormProps {
 const schema = yup
   .object({
     title: yup.string().required("Title is required"),
-    description: yup.string().required("Description is required"),
+    description: yup.string(),
     email: yup.string().email().required("Email is required"),
     phone1: yup
       .string()
@@ -39,8 +39,8 @@ export default function ContactInfoForm(props: IContactInfoFormProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IContactInfo>({
-    resolver: yupResolver(schema),
+  } = useForm<IContactInfoForm>({
+    resolver: yupResolver<IContactInfoForm>(schema),
     defaultValues: defaults,
   });
 

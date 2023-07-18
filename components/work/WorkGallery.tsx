@@ -4,59 +4,9 @@ import { UseQueryResult } from "react-query";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import ImageViewer from "react-simple-image-viewer";
 
-export const photos = [
-  {
-    src: "/assets/interior/01.jpg",
-    width: 2,
-    height: 2,
-  },
-  {
-    src: "/assets/interior/02.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    src: "/assets/interior/03.jpg",
-    width: 3,
-    height: 4,
-  },
-  {
-    src: "/assets/interior/04.jpg",
-    width: 3,
-    height: 4,
-  },
-  {
-    src: "/assets/interior/05.jpg",
-    width: 3,
-    height: 4,
-  },
-  {
-    src: "/assets/interior/06.jpg",
-    width: 4,
-    height: 3,
-  },
-  {
-    src: "/assets/interior/07.jpg",
-    width: 3,
-    height: 4,
-  },
-  {
-    src: "/assets/interior/08.jpg",
-    width: 4,
-    height: 3,
-  },
-  {
-    src: "/assets/interior/09.jpg",
-    width: 4,
-    height: 3,
-  },
-];
-
 interface IWorkGalleryProps {
   works?: UseQueryResult<any, unknown>;
 }
-
-export const images = photos.map((photo) => photo.src);
 
 export default function WorkGallery(props: IWorkGalleryProps) {
   const works =
@@ -80,13 +30,17 @@ export default function WorkGallery(props: IWorkGalleryProps) {
       <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 4 }}>
         <Masonry>
           {worksImages.map((image: string, index: number) => (
-            <div key={index} className="cursor-pointer overflow-hidden">
+            <div
+              key={index}
+              className="cursor-pointer h-0 pt-[50%] relative md:m-2 m-1"
+            >
               <div className="cursor-pointer w-full h-auto overflow-hidden p-1 md:p-2">
                 <img
                   src={image}
-                  className="w-full h-full rounded lg:rounded-xl border border-black"
+                  className="absolute top-0 left-0 object-cover object-[50%_0] w-full h-full rounded lg:rounded-xl border border-black"
                   alt=""
                   onClick={() => openImageViewer(index)}
+                  loading="lazy"
                 />
               </div>
             </div>
