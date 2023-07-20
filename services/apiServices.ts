@@ -7,15 +7,14 @@ import { IFAQs } from "@/types/faqs";
 import { IFeatures } from "@/types/features";
 import { IFigures } from "@/types/figures";
 import { IHero } from "@/types/hero";
-import { IPackages } from "@/types/packages";
 import { IServices } from "@/types/services";
 import { ITeamMembers } from "@/types/teamMembers";
 import { IWorks } from "@/types/works";
 import Router from "next/router";
 import { get, post } from "./fetchServices";
 
-const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
-// const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
+// const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
 
 //  Heroes --------------------------------------------------!
 
