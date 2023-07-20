@@ -1,6 +1,7 @@
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
 import Hero from "@/components/common/Hero";
 import LinkBtn from "@/components/common/LinkBtn";
+import Logo from "@/components/common/Logo";
 import ContactMain from "@/components/contact/ContactMain";
 import CompaniesRow from "@/components/home/companiesRow/CompaniesRow";
 import FeaturesRow from "@/components/home/featuresRow/FeaturesRow";
@@ -54,8 +55,23 @@ export default function Home() {
             imgSrc={hero?.data?.hero?.imageURL}
             imgAlt="home hero"
             hasContent
-            title={hero?.data?.hero?.title}
-            description={hero?.data?.hero?.description}
+            renderContent={() => (
+              <>
+                <div className="absolute top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.75)]" />
+                <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 text-center w-full">
+                  <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 md:space-y-6 space-y-6 flex flex-col items-center justify-center !w-full px-8">
+                    <Logo
+                      imageClassName="!md:h-[125px] !h-[125px] !w-fit"
+                      containerClassName="!w-fit"
+                      isWhite
+                    />
+                    <p className="text-textLight text-2xl md:text-3xl !w-full">
+                      {hero?.data?.hero?.description}
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
             renderButton={() =>
               hero?.data?.hero?.hasContactButton ? (
                 <div className="mt-12">

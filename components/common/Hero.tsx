@@ -8,6 +8,7 @@ interface IHero {
   title?: string;
   description?: string;
   renderButton?: () => ReactNode;
+  renderContent?: () => ReactNode;
   isVideo?: boolean;
 }
 
@@ -28,20 +29,23 @@ export default function Hero(props: IHero) {
           style={{ objectFit: "cover", height: "100%", width: "100%" }}
         />
       )}
-      {props.hasContent && (
-        <>
-          <div className="absolute top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.5)]" />
-          <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 text-center w-full">
-            <h2 className="text-6xl md:text-6xl text-accentLight mb-4 font-display uppercase">
-              {props.title}
-            </h2>
-            <p className="text-accentLighter text-lg md:text-2xl px-2">
-              {props.description}
-            </p>
-            {props.renderButton && props.renderButton()}
-          </div>
-        </>
-      )}
+      {props.hasContent &&
+        (props.renderContent ? (
+          <>{props.renderContent()}</>
+        ) : (
+          <>
+            <div className="absolute top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.5)]" />
+            <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 text-center w-full">
+              <h2 className="text-6xl md:text-6xl text-accentLight mb-4 font-display uppercase">
+                {props.title}
+              </h2>
+              <p className="text-accentLighter text-lg md:text-2xl px-2">
+                {props.description}
+              </p>
+              {props.renderButton && props.renderButton()}
+            </div>
+          </>
+        ))}
     </div>
   );
 }
