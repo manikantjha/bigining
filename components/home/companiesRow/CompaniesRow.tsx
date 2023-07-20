@@ -61,45 +61,46 @@ function SamplePrevArrow(props: CustomArrowProps) {
   );
 }
 
-const settings = {
-  dots: false,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 4,
-  initialSlide: 0,
-  autoplay: true,
-  nextArrow: <SampleNextArrow />,
-  prevArrow: <SamplePrevArrow />,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        infinite: true,
-        dots: true,
-      },
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 2,
-        initialSlide: 2,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
-  ],
-};
-
 export default function CompaniesRow(props: ICompaniesRowProps) {
+  if (!props?.companies?.data?.companies[0]?.companies?.length) return;
+  const companies = props?.companies?.data?.companies[0]?.companies;
+
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: companies.length > 4 ? 4 : companies.length,
+    slidesToScroll: companies.length > 4 ? 4 : companies.length,
+    initialSlide: 0,
+    autoplay: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: companies.length > 3 ? 3 : companies.length,
+          slidesToScroll: companies.length > 3 ? 3 : companies.length,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: companies.length > 2 ? 2 : companies.length,
+          slidesToScroll: companies.length > 2 ? 2 : companies.length,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
   return (
     <RowWrapper
       title="Our Clients"
