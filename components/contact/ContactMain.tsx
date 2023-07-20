@@ -1,4 +1,4 @@
-import { getContactInfos } from "@/services/apiServices";
+import { getContactInfos, getLstServices } from "@/services/apiServices";
 import ContainerWrapper from "../common/ContainerWrapper";
 import ContactForm from "./ContactForm";
 import ContactInfoCard from "./ContactInfoCard";
@@ -15,6 +15,7 @@ interface IContactMain extends IRowTheme {
 
 export default function ContactMain(props: IContactMain) {
   const contactInfos = useQuery("contactInfos", () => getContactInfos());
+  const lstServices = useQuery("lstServices", () => getLstServices());
   return (
     <RowWrapper theme={props.theme}>
       <div className="bg-bgDarkLight shadow p-4 lg:p-8 max-w-7xl rounded-lg grid xs:grid-cols-1 md:grid-cols-1 lg:grid-cols-[2fr_3fr] gap-4 mx-auto">
@@ -34,7 +35,7 @@ export default function ContactMain(props: IContactMain) {
             <ContactInfoCard contactInfos={contactInfos} />
           </RenderAppropriateComponent>
         </div>
-        <ContactForm />
+        <ContactForm lstServices={lstServices} />
       </div>
     </RowWrapper>
   );

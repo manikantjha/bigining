@@ -27,6 +27,19 @@ export async function getService(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
+export async function getServicesList(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  try {
+    const lstServices = await Services.find({}, "services.title");
+    if (!lstServices) return res.status(404).json({ error: "No data found!" });
+    return res.status(200).json(lstServices);
+  } catch (error) {
+    res.status(404).json({ error });
+  }
+}
+
 export async function addUpdateServices(
   req: NextApiRequest,
   res: NextApiResponse

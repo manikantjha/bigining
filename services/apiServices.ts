@@ -92,6 +92,10 @@ export const addUpdateService = async (data: IServices) => {
   }
 };
 
+export const getLstServices = async () => {
+  return await get(`${BASE_URL}/api/services/list`);
+};
+
 //  FAQs --------------------------------------------------!
 
 export const getFAQs = async () => {

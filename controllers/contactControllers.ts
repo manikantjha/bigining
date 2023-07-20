@@ -9,6 +9,7 @@ const CONTACT_MESSAGE_FIELDS: any = {
   name: "Name",
   email: "Email",
   phone: "Phone No.",
+  service: "Service",
   message: "Message",
 };
 

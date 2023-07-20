@@ -2,12 +2,13 @@ import { sendContactForm } from "@/services/apiServices";
 import { ISendMessage } from "@/types/contact";
 import { phoneRegex } from "@/utils/utils";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { UseQueryResult, useMutation } from "react-query";
 import * as yup from "yup";
 import Modal from "../common/Modal";
 import ContactModalContent from "./ContactModalContent";
+import Loading from "../common/Loading";
 
 const schema = yup
   .object({
@@ -17,36 +18,37 @@ const schema = yup
       .matches(phoneRegex, "A valid phone number is required")
       .required("Phone number is required!"),
     email: yup.string().email().required("Email is required"),
+    service: yup.string().required("Service is requried"),
     message: yup.string().required("Message is required"),
   })
   .required();
 
 // type FormData = yup.InferType<typeof schema>;
 
-export default function ContactForm() {
+interface IContactFormProps {
+  lstServices: UseQueryResult<any, unknown>;
+}
+
+export default function ContactForm(props: IContactFormProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-
-  function handleClose() {
-    setIsOpen(false);
-  }
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    control,
   } = useForm({
     defaultValues: {
       name: "",
       phone: "",
       email: "",
+      service: "Other",
       message: "",
     },
     resolver: yupResolver(schema),
   });
-
-  const form = useRef<HTMLFormElement>(null);
 
   const contactMutation = useMutation(sendContactForm, {
     onSuccess(data, variables, context) {
@@ -61,13 +63,23 @@ export default function ContactForm() {
     },
   });
 
+  if (!props.lstServices.data) return;
+
+  const services = props.lstServices.data[0].services.map(
+    (service: { title: string }) => service.title
+  );
+
+  function handleClose() {
+    setIsOpen(false);
+  }
+
   const onSubmit = (data: ISendMessage) => {
     contactMutation.mutate(data);
   };
 
   return (
     <div className="w-full p-4 bg-bgLight rounded-lg sm:p-6 md:p-8 border border-black">
-      <form ref={form} className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label
             htmlFor="name"
@@ -121,6 +133,35 @@ export default function ContactForm() {
         </div>
         <div>
           <label
+            htmlFor="service"
+            className="block mb-2 text-sm font-medium text-gray-900"
+          >
+            Select A Service
+          </label>
+          <Controller
+            control={control}
+            name="service"
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <select
+                id="countries"
+                className="bg-transparent border-2 border-black text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
+                onChange={onChange}
+                value={value}
+              >
+                {services.map((service: string, index: number) => (
+                  <option key={index} value={service}>
+                    {service}
+                  </option>
+                ))}
+                <option key={"Other"} value="Other">
+                  Other
+                </option>
+              </select>
+            )}
+          />
+        </div>
+        <div>
+          <label
             htmlFor="message"
             className="block mb-2 text-sm font-medium text-gray-900"
           >
@@ -140,9 +181,19 @@ export default function ContactForm() {
 
         <button
           type="submit"
-          className="w-full text-accentLighter bg-black hover:bg-secondaryDark focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-full text-md px-5 py-2 text-center"
+          className="w-full text-accentLighter bg-black hover:bg-secondaryDark focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-full text-md px-5 py-2 text-center flex items-center justify-center"
         >
-          Send
+          {contactMutation.isLoading ? (
+            <>
+              <Loading
+                loaderContainerHeightWidth="!h-fit !w-fit"
+                loaderHeightWidth="!h-6 !w-6"
+              />
+              <span>Sending...</span>
+            </>
+          ) : (
+            <span>Send</span>
+          )}
         </button>
       </form>
 
