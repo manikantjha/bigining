@@ -1,10 +1,7 @@
-import ContainerWrapper from "@/components/common/ContainerWrapper";
-import Title from "@/components/common/Title";
-import { lstPackages } from "@/data/data";
-import PackageCard from "./PackageCard";
-import { UseQueryResult } from "react-query";
 import RowWrapper from "@/components/common/RowWrapper";
 import { IRowTheme } from "@/types/row";
+import { UseQueryResult } from "react-query";
+import PackageCard from "./PackageCard";
 
 interface IPackagesRow extends IRowTheme {
   packages?: UseQueryResult<any, unknown>;

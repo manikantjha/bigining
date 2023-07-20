@@ -1,8 +1,7 @@
-import { ReactNode } from "react";
-import AdminNavbar from "./adminNavbar/AdminNavbar";
-import AdminSidebar from "./adminSidebar/AdminSidebar";
 import { AuthContextProvider } from "@/contexts/AuthContext";
 import AuthGuard from "@/guards/AuthGuard";
+import { ReactNode } from "react";
+import AdminNavbar from "./adminNavbar/AdminNavbar";
 
 interface IAdminMainLayout {
   children: ReactNode;
