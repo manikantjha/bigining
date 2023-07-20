@@ -12,6 +12,7 @@ import { ITeamMembers } from "@/types/teamMembers";
 import { IWorks } from "@/types/works";
 import Router from "next/router";
 import { get, post } from "./fetchServices";
+import { IUpcomingEvents } from "@/types/upcomingEvents";
 
 // const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
@@ -239,6 +240,25 @@ export const addUpdateArtist = async (data: IArtists) => {
   const token = localStorage.getItem("token");
   try {
     return await post(`${BASE_URL}/api/artists`, data, token);
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+};
+
+//  Upcoming Events --------------------------------------------------!
+
+export const getUpcomingEvents = async () => {
+  return await get(`${BASE_URL}/api/upcomingEvents`);
+};
+
+export const getUpcomingEvent = async (id: string) => {
+  return await get(`${BASE_URL}/api/upcomingEvents/${id}`);
+};
+
+export const addUpdateUpcomingEvent = async (data: IUpcomingEvents) => {
+  const token = localStorage.getItem("token");
+  try {
+    return await post(`${BASE_URL}/api/upcomingEvents`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }
