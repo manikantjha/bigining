@@ -14,8 +14,8 @@ import { IWorks } from "@/types/works";
 import Router from "next/router";
 import { get, post } from "./fetchServices";
 
-// const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
+const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
+// const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
 
 //  Heroes --------------------------------------------------!
 
@@ -88,25 +88,6 @@ export const addUpdateService = async (data: IServices) => {
   const token = localStorage.getItem("token");
   try {
     return await post(`${BASE_URL}/api/services`, data, token);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
-};
-
-//  Packages --------------------------------------------------!
-
-export const getPackages = async () => {
-  return await get(`${BASE_URL}/api/packages`);
-};
-
-export const getPackage = async (id: string) => {
-  return await get(`${BASE_URL}/api/packages/${id}`);
-};
-
-export const addUpdatePackage = async (data: IPackages) => {
-  const token = localStorage.getItem("token");
-  try {
-    return await post(`${BASE_URL}/api/packages`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }
