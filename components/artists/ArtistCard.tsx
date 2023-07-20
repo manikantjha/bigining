@@ -7,6 +7,7 @@ interface IArtistCard extends IRowTheme {
     imageURL: string;
     name: string;
     description: string;
+    numberOfEvents?: number;
   };
 }
 
@@ -24,7 +25,12 @@ export default function ArtistCard(props: IArtistCard) {
         <p className="text-xl mt-4 mb-3 font-semibold">
           {props.objArtist.name}
         </p>
-        <p className="text-base text-black">{props.objArtist.description}</p>
+        {props.objArtist.description && (
+          <p className="text-base text-black">{props.objArtist.description}</p>
+        )}
+        {props.objArtist.numberOfEvents && (
+          <p>Events done: {props.objArtist.numberOfEvents}</p>
+        )}
       </div>
     </Card>
   );

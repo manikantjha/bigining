@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-
 import Card from "@/components/common/Card";
 import { IRowTheme } from "@/types/row";
 import Image, { StaticImageData } from "next/image";
@@ -14,7 +12,7 @@ interface IFounderCard extends IRowTheme {
 export default function FounderCard(props: IFounderCard) {
   return (
     <Card
-      className="grid grid-cols-1 gap-6 md:gap-8 !p-8 max-w-md justify-items-center"
+      className="grid grid-cols-1 gap-6 md:gap-8 !p-8 max-w-xl justify-items-center"
       theme={props.theme}
     >
       <div className="rounded-full h-[150px] w-[150px] md:h-[200px] md:w-[200px] overflow-hidden border border-black">

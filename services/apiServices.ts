@@ -1,5 +1,5 @@
-import { IUserCredentials } from "@/types/auth";
 import { IArtists } from "@/types/artists";
+import { IUserCredentials } from "@/types/auth";
 import { ICompanies } from "@/types/companies";
 import { ISendMessage } from "@/types/contact";
 import { IContactInfo } from "@/types/contactInfo";
@@ -11,8 +11,8 @@ import { IPackages } from "@/types/packages";
 import { IServices } from "@/types/services";
 import { ITeamMembers } from "@/types/teamMembers";
 import { IWorks } from "@/types/works";
-import { get, post } from "./fetchServices";
 import Router from "next/router";
+import { get, post } from "./fetchServices";
 
 // const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;

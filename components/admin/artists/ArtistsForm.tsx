@@ -25,6 +25,8 @@ const schema = yup.object({
         imageURL: yup.string().required("Artist image is required!"),
         name: yup.string().required("Artist name is required!"),
         description: yup.string(),
+        category: yup.string().required("Category is required!"),
+        numberOfEvents: yup.number(),
       })
     )
     .required(),
@@ -43,7 +45,14 @@ export default function ArtistsForm(props: IArtistsFormProps) {
     defaultValues: {
       artists: props.artists?.data
         ? props.artists?.data?.artists[0]?.artists
-        : [{ imageURL: "", name: "", description: "" }],
+        : [
+            {
+              imageURL: "",
+              name: "",
+              description: "",
+              category: "Celebrity",
+            },
+          ],
     },
   });
 
@@ -197,6 +206,54 @@ export default function ArtistsForm(props: IArtistsFormProps) {
                         </p>
                       )}
                   </div>
+                  <div className="mt-2">
+                    <p className="block mb-2 text-sm font-medium text-gray-900">
+                      Category
+                    </p>
+                    <Controller
+                      control={control}
+                      name={`artists.${index}.category`}
+                      render={({ field: { onChange, onBlur, value, ref } }) => (
+                        <select
+                          id="countries"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
+                          onChange={onChange}
+                          value={value}
+                        >
+                          <option selected>Choose a category</option>
+                          <option value="Celebrity">Celebrity</option>
+                          <option value="Singer">Singer</option>
+                        </select>
+                      )}
+                    />
+                    {errors.artists &&
+                      (errors as any).artists[index]?.category && (
+                        <p className="text-red-700 text-sm">
+                          * {(errors as any).artists[index]?.category?.message}
+                        </p>
+                      )}
+                  </div>
+                  <div className="mt-2">
+                    <p className="block mb-2 text-sm font-medium text-gray-900">
+                      Number of Events
+                    </p>
+                    <input
+                      type="number"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
+                      placeholder="Number of Events Done"
+                      {...register(`artists.${index}.numberOfEvents`)}
+                    />
+                    {errors.artists &&
+                      (errors as any).artists[index]?.numberOfEvents && (
+                        <p className="text-red-700 text-sm">
+                          *{" "}
+                          {
+                            (errors as any).artists[index]?.numberOfEvents
+                              ?.message
+                          }
+                        </p>
+                      )}
+                  </div>
                 </FormSectionContainer>
               </div>
             ))}
@@ -205,7 +262,12 @@ export default function ArtistsForm(props: IArtistsFormProps) {
           <div className="w-full flex items-center space-x-4 mt-8">
             <AddMoreButton
               onClick={() =>
-                append({ name: "", imageURL: "", description: "" })
+                append({
+                  name: "",
+                  imageURL: "",
+                  description: "",
+                  category: "Celebrity",
+                })
               }
               text="Add Artist"
             />

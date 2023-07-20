@@ -17,6 +17,8 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    // I should probably check here if it's a valid token before proceeding further.
+    // I can't verify JWT here as I don't have access to env variables here.
     if (token) {
       setUser(token);
     } else {

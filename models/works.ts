@@ -1,11 +1,13 @@
 import { Schema, model, models } from "mongoose";
 
-const workSchema = new Schema({
-  name: String,
-  description: String,
-  imageURL: String,
-  createdAt: { type: Date, default: Date.now },
-});
+const workSchema = new Schema(
+  {
+    imageURL: { type: String, required: true },
+    name: { type: String, required: true },
+    description: String,
+  },
+  { timestamps: true }
+);
 
 const worksSchema = new Schema({ works: [workSchema] });
 

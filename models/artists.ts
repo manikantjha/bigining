@@ -8,7 +8,9 @@ const artistSchema = new Schema(
       required: [true, "Artist name is required!"],
       trim: true,
     },
-    description: { type: String },
+    description: { type: String, trim: true },
+    category: { type: String, required: true, default: "Celebrity" },
+    numberOfEvents: { type: Number },
   },
   { timestamps: true }
 );

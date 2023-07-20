@@ -1,8 +1,8 @@
 import { objHowItStartedInfo } from "@/data/data";
+import { IRowTheme } from "@/types/row";
 import story from "../../public/assets/story.jpg";
 import RowWrapper from "../common/RowWrapper";
 import Row from "../common/row/Row";
-import { IRowTheme } from "@/types/row";
 
 interface IStoryRow extends IRowTheme {}
 
