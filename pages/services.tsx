@@ -4,18 +4,15 @@ import Hero from "@/components/common/Hero";
 import LinkBtn from "@/components/common/LinkBtn";
 import ContactMain from "@/components/contact/ContactMain";
 import ServicesRow from "@/components/home/servicesRow/ServicesRow";
-import PackagesRow from "@/components/services/packagesRow/PackagesRow";
 import HeroSkeleton from "@/components/skeletons/HeroSkeleton";
-import PackagesRowSkeleton from "@/components/skeletons/PackagesRowSkeleton";
 import ServicesRowSkeleton from "@/components/skeletons/ServicesRowSkeleton";
 import Layout from "@/layout/Layout";
-import { getHero, getPackages, getServices } from "@/services/apiServices";
+import { getHero, getServices } from "@/services/apiServices";
 import Head from "next/head";
 import { useQuery } from "react-query";
 
 export default function Services() {
   const services = useQuery("services", () => getServices());
-  const packages = useQuery("packages", () => getPackages());
   const hero = useQuery("serviceHero", () => getHero("service"));
 
   return (
@@ -65,18 +62,6 @@ export default function Services() {
           >
             <ServicesRow services={services} theme="dark" />
           </RenderAppropriateComponent>
-          {/* <RenderAppropriateComponent
-            queryResult={packages}
-            loadingComponent={<PackagesRowSkeleton />}
-            errorComponent={
-              <Error
-                errorContainerClassName="h-[500px] w-full overflow-hidden flex justify-center items-center"
-                errorText="Failed to load packages :("
-              />
-            }
-          >
-            <PackagesRow packages={packages} theme="dark" />
-          </RenderAppropriateComponent> */}
           <ContactMain containerClassName="bg-gray-50" />
         </main>
       </Layout>
