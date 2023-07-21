@@ -26,7 +26,10 @@ const schema = yup.object({
         name: yup.string().required("Artist name is required!"),
         description: yup.string(),
         category: yup.string().required("Category is required!"),
-        numberOfEvents: yup.number(),
+        numberOfEvents: yup
+          .number()
+          .transform((value) => (Number.isNaN(value) ? null : value))
+          .nullable(),
       })
     )
     .required(),

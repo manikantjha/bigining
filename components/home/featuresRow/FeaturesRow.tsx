@@ -17,7 +17,7 @@ export default function FeaturesRow(props: IFeaturesRowProps) {
   return (
     <RowWrapper
       title="Features"
-      description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, error?"
+      // description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, error?"
       theme={props.theme}
     >
       <div className="grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

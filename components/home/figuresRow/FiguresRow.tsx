@@ -9,8 +9,8 @@ interface IFiguresRowProps extends IRowTheme {
 
 export default function FiguresRow(props: IFiguresRowProps) {
   return (
-    <RowWrapper title="Let our numbers do the talking!" theme={props.theme}>
-      <div className="grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <RowWrapper title="Our Journey So Far" theme={props.theme}>
+      <div className="grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mx-auto">
         {props?.figures?.data?.figures
           ? props?.figures?.data?.figures[0]?.figures?.map((item: any) => (
               <FigureCard key={item.id} objFigrue={item} theme={props.theme} />

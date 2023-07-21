@@ -16,7 +16,9 @@ export default function FigureCard(props: IFigrueCard) {
         <p className="mb-2 text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-primaryDark via-secondaryLight to-accentDark">
           <CountUp end={parseInt(props.objFigrue.figure)} scrollSpyOnce />+
         </p>
-        <p className="font-normal text-black">{props.objFigrue.description}</p>
+        <p className="font-medium text-black text-lg md:text-xl">
+          {props.objFigrue.description}
+        </p>
       </div>
     </Card>
   );

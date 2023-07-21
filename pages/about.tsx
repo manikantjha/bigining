@@ -45,7 +45,7 @@ export default function About() {
             imgSrc={hero?.data?.hero?.imageURL}
             imgAlt="about image"
             title={hero?.data?.hero?.title}
-            description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptates, consectetur?"
+            description={hero?.data?.hero?.description}
             hasContent={true}
             renderButton={() =>
               hero?.data?.hero?.hasContactButton ? (

@@ -15,7 +15,7 @@ export default function ArtistsRow(props: IArtistsRowProps) {
       theme={props.theme}
       containerWrapperClassName="min-h-[calc(100vh-89px)]"
     >
-      <div>
+      <div className="mb-16">
         <div className={`text-center mb-16`}>
           <h3
             className={`text-2xl md:text-3xl mb-4 font-display uppercase text-textDark`}

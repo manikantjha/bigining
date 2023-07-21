@@ -15,6 +15,7 @@ import FiguresRowSkeleton from "@/components/skeletons/FiguresRowSkeleton";
 import HeroSkeleton from "@/components/skeletons/HeroSkeleton";
 import RecentWorkRowSkeleton from "@/components/skeletons/RecentWorkRowSkeleton";
 import ServicesRowSkeleton from "@/components/skeletons/ServicesRowSkeleton";
+import UpcomingEventsRow from "@/components/upcomingEvents/UpcomingEventsRow";
 import Layout from "@/layout/Layout";
 import {
   getCompanies,
@@ -22,6 +23,7 @@ import {
   getFigures,
   getHero,
   getServices,
+  getUpcomingEvents,
   getWorks,
 } from "@/services/apiServices";
 import Head from "next/head";
@@ -34,6 +36,7 @@ export default function Home() {
   const figures = useQuery("figures", () => getFigures());
   const services = useQuery("services", () => getServices());
   const works = useQuery("recentWorks", () => getWorks());
+  const upcomingEvents = useQuery("upcomingEvents", () => getUpcomingEvents());
 
   return (
     <>
@@ -82,10 +85,47 @@ export default function Home() {
           />
         </RenderAppropriateComponent>
         <RenderAppropriateComponent
+          queryResult={upcomingEvents}
+          loadingComponent={<FeaturesRowSkeleton />}
+          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
+          errorText="Failed to load upcoming events :("
+        >
+          <UpcomingEventsRow upcomingEvents={upcomingEvents} theme="light" />
+        </RenderAppropriateComponent>
+        <RenderAppropriateComponent
+          queryResult={figures}
+          loadingComponent={<FiguresRowSkeleton />}
+          errorContainerClassName="h-[300px] w-full overflow-hidden flex justify-center items-center"
+          errorText="Failed to load figures :("
+        >
+          <FiguresRow figures={figures} theme="dark" />
+        </RenderAppropriateComponent>
+        <RenderAppropriateComponent
+          queryResult={services}
+          loadingComponent={<ServicesRowSkeleton />}
+          errorContainerClassName="h-[500px] w-full overflow-hidden flex justify-center items-center"
+          errorText="Failed to load services :("
+        >
+          <ServicesRow
+            showButton
+            services={services}
+            isHomePage
+            theme="light"
+          />
+        </RenderAppropriateComponent>
+        <RenderAppropriateComponent
+          queryResult={works}
+          loadingComponent={<RecentWorkRowSkeleton />}
+          errorContainerClassName="h-[500px] bg-gray-100 w-full overflow-hidden flex justify-center items-center"
+          errorText="Failed to load works :("
+        >
+          <RecentWorkRow works={works} theme="dark" />
+        </RenderAppropriateComponent>
+        <RenderAppropriateComponent
           queryResult={companies}
           loadingComponent={<CompaniesRowSkeleton />}
           errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load features :("
+          errorText="Failed to load companies :("
         >
           <CompaniesRow companies={companies} theme="light" />
         </RenderAppropriateComponent>
@@ -97,32 +137,13 @@ export default function Home() {
         >
           <FeaturesRow features={features} theme="dark" />
         </RenderAppropriateComponent>
-        <RenderAppropriateComponent
-          queryResult={figures}
-          loadingComponent={<FiguresRowSkeleton />}
-          errorContainerClassName="h-[300px] w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load figures :("
-        >
-          <FiguresRow figures={figures} />
-        </RenderAppropriateComponent>
-        <TestimonialsRow theme="dark" />
-        <RenderAppropriateComponent
-          queryResult={services}
-          loadingComponent={<ServicesRowSkeleton />}
-          errorContainerClassName="h-[500px] w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load services :("
-        >
-          <ServicesRow showButton services={services} isHomePage />
-        </RenderAppropriateComponent>
-        <RenderAppropriateComponent
-          queryResult={works}
-          loadingComponent={<RecentWorkRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-100 w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load works :("
-        >
-          <RecentWorkRow works={works} theme="dark" />
-        </RenderAppropriateComponent>
-        <ContactMain />
+
+        <TestimonialsRow theme="light" />
+
+        <ContactMain
+          theme="dark"
+          containerClassName="border-t-2 border-secondaryDark"
+        />
       </Layout>
     </>
   );

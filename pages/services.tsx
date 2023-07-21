@@ -62,7 +62,7 @@ export default function Services() {
           >
             <ServicesRow services={services} theme="dark" />
           </RenderAppropriateComponent>
-          <ContactMain containerClassName="bg-gray-50" />
+          <ContactMain />
         </main>
       </Layout>
     </>

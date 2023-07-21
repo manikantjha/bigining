@@ -1,12 +1,12 @@
-import RowWrapper from "@/components/common/RowWrapper";
 import { IRowTheme } from "@/types/row";
-import React from "react";
 import { UseQueryResult } from "react-query";
-import CompanyCard from "./CompanyCard";
-import Slider, { CustomArrowProps } from "react-slick";
+import UpcomingEventCard from "./UpcomingEventCard";
+import RowWrapper from "../common/RowWrapper";
+import { IUpcomingEvent } from "@/types/upcomingEvents";
+import Slider, { CustomArrowProps, Settings } from "react-slick";
 
-interface ICompaniesRowProps extends IRowTheme {
-  companies: UseQueryResult<any, unknown>;
+interface IUpcomingEventsRowProps extends IRowTheme {
+  upcomingEvents: UseQueryResult<any, unknown>;
 }
 
 function SampleNextArrow(props: CustomArrowProps) {
@@ -61,16 +61,17 @@ function SamplePrevArrow(props: CustomArrowProps) {
   );
 }
 
-export default function CompaniesRow(props: ICompaniesRowProps) {
-  if (!props?.companies?.data?.companies[0]?.companies?.length) return;
-  const companies = props?.companies?.data?.companies[0]?.companies;
+export default function UpcomingEventsRow(props: IUpcomingEventsRowProps) {
+  if (!props.upcomingEvents?.data?.upcomingEvents?.length) return;
+  const upcomingEvents =
+    props.upcomingEvents.data.upcomingEvents[0].upcomingEvents;
 
-  const settings = {
+  const settings: Settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: companies.length > 4 ? 4 : companies.length,
-    slidesToScroll: companies.length > 4 ? 4 : companies.length,
+    slidesToShow: upcomingEvents.length > 3 ? 3 : upcomingEvents.length,
+    slidesToScroll: upcomingEvents.length > 3 ? 3 : upcomingEvents.length,
     initialSlide: 0,
     autoplay: true,
     nextArrow: <SampleNextArrow />,
@@ -79,8 +80,8 @@ export default function CompaniesRow(props: ICompaniesRowProps) {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: companies.length > 3 ? 3 : companies.length,
-          slidesToScroll: companies.length > 3 ? 3 : companies.length,
+          slidesToShow: upcomingEvents.length > 3 ? 3 : upcomingEvents.length,
+          slidesToScroll: upcomingEvents.length > 3 ? 3 : upcomingEvents.length,
           infinite: true,
           dots: true,
         },
@@ -88,8 +89,8 @@ export default function CompaniesRow(props: ICompaniesRowProps) {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: companies.length > 2 ? 2 : companies.length,
-          slidesToScroll: companies.length > 2 ? 2 : companies.length,
+          slidesToShow: upcomingEvents.length > 2 ? 2 : upcomingEvents.length,
+          slidesToScroll: upcomingEvents.length > 2 ? 2 : upcomingEvents.length,
         },
       },
       {
@@ -103,20 +104,16 @@ export default function CompaniesRow(props: ICompaniesRowProps) {
   };
   return (
     <RowWrapper
-      title="Our Clients"
+      title="Upcoming Events"
       // description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, error?"
       theme={props.theme}
     >
       <Slider {...settings}>
-        {props?.companies?.data?.companies
-          ? props?.companies?.data?.companies[0]?.companies?.map(
-              (item: any, index: number) => (
-                <div key={index} className="px-2">
-                  <CompanyCard objCompany={{ ...item }} theme={props.theme} />
-                </div>
-              )
-            )
-          : null}
+        {upcomingEvents.map((event: IUpcomingEvent, index: number) => (
+          <div key={index} className="px-2">
+            <UpcomingEventCard objUpcomingEvent={event} />
+          </div>
+        ))}
       </Slider>
     </RowWrapper>
   );

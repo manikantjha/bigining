@@ -18,7 +18,7 @@ export default function ArtistCard(props: IArtistCard) {
         <img
           src={props.objArtist.imageURL}
           alt={props.objArtist.name}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover object-top"
         />
       </div>
       <div className="text-center">

@@ -33,7 +33,11 @@ export default function ServicesRow(props: IServicesRow) {
       </div>
       {props.showButton && (
         <div className="mt-16">
-          <LinkBtn text="See All Services" href="/services" />
+          <LinkBtn
+            text="See All Services"
+            href="/services"
+            theme={props.theme}
+          />
         </div>
       )}
     </RowWrapper>
