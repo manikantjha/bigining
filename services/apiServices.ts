@@ -14,8 +14,8 @@ import Router from "next/router";
 import { get, post } from "./fetchServices";
 import { IUpcomingEvents } from "@/types/upcomingEvents";
 
-// const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
+const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
+// const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
 
 //  Heroes --------------------------------------------------!
 

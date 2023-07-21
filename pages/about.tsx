@@ -75,14 +75,14 @@ export default function About() {
         >
           <FiguresRow figures={figures} theme="light" />
         </RenderAppropriateComponent>
-        <RenderAppropriateComponent
-          queryResult={teamMembers}
-          loadingComponent={<OurTeamRowSkeleton />}
-          errorContainerClassName="h-[300px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load team members :("
-        >
-          <TeamRow teamMembers={teamMembers} theme="dark" />
-        </RenderAppropriateComponent>
+        {/* <RenderAppropriateComponent
+            queryResult={teamMembers}
+            loadingComponent={<OurTeamRowSkeleton />}
+            errorContainerClassName="h-[300px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
+            errorText="Failed to load team members :("
+          >
+            <TeamRow teamMembers={teamMembers} theme="dark" />
+          </RenderAppropriateComponent> */}
       </Layout>
     </>
   );

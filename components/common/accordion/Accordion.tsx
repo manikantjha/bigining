@@ -69,7 +69,7 @@ export default function Accordion(props: IAccordion) {
             props.index === props.listLength - 1
               ? "rounded-b-xl"
               : "rounded-b-none"
-          } font-light border-black`}
+          } font-normal border-black`}
         >
           <p className="mb-2 text-black">{props.objAccordion.answer}</p>
         </div>

@@ -21,7 +21,10 @@ export default function TestimonialCard(props: ITestimonialCard) {
         <div className="flex items-center mb-5">
           <svg
             aria-hidden="true"
-            className="w-5 h-5 text-accentLight"
+            className="w-5 h-5 text-orange-600
+            text-orange-600
+            text-orange-600
+            text-orange-600"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +34,7 @@ export default function TestimonialCard(props: ITestimonialCard) {
           </svg>
           <svg
             aria-hidden="true"
-            className="w-5 h-5 text-accentLight"
+            className="w-5 h-5 text-orange-600"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +44,7 @@ export default function TestimonialCard(props: ITestimonialCard) {
           </svg>
           <svg
             aria-hidden="true"
-            className="w-5 h-5 text-accentLight"
+            className="w-5 h-5 text-orange-600"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +54,7 @@ export default function TestimonialCard(props: ITestimonialCard) {
           </svg>
           <svg
             aria-hidden="true"
-            className="w-5 h-5 text-accentLight"
+            className="w-5 h-5 text-orange-600"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +64,7 @@ export default function TestimonialCard(props: ITestimonialCard) {
           </svg>
           <svg
             aria-hidden="true"
-            className="w-5 h-5 text-accentLight"
+            className="w-5 h-5 text-orange-600"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"

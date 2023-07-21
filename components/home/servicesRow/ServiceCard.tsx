@@ -31,7 +31,7 @@ export default function ServiceCard(props: IServiceCard) {
             />
           </svg>
 
-          <h2 className="text-2xl text-center font-semibold text-textLight">
+          <h2 className="text-2xl text-left font-semibold text-textLight">
             {props.objService.title}
           </h2>
         </div>
