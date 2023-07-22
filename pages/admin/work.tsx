@@ -3,7 +3,6 @@ import RenderAppropriateComponent from "@/components/admin/common/RenderAppropri
 import WorksForm from "@/components/admin/works/WorksForm";
 import AdminLayout from "@/layout/admin/AdminLayout";
 import { getWorks } from "@/services/apiServices";
-import React from "react";
 import { useQuery } from "react-query";
 
 export default function Work() {

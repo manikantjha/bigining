@@ -16,21 +16,6 @@ export default function ServiceCard(props: IServiceCard) {
         <div
           className={`flex items-center space-x-4 px-5 md:px-6 py-4 md:py-6 bg-gradient-to-br from-primaryDark via-secondaryDark to-accentDark border-b border-black`}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-8 h-8 text-textLight"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5"
-            />
-          </svg>
-
           <h2 className="text-2xl text-left font-semibold text-textLight">
             {props.objService.title}
           </h2>

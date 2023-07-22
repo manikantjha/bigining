@@ -64,7 +64,7 @@ export default function Home() {
                 <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 text-center w-full">
                   <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 md:space-y-6 space-y-6 flex flex-col items-center justify-center !w-full px-8">
                     <Logo
-                      imageClassName="h-[100px] md:h-[125px] lg:h-[150px] !w-fit"
+                      imageClassName="h-[80px] md:h-[125px] lg:h-[150px] !w-fit"
                       containerClassName="!w-fit"
                       isWhite
                     />
@@ -93,12 +93,20 @@ export default function Home() {
           <UpcomingEventsRow upcomingEvents={upcomingEvents} theme="light" />
         </RenderAppropriateComponent>
         <RenderAppropriateComponent
-          queryResult={figures}
-          loadingComponent={<FiguresRowSkeleton />}
-          errorContainerClassName="h-[300px] w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load figures :("
+          queryResult={works}
+          loadingComponent={<RecentWorkRowSkeleton />}
+          errorContainerClassName="h-[500px] bg-gray-100 w-full overflow-hidden flex justify-center items-center"
+          errorText="Failed to load works :("
         >
-          <FiguresRow figures={figures} theme="dark" />
+          <RecentWorkRow works={works} theme="light" />
+        </RenderAppropriateComponent>
+        <RenderAppropriateComponent
+          queryResult={features}
+          loadingComponent={<FeaturesRowSkeleton />}
+          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
+          errorText="Failed to load features :("
+        >
+          <FeaturesRow features={features} theme="dark" />
         </RenderAppropriateComponent>
         <RenderAppropriateComponent
           queryResult={services}
@@ -114,12 +122,12 @@ export default function Home() {
           />
         </RenderAppropriateComponent>
         <RenderAppropriateComponent
-          queryResult={works}
-          loadingComponent={<RecentWorkRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-100 w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load works :("
+          queryResult={figures}
+          loadingComponent={<FiguresRowSkeleton />}
+          errorContainerClassName="h-[300px] w-full overflow-hidden flex justify-center items-center"
+          errorText="Failed to load figures :("
         >
-          <RecentWorkRow works={works} theme="dark" />
+          <FiguresRow figures={figures} theme="dark" />
         </RenderAppropriateComponent>
         <RenderAppropriateComponent
           queryResult={companies}
@@ -129,19 +137,9 @@ export default function Home() {
         >
           <CompaniesRow companies={companies} theme="light" />
         </RenderAppropriateComponent>
-        <RenderAppropriateComponent
-          queryResult={features}
-          loadingComponent={<FeaturesRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load features :("
-        >
-          <FeaturesRow features={features} theme="dark" />
-        </RenderAppropriateComponent>
-
-        <TestimonialsRow theme="light" />
-
+        <TestimonialsRow theme="dark" />
         <ContactMain
-          theme="dark"
+          theme="light"
           containerClassName="border-t-2 border-secondaryDark"
         />
       </Layout>

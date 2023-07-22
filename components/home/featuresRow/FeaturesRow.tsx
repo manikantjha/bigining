@@ -2,12 +2,12 @@ import RowWrapper from "@/components/common/RowWrapper";
 import { UseQueryResult } from "react-query";
 import flash from "../../../public/assets/icons/icon_flash.svg";
 import roll from "../../../public/assets/icons/icon_roll.svg";
-import tape from "../../../public/assets/icons/icon_tape.svg";
+import candymachine from "../../../public/assets/icons/icon_candymachine.svg";
 import ufo from "../../../public/assets/icons/icon_ufo.svg";
 import FeatureCard from "./FeatureCard";
 import { IRowTheme } from "@/types/row";
 
-const icons = [flash, ufo, roll, tape];
+const icons = [flash, ufo, roll, candymachine];
 
 interface IFeaturesRowProps extends IRowTheme {
   features: UseQueryResult<any, unknown>;

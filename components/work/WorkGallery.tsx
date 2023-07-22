@@ -1,17 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
+import { IWork } from "@/types/works";
 import { useCallback, useState } from "react";
 import { UseQueryResult } from "react-query";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import ImageViewer from "react-simple-image-viewer";
+import NoData from "../common/NoData";
 
 interface IWorkGalleryProps {
   works?: UseQueryResult<any, unknown>;
 }
 
 export default function WorkGallery(props: IWorkGalleryProps) {
-  const works =
-    (props?.works?.data?.works && props?.works?.data?.works[0]?.works) || [];
-  const worksImages = works.map((work: any) => work.imageURL);
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
 
@@ -19,6 +18,20 @@ export default function WorkGallery(props: IWorkGalleryProps) {
     setCurrentImage(index);
     setIsViewerOpen(true);
   }, []);
+
+  if (
+    !props.works ||
+    !props.works.data ||
+    !props.works.data.works ||
+    !props.works.data.works[0] ||
+    !props.works.data.works[0].works ||
+    !props.works.data.works[0].works.length
+  ) {
+    return <NoData />;
+  }
+
+  const works = props.works.data.works[0].works;
+  const worksImages = works.map((work: IWork) => work.imageURL);
 
   const closeImageViewer = () => {
     setCurrentImage(0);

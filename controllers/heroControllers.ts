@@ -29,15 +29,17 @@ export async function getHero(req: NextApiRequest, res: NextApiResponse) {
 // Add Update Hero
 export async function addUpdateHero(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const data = req.body;
+    const { _id, ...data } = req.body;
+
+    console.log("req.body", req.body);
 
     if (!data) {
       return res.status(404).json({ error: "Form data not provided!" });
     }
 
-    if (data._id) {
+    if (_id) {
       // Update Case
-      const response = await Heroes.findByIdAndUpdate(data._id, data);
+      const response = await Heroes.findByIdAndUpdate(_id, data);
       return res.status(200).json({ response });
     } else {
       // Add Case

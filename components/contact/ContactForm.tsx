@@ -63,7 +63,12 @@ export default function ContactForm(props: IContactFormProps) {
     },
   });
 
-  if (!props.lstServices.data) return;
+  if (
+    !props.lstServices.data ||
+    !props.lstServices.data[0] ||
+    !props.lstServices.data[0].services
+  )
+    return;
 
   const services = props.lstServices.data[0].services.map(
     (service: { title: string }) => service.title

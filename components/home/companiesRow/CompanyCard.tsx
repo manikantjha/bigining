@@ -13,7 +13,7 @@ export default function CompanyCard(props: ICompanyCardProps) {
         <img
           src={props.objCompany.imageURL}
           alt={props.objCompany.name}
-          className="object-contain h-[100px] mix-blend-multiply grayscale"
+          className="object-contain h-[100px] mix-blend-multiply"
         />
       </div>
     </Card>
