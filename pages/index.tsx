@@ -26,8 +26,8 @@ import {
   getUpcomingEvents,
   getWorks,
 } from "@/services/apiServices";
-import Head from "next/head";
 import { useQuery } from "react-query";
+import Head from "next/head";
 
 export default function Home() {
   const hero = useQuery("homeHero", () => getHero("home"));
