@@ -90,7 +90,11 @@ export default function Home() {
           errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load upcoming events :("
         >
-          <UpcomingEventsRow upcomingEvents={upcomingEvents} theme="dark" />
+          <UpcomingEventsRow
+            upcomingEvents={upcomingEvents}
+            theme="dark"
+            rowWrapperClassName="bg-gradient-to-tl from-primaryDark via-primaryLight to-secondaryDark text-textLight"
+          />
         </RenderAppropriateComponent>
         <RenderAppropriateComponent
           queryResult={works}

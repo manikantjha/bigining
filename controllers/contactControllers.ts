@@ -18,26 +18,73 @@ function generateEmailContent(data: any) {
     return (str += `${CONTACT_MESSAGE_FIELDS[key]}: \n${value}\n\n`);
   }, "");
 
-  const htmlData = Object.entries(data).reduce((str, [key, value]) => {
-    return (str += `<tr style="border: solid 1px gray;"><td style="font-weight:bold; border: solid 1px #BDBDBD; padding: 4px 6px;">${CONTACT_MESSAGE_FIELDS[key]}</td><td style="border: solid 1px #BDBDBD; padding: 4px 6px;">${value}</td>`);
-  }, "");
+  // const htmlData = Object.entries(data).reduce((str, [key, value]) => {
+  //   return (str += `<tr style="border: solid 1px gray;"><td style="font-weight:bold; border: solid 1px #BDBDBD; padding: 4px 6px;">${CONTACT_MESSAGE_FIELDS[key]}</td><td style="border: solid 1px #BDBDBD; padding: 4px 6px;">${value}</td>`);
+  // }, "");
 
   return {
     text: stringData,
     html: `<!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Mail</title>
-    </head>
-    <body>
-    <div style="padding:24px; font-size:1.15rem;">
-    <h2 style="margin-bottom: 16px; text-align: center;">New Enquiry from ${data.name}</h2>
-    <table style="border: solid 1px #BDBDBD; border-collapse: collapse; width: auto; margin: auto;">${htmlData}</table>
-    <div>
-    </body>
+    <html>
+      <head>
+        <title>Contact Information</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            color: black;
+          }
+          .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid black;
+            background-color: #ffe2c1;
+          }
+          .title-bar {
+            background-color: #4b2d87;
+            color: white;
+            font-size: 20px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 0px;
+            margin-bottom: 20px;
+          }
+          .info {
+            margin-bottom: 10px;
+          }
+          .label {
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="title-bar">Contact Information</div>
+          <div class="info">
+            <div class="label">Name:</div>
+            <div>${data.name}</div>
+          </div>
+          <div class="info">
+            <div class="label">Email:</div>
+            <div>${data.email}</div>
+          </div>
+          <div class="info">
+            <div class="label">Contact Number:</div>
+            <div>${data.phone}</div>
+          </div>
+          <div class="info">
+            <div class="label">Selected Service:</div>
+            <div>${data.service}</div>
+          </div>
+          <div class="info">
+            <div class="label">Contact Message:</div>
+            <div>
+              ${data.message}
+            </div>
+          </div>
+        </div>
+      </body>
     </html>
     `,
   };

@@ -18,7 +18,7 @@ export default function Navbar() {
         <div className="container grid grid-cols-[1fr_auto] md:grid-cols-[1fr_1fr_1fr] items-center mx-auto">
           <div className="hidden w-full md:flex md:w-full justify-end">
             <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
-              {lstNavBarMenu.slice(0, 3).map((item) => (
+              {lstNavBarMenu.slice(0, 4).map((item) => (
                 <NavbarMenuItem
                   key={item.id}
                   objMenuItem={item}
@@ -35,7 +35,7 @@ export default function Navbar() {
           </div>
           <div className="hidden w-full md:block md:w-auto">
             <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
-              {lstNavBarMenu.slice(3).map((item) => (
+              {lstNavBarMenu.slice(4).map((item) => (
                 <NavbarMenuItem
                   key={item.id}
                   objMenuItem={item}

@@ -11,10 +11,7 @@ export default function UpcomingEventCard(props: IUpcomingEventCard) {
   if (!props.objUpcomingEvent) return;
   return (
     <div>
-      <Card
-        className="space-y-1 !p-3 text-black bg-bgLight"
-        theme={props.theme}
-      >
+      <Card className="space-y-1 !p-3 text-black" theme={props.theme}>
         <div className="h-[300px] overflow-hidden rounded-md mb-4 border border-black">
           <img
             src={props.objUpcomingEvent.imageURL}

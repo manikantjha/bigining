@@ -7,6 +7,7 @@ import Slider, { CustomArrowProps, Settings } from "react-slick";
 
 interface IUpcomingEventsRowProps extends IRowTheme {
   upcomingEvents: UseQueryResult<any, unknown>;
+  rowWrapperClassName?: string;
 }
 
 function SampleNextArrow(props: CustomArrowProps) {
@@ -62,7 +63,15 @@ function SamplePrevArrow(props: CustomArrowProps) {
 }
 
 export default function UpcomingEventsRow(props: IUpcomingEventsRowProps) {
-  if (!props.upcomingEvents?.data?.upcomingEvents?.length) return;
+  if (
+    !props.upcomingEvents ||
+    !props.upcomingEvents.data ||
+    !props.upcomingEvents.data.upcomingEvents ||
+    !props.upcomingEvents.data.upcomingEvents[0] ||
+    !props.upcomingEvents.data.upcomingEvents[0].upcomingEvents ||
+    !props.upcomingEvents.data.upcomingEvents[0].upcomingEvents.length
+  )
+    return;
   const upcomingEvents =
     props.upcomingEvents.data.upcomingEvents[0].upcomingEvents;
 
@@ -107,7 +116,7 @@ export default function UpcomingEventsRow(props: IUpcomingEventsRowProps) {
       title="Upcoming Events"
       // description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, error?"
       theme={props.theme}
-      containerWrapperClassName="bg-gradient-to-tl from-primaryDark via-primaryLight to-secondaryDark text-textLight"
+      containerWrapperClassName={`${props.rowWrapperClassName || ""}`}
     >
       <Slider {...settings}>
         {upcomingEvents.map((event: IUpcomingEvent, index: number) => (

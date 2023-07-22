@@ -44,9 +44,13 @@ export default function ArtistsRow(props: IArtistsRowProps) {
               Celebrities
             </h3>
           </div>
-          <div className="grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            {celebs.map((item: any) => (
-              <ArtistCard key={item.id} objArtist={item} theme={props.theme} />
+          <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {celebs.map((item: any, index: number) => (
+              <ArtistCard
+                key={index + "celeb"}
+                objArtist={item}
+                theme={props.theme}
+              />
             ))}
           </div>
         </div>
@@ -61,8 +65,12 @@ export default function ArtistsRow(props: IArtistsRowProps) {
             </h3>
           </div>
           <div className="grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            {singers.map((item: any) => (
-              <ArtistCard key={item.id} objArtist={item} theme={props.theme} />
+            {singers.map((item: any, index: number) => (
+              <ArtistCard
+                key={index + "singer"}
+                objArtist={item}
+                theme={props.theme}
+              />
             ))}
           </div>
         </div>

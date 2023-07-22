@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "react-toastify/dist/ReactToastify.css";
 import { QueryClientProvider, QueryClient } from "react-query";
 import Head from "next/head";
+import MoveToTopButton from "@/components/common/MoveToTopButton";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
+        <MoveToTopButton />
       </QueryClientProvider>
     </>
   );

@@ -60,10 +60,10 @@ export default function ContactInfoCard(props: IContactInfoCardProps) {
             ),
             info:
               props.contactInfos?.data?.contactInfos &&
-              props.contactInfos?.data?.contactInfos[0]?.phone1,
+              `+91 ${props.contactInfos?.data?.contactInfos[0]?.phone1}`,
           }}
         />
-        <ContactInfoListItem
+        {/* <ContactInfoListItem
           objContactInfo={{
             icon: (
               <svg
@@ -84,7 +84,7 @@ export default function ContactInfoCard(props: IContactInfoCardProps) {
               props.contactInfos?.data?.contactInfos &&
               props.contactInfos?.data?.contactInfos[0]?.phone2,
           }}
-        />
+        /> */}
         <ContactInfoListItem
           objContactInfo={{
             icon: (
