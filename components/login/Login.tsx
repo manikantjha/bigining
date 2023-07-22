@@ -43,7 +43,7 @@ export default function Login() {
       if (response.token) {
         localStorage.setItem("token", response.token);
         notify("Logged in successfully!", { type: "success" });
-        router.push("/admin/heros");
+        router.push("/admin");
       }
       if (response.error) {
         notify(response.error, { type: "error" });

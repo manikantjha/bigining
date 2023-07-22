@@ -70,8 +70,8 @@ export default function UpcomingEventsRow(props: IUpcomingEventsRowProps) {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: upcomingEvents.length > 3 ? 3 : upcomingEvents.length,
-    slidesToScroll: upcomingEvents.length > 3 ? 3 : upcomingEvents.length,
+    slidesToShow: upcomingEvents.length > 2 ? 2 : upcomingEvents.length,
+    slidesToScroll: upcomingEvents.length > 2 ? 2 : upcomingEvents.length,
     initialSlide: 0,
     autoplay: true,
     nextArrow: <SampleNextArrow />,
@@ -80,8 +80,8 @@ export default function UpcomingEventsRow(props: IUpcomingEventsRowProps) {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: upcomingEvents.length > 3 ? 3 : upcomingEvents.length,
-          slidesToScroll: upcomingEvents.length > 3 ? 3 : upcomingEvents.length,
+          slidesToShow: upcomingEvents.length > 1 ? 1 : upcomingEvents.length,
+          slidesToScroll: upcomingEvents.length > 1 ? 1 : upcomingEvents.length,
           infinite: true,
           dots: true,
         },
@@ -89,8 +89,8 @@ export default function UpcomingEventsRow(props: IUpcomingEventsRowProps) {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: upcomingEvents.length > 2 ? 2 : upcomingEvents.length,
-          slidesToScroll: upcomingEvents.length > 2 ? 2 : upcomingEvents.length,
+          slidesToShow: upcomingEvents.length > 1 ? 1 : upcomingEvents.length,
+          slidesToScroll: upcomingEvents.length > 1 ? 1 : upcomingEvents.length,
         },
       },
       {
@@ -107,11 +107,12 @@ export default function UpcomingEventsRow(props: IUpcomingEventsRowProps) {
       title="Upcoming Events"
       // description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, error?"
       theme={props.theme}
+      containerWrapperClassName="bg-gradient-to-tl from-primaryDark via-primaryLight to-secondaryDark text-textLight"
     >
       <Slider {...settings}>
         {upcomingEvents.map((event: IUpcomingEvent, index: number) => (
           <div key={index} className="px-2">
-            <UpcomingEventCard objUpcomingEvent={event} />
+            <UpcomingEventCard objUpcomingEvent={event} theme={props.theme} />
           </div>
         ))}
       </Slider>

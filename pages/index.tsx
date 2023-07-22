@@ -90,7 +90,7 @@ export default function Home() {
           errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load upcoming events :("
         >
-          <UpcomingEventsRow upcomingEvents={upcomingEvents} theme="light" />
+          <UpcomingEventsRow upcomingEvents={upcomingEvents} theme="dark" />
         </RenderAppropriateComponent>
         <RenderAppropriateComponent
           queryResult={works}

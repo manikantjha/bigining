@@ -48,7 +48,7 @@ export default function Signup() {
       if (response.token) {
         notify("Successfully signed up!", { type: "success" });
         localStorage.setItem("token", response.token);
-        router.push("/admin/heros");
+        router.push("/admin");
       }
       if (response.error) {
         notify(response.error, { type: "error" });
