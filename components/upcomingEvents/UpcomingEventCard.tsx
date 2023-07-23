@@ -7,7 +7,6 @@ interface IUpcomingEventCard extends IRowTheme {
 }
 
 export default function UpcomingEventCard(props: IUpcomingEventCard) {
-  console.log(props.objUpcomingEvent);
   if (!props.objUpcomingEvent) return;
   return (
     <div>

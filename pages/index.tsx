@@ -22,12 +22,14 @@ import {
   getFeatures,
   getFigures,
   getHero,
+  getReviews,
   getServices,
   getUpcomingEvents,
   getWorks,
 } from "@/services/apiServices";
 import { useQuery } from "react-query";
 import Head from "next/head";
+import ReviewForm from "@/components/reviews/ReviewForm";
 
 export default function Home() {
   const hero = useQuery("homeHero", () => getHero("home"));
@@ -37,6 +39,7 @@ export default function Home() {
   const services = useQuery("services", () => getServices());
   const works = useQuery("recentWorks", () => getWorks());
   const upcomingEvents = useQuery("upcomingEvents", () => getUpcomingEvents());
+  const reviews = useQuery("reviews", () => getReviews());
 
   return (
     <>
@@ -141,11 +144,19 @@ export default function Home() {
         >
           <CompaniesRow companies={companies} theme="light" />
         </RenderAppropriateComponent>
-        <TestimonialsRow theme="dark" />
+        <RenderAppropriateComponent
+          queryResult={reviews}
+          loadingComponent={<FeaturesRowSkeleton />}
+          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
+          errorText="Failed to load reviews :("
+        >
+          <TestimonialsRow theme="dark" reviews={reviews} />
+        </RenderAppropriateComponent>
         <ContactMain
           theme="light"
           containerClassName="border-t-2 border-secondaryDark"
         />
+        <ReviewForm />
       </Layout>
     </>
   );

@@ -11,7 +11,7 @@ import { IServices } from "@/types/services";
 import { ITeamMembers } from "@/types/teamMembers";
 import { IWorks } from "@/types/works";
 import Router from "next/router";
-import { get, post } from "./fetchServices";
+import { get, post, remove } from "./fetchServices";
 import { IUpcomingEvents } from "@/types/upcomingEvents";
 
 // const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
@@ -205,6 +205,20 @@ export const signout = async () => {
 
 export async function sendContactForm(data: ISendMessage) {
   return await post(`${BASE_URL}/api/contact`, data);
+}
+
+//  Reviews --------------------------------------------------!
+
+export async function sendReviewForm(data: IReview) {
+  return await post(`${BASE_URL}/api/reviews`, data);
+}
+
+export async function getReviews() {
+  return await get(`${BASE_URL}/api/reviews`);
+}
+
+export async function deleteReview(data: { id: string }) {
+  return await remove(`${BASE_URL}/api/reviews`, data);
 }
 
 //  Companies --------------------------------------------------!

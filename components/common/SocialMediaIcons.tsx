@@ -14,7 +14,7 @@ const SocialMediaIcons: React.FC<SocialMediaIconsProps> = (
     <div className="flex space-x-4 items-center">
       <Link href={props.hrefFacebook || ""}>
         <svg
-          className="h-6 w-6 text-white group cursor-pointer transition-colors duration-300 ease-in-out hover:text-blue-500"
+          className="h-6 w-6 text-textLight group cursor-pointer transition-colors duration-300 ease-in-out hover:text-blue-500"
           fill="currentColor"
           viewBox="0 0 24 24"
         >
@@ -28,7 +28,7 @@ const SocialMediaIcons: React.FC<SocialMediaIconsProps> = (
 
       <Link href={props.hrefYoutube || ""}>
         <svg
-          className="h-6 w-6 text-white group cursor-pointer transition-colors duration-300 ease-in-out hover:text-red-600"
+          className="h-6 w-6 text-textLight group cursor-pointer transition-colors duration-300 ease-in-out hover:text-red-600"
           fill="currentColor"
           viewBox="0 0 24 24"
         >
@@ -38,7 +38,7 @@ const SocialMediaIcons: React.FC<SocialMediaIconsProps> = (
 
       <Link href={props.hrefInsta || ""}>
         <svg
-          className="h-6 w-6 text-white group cursor-pointer transition-colors duration-300 ease-in-out hover:text-purple-500"
+          className="h-6 w-6 text-textLight group cursor-pointer transition-colors duration-300 ease-in-out hover:text-purple-500"
           fill="currentColor"
           viewBox="0 0 24 24"
         >

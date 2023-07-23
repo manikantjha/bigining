@@ -108,7 +108,7 @@ export default function UpcomingEventsForm(props: IUpcomingEventsFormProps) {
     const _id = props.upcomingEvents?.data?.upcomingEvents
       ? props.upcomingEvents?.data?.upcomingEvents[0]?._id
       : "";
-    console.log("data", data);
+
     addUpdateUpcomingEventsMutation.mutate(
       {
         ...data,

@@ -23,12 +23,8 @@ export default function ServicesRow(props: IServicesRow) {
                 ? 3
                 : props?.services?.data?.services[0]?.services?.length
             )
-            ?.map((item: any) => (
-              <ServiceCard
-                key={item.id}
-                objService={item}
-                theme={props.theme}
-              />
+            ?.map((item: any, index: number) => (
+              <ServiceCard key={index} objService={item} theme={props.theme} />
             ))}
       </div>
       {props.showButton && (

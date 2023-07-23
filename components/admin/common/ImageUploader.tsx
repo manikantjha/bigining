@@ -35,7 +35,6 @@ export default function ImageUploader(props: IImageUploader) {
       console.log("File size too large!");
     }
   }
-  console.log("isVideo", props?.isVideo);
 
   function handleFileUpload(image: File) {
     if (image) {

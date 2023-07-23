@@ -16,7 +16,6 @@ export async function getHeroes(req: NextApiRequest, res: NextApiResponse) {
 export async function getHero(req: NextApiRequest, res: NextApiResponse) {
   try {
     const data = req.query;
-    console.log("data", data);
     if (!data || !data.id) throw new Error("Page ID not provided!");
     const hero = await Heroes.findOne({ pageId: data.id });
     if (!hero) return res.status(404).json({ error: "No data found!" });
@@ -30,8 +29,6 @@ export async function getHero(req: NextApiRequest, res: NextApiResponse) {
 export async function addUpdateHero(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { _id, ...data } = req.body;
-
-    console.log("req.body", req.body);
 
     if (!data) {
       return res.status(404).json({ error: "Form data not provided!" });

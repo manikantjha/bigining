@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="bg-black shadow border-t border-t-accentLighter">
       <div className="w-full mx-auto container md:py-6 py-4 px-5 md:px-0 md:flex md:items-center  justify-center md:justify-between">
         <div className="flex flex-wrap items-center md:justify-normal justify-center">
-          <span className="text-sm text-white sm:text-center">
+          <span className="text-sm text-textLight sm:text-center">
             © 2023{" "}
             <a href="https://flowbite.com/" className="hover:underline">
               {companyName}™
@@ -15,7 +15,7 @@ export default function Footer() {
             All Rights Reserved
           </span>
         </div>
-        <ul className="flex flex-wrap items-center md:justify-normal justify-center mt-3 text-sm text-white space-x-4 md:space-x-6">
+        <ul className="flex flex-wrap items-center md:justify-normal justify-center mt-3 text-sm text-textLight space-x-4 md:space-x-6">
           <li>
             <Link href="/privacy" className="hover:underline">
               Privacy Policy
