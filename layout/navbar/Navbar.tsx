@@ -15,9 +15,9 @@ export default function Navbar() {
   return (
     <>
       <nav className="bg-bgDark px-4 py-4 shadow-md sticky top-0 left-0 right-0 z-[1000] border-b border-borderLight">
-        <div className="container grid grid-cols-[1fr_auto] md:grid-cols-[1fr_1fr_1fr] items-center mx-auto">
-          <div className="hidden w-full md:flex md:w-full justify-end">
-            <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
+        <div className="container grid grid-cols-[1fr_auto] lg:grid-cols-[1fr_1fr_1fr] items-center mx-auto">
+          <div className="hidden w-full lg:flex lg:w-full justify-end">
+            <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg lg:flex-row lg:space-x-8 lg:mt-0 lg:text-sm lg:font-medium lg:border-0">
               {lstNavBarMenu.slice(0, 4).map((item) => (
                 <NavbarMenuItem
                   key={item.id}
@@ -28,13 +28,13 @@ export default function Navbar() {
               ))}
             </ul>
           </div>
-          <div className="flex items-center md:justify-center w-full">
+          <div className="flex items-center lg:justify-center w-full">
             <Link href="/" className="flex items-center">
               <Logo isWhite />
             </Link>
           </div>
-          <div className="hidden w-full md:block md:w-auto">
-            <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
+          <div className="hidden w-full lg:block lg:w-auto">
+            <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg lg:flex-row lg:space-x-8 lg:mt-0 lg:text-sm lg:font-medium lg:border-0">
               {lstNavBarMenu.slice(4).map((item) => (
                 <NavbarMenuItem
                   key={item.id}
@@ -47,7 +47,7 @@ export default function Navbar() {
           </div>
           <button
             type="button"
-            className="inline-flex items-center ml-3 text-sm text-textLight rounded-lg md:hidden hover:bg-bgLight hover:text-textDark focus:outline-none focus:ring-2 focus:ring-gray-200"
+            className="inline-flex items-center ml-3 text-sm text-textLight rounded-lg lg:hidden hover:bg-bgLight hover:text-textDark focus:outline-none focus:ring-2 focus:ring-gray-200"
             onClick={() => setIsOpen((open) => !open)}
             title="menu"
           >

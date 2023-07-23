@@ -14,11 +14,11 @@ export default function NavbarMenuItem(props: INavbarMenuItem) {
     <li onClick={props.onClick}>
       <Link
         href={props.objMenuItem.path}
-        className={`block py-2 pl-3 pr-4 rounded md:bg-transparen md:p-0 ${
+        className={`block py-2 pl-3 pr-4 rounded lg:bg-transparen lg:p-0 ${
           props.isActive
-            ? "text-black md:text-accentLight underline font-bold"
-            : "text-black md:text-accentLighter"
-        } md:hover:text-accentLight`}
+            ? "text-black lg:text-accentLight underline font-bold"
+            : "text-black lg:text-accentLighter"
+        } lg:hover:text-accentLight`}
         aria-current="page"
       >
         {props.objMenuItem.name}
