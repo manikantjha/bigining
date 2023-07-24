@@ -4,6 +4,7 @@ import UpcomingEventCard from "./UpcomingEventCard";
 import RowWrapper from "../common/RowWrapper";
 import { IUpcomingEvent } from "@/types/upcomingEvents";
 import Slider, { CustomArrowProps, Settings } from "react-slick";
+import LinkBtn from "../common/LinkBtn";
 
 interface IUpcomingEventsRowProps extends IRowTheme {
   upcomingEvents: UseQueryResult<any, unknown>;
@@ -79,37 +80,12 @@ export default function UpcomingEventsRow(props: IUpcomingEventsRowProps) {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: upcomingEvents.length > 2 ? 2 : upcomingEvents.length,
-    slidesToScroll: upcomingEvents.length > 2 ? 2 : upcomingEvents.length,
+    slidesToShow: 1,
+    slidesToScroll: 1,
     initialSlide: 0,
     autoplay: true,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: upcomingEvents.length > 1 ? 1 : upcomingEvents.length,
-          slidesToScroll: upcomingEvents.length > 1 ? 1 : upcomingEvents.length,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: upcomingEvents.length > 1 ? 1 : upcomingEvents.length,
-          slidesToScroll: upcomingEvents.length > 1 ? 1 : upcomingEvents.length,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
   };
   return (
     <RowWrapper
@@ -118,13 +94,29 @@ export default function UpcomingEventsRow(props: IUpcomingEventsRowProps) {
       theme={props.theme}
       containerWrapperClassName={`${props.rowWrapperClassName || ""}`}
     >
-      <Slider {...settings}>
+      <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {upcomingEvents.map((event: IUpcomingEvent, index: number) => (
           <div key={index} className="px-2">
             <UpcomingEventCard objUpcomingEvent={event} theme={props.theme} />
           </div>
         ))}
-      </Slider>
+      </div>
+      <div className="block md:hidden">
+        <Slider {...settings}>
+          {upcomingEvents.map((event: IUpcomingEvent, index: number) => (
+            <div key={index} className="px-2">
+              <UpcomingEventCard objUpcomingEvent={event} theme={props.theme} />
+            </div>
+          ))}
+        </Slider>
+      </div>
+      <div className="mt-12">
+        <LinkBtn
+          href="/upcomingEvents"
+          text="Sell All Events"
+          theme={props.theme}
+        />
+      </div>
     </RowWrapper>
   );
 }

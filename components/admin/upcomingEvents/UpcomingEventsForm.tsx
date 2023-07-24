@@ -39,8 +39,8 @@ interface IUpcomingEventsFormProps {
 type TUpcomingEventsForm = yup.InferType<typeof schema>;
 
 export default function UpcomingEventsForm(props: IUpcomingEventsFormProps) {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const {
     register,
