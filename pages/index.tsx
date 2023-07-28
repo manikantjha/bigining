@@ -26,7 +26,7 @@ import {
   getReviews,
   getServices,
   getUpcomingEvents,
-  getWorks,
+  getWorksForGalleryPaginated,
 } from "@/services/apiServices";
 import Head from "next/head";
 import { useQuery } from "react-query";
@@ -37,7 +37,9 @@ export default function Home() {
   const features = useQuery("features", () => getFeatures());
   const figures = useQuery("figures", () => getFigures());
   const services = useQuery("services", () => getServices());
-  const works = useQuery("recentWorks", () => getWorks());
+  const works = useQuery("recentWorks", () =>
+    getWorksForGalleryPaginated(1, 8)
+  );
   const upcomingEvents = useQuery("upcomingEvents", () => getUpcomingEvents());
   const reviews = useQuery("reviews", () => getReviews());
 

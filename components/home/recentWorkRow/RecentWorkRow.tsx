@@ -2,6 +2,7 @@
 import LinkBtn from "@/components/common/LinkBtn";
 import RowWrapper from "@/components/common/RowWrapper";
 import { IRowTheme } from "@/types/row";
+import { IWork } from "@/types/works";
 import { UseQueryResult } from "react-query";
 import Slider, { CustomArrowProps } from "react-slick";
 
@@ -62,9 +63,8 @@ function SamplePrevArrow(props: CustomArrowProps) {
 }
 
 export default function RecentWorkRow(props: IWorkGalleryProps) {
-  const works =
-    (props?.works?.data?.works && props?.works?.data?.works[0]?.works) || [];
-  const worksImages = works.map((work: any) => work.imageURL);
+  const works: IWork[] = props?.works?.data?.works || [];
+  const worksImages = works.map((work) => work.images[0].original);
 
   if (!worksImages.length) return null;
 
@@ -114,19 +114,21 @@ export default function RecentWorkRow(props: IWorkGalleryProps) {
     >
       <div>
         <Slider {...settings}>
-          {worksImages.map((item: string, index: number) => (
+          {worksImages.map((item, index: number) => (
             <div key={index} className="px-2">
-              <img
-                className="h-auto max-w-full rounded-lg border-2 border-black"
-                src={item}
-                alt="interior image"
-              />
+              <div className="w-full h-[400px] md:h-[400px] overflow-hidden rounded-lg border-2 border-black">
+                <img
+                  className="h-full w-full object-cover"
+                  src={item.url}
+                  alt="interior image"
+                />
+              </div>
             </div>
           ))}
         </Slider>
       </div>
       <div className="mt-12">
-        <LinkBtn href="/work" text="Sell All Work" theme={props.theme} />
+        <LinkBtn href="/works" text="Sell All Work" theme={props.theme} />
       </div>
     </RowWrapper>
   );

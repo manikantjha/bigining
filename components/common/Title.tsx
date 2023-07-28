@@ -1,5 +1,5 @@
 export interface ITitle {
-  title: string;
+  title?: string;
   description?: string;
   titleClassName?: string;
   descriptionClassName?: string;
@@ -7,12 +7,13 @@ export interface ITitle {
 }
 
 export default function Title({
-  title,
+  title = "",
   description = "",
   titleClassName = "",
   descriptionClassName = "",
   titleContainerClassName = "",
 }: ITitle) {
+  if (!title) return null;
   return (
     <div className={`text-center mb-16 ${titleContainerClassName}`}>
       <h2
