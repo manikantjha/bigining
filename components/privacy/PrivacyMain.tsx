@@ -5,7 +5,7 @@ import Title from "../common/Title";
 export default function PrivacyMain() {
   return (
     <ContainerWrapper containerClassName="bg-bgLight min-h-[100vh]">
-      <Title title="Privacy Policy" containerClassName="text-textDark" />
+      <Title title="Privacy Policy" titleContainerClassName="text-textDark" />
       <div className="container mx-auto py-8">
         <h2 className="text-2xl font-bold mb-4">Privacy Policy</h2>
         <p>Last updated: 23 July 2023</p>

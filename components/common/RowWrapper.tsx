@@ -1,35 +1,38 @@
+import { IRowTheme } from "@/types/row";
 import { ReactNode } from "react";
 import ContainerWrapper from "./ContainerWrapper";
-import Title from "./Title";
+import Title, { ITitle } from "./Title";
 
-interface IRowWrapperProps {
-  theme?: "light" | "dark";
-  containerWrapperClassName?: string;
-  title?: string;
-  description?: string;
+interface IRowWrapperProps extends ITitle, IRowTheme {
   children: ReactNode;
+  containerWrapperClassName?: string;
 }
 
-export default function RowWrapper(props: IRowWrapperProps) {
+export default function RowWrapper({
+  children,
+  containerWrapperClassName = "",
+  ...rest
+}: IRowWrapperProps) {
   return (
     <ContainerWrapper
       containerClassName={`${
-        props.theme === "dark" ? "bg-bgDark" : "bg-bgLight"
-      } ${props.containerWrapperClassName}`}
+        rest.theme === "dark" ? "bg-bgDark" : "bg-bgLight"
+      } ${containerWrapperClassName}`}
     >
-      {props.title && (
+      {rest.title && (
         <Title
-          title={props.title}
-          description={props.description || ""}
+          title={rest.title}
+          description={rest.description || ""}
           titleClassName={`${
-            props.theme === "dark" ? "text-textLight" : "text-textDark"
+            rest.theme === "dark" ? "text-textLight" : "text-textDark"
           }`}
           descriptionClassName={`${
-            props.theme === "dark" ? "text-textLight" : "text-textDark"
+            rest.theme === "dark" ? "text-textLight" : "text-textDark"
           }`}
+          titleContainerClassName={rest.titleContainerClassName}
         />
       )}
-      <>{props.children}</>
+      <>{children}</>
     </ContainerWrapper>
   );
 }

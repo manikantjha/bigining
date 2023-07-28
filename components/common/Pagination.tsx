@@ -5,12 +5,16 @@ interface PaginationProps {
   totalWorks: number;
   currentPage: number;
   worksPerPage: number;
+  containerClassName?: string;
+  baseHref: string;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
   totalWorks,
   currentPage,
   worksPerPage,
+  containerClassName = "",
+  baseHref,
 }) => {
   const totalPages = Math.ceil(totalWorks / worksPerPage);
 
@@ -24,7 +28,7 @@ const Pagination: React.FC<PaginationProps> = ({
     return pageNumbers.map((pageNumber) => (
       <CommonLinkButton
         key={pageNumber}
-        href={`/admin/workNew?page=${pageNumber}`}
+        href={`${baseHref}?page=${pageNumber}`}
         passHref
         variant="filled"
         color={pageNumber === currentPage ? "primary" : "gray"}
@@ -35,11 +39,11 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="flex justify-center mt-4">
+    <div className={`flex justify-center mt-4 ${containerClassName}`}>
       {totalPages > 1 && (
         <div className="flex space-x-2">
           <CommonLinkButton
-            href={`/admin/workNew?page=${currentPage - 1}`}
+            href={`${baseHref}?page=${currentPage - 1}`}
             passHref
             disabled={currentPage === 1}
             color="primary"
@@ -48,7 +52,7 @@ const Pagination: React.FC<PaginationProps> = ({
           </CommonLinkButton>
           {renderPageNumbers()}
           <CommonLinkButton
-            href={`/admin/workNew?page=${currentPage + 1}`}
+            href={`${baseHref}?page=${currentPage + 1}`}
             disabled={currentPage === totalPages}
             color="primary"
             passHref

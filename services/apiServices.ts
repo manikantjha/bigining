@@ -15,8 +15,8 @@ import { IWorkFormDataNew, IWorkNew } from "@/types/worksNew";
 import Router from "next/router";
 import { get, post, remove } from "./fetchServices";
 
-const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
-// const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
+// const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
 
 //  Heroes --------------------------------------------------!
 
@@ -179,6 +179,15 @@ export const addUpdateWork = async (data: IWorks) => {
 export const getWorksNew = async (currentPage: number, limit: number) => {
   return await get(
     `${BASE_URL}/api/worksnew?page=${currentPage}&limit=${limit}`
+  );
+};
+
+export const getWorksForGalleryNew = async (
+  currentPage: number,
+  limit: number
+) => {
+  return await get(
+    `${BASE_URL}/api/worksnew/gallery?page=${currentPage}&limit=${limit}`
   );
 };
 

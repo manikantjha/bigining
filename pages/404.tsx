@@ -13,7 +13,7 @@ export default function PageNotFound() {
             <Title
               title="OOPS!"
               description="Looks like what you are looking for cannot be found."
-              containerClassName="!mb-4"
+              titleContainerClassName="!mb-4"
             />
           </div>
           <div className="mb-4 w-full flex items-center justify-center">

@@ -31,6 +31,8 @@ export default function WorksListPageNew() {
           currentPage={works?.data?.currentPage}
           totalWorks={works?.data?.totalWorks}
           worksPerPage={limit}
+          containerClassName="!mt-[80px]"
+          baseHref="/admin/workNew"
         />
       </RenderAppropriateComponent>
     </AdminLayout>

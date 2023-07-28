@@ -23,3 +23,11 @@ export interface IWorkFormDataNew {
   description: string;
   images: WorkImage[];
 }
+
+export type ImageWithId = {
+  _id?: string;
+  url: string;
+  width: number;
+  height: number;
+  path: string;
+};

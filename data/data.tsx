@@ -10,7 +10,8 @@ export const lstNavBarMenu = [
   { id: 3, name: "Services", path: "/services" },
   { id: 8, name: "Upcoming Events", path: "/upcomingEvents" },
   { id: 7, name: "Artists", path: "/artists" },
-  { id: 4, name: "Work", path: "/work" },
+  // { id: 4, name: "Work", path: "/work" },
+  { id: 4, name: "Work", path: "/worknew?page=1" },
   { id: 5, name: "FAQs", path: "/faqs" },
   { id: 6, name: "Contact", path: "/contact" },
 ];

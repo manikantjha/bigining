@@ -261,3 +261,35 @@ export const getPaginatedWorks = async (
     res.status(500).json({ error: "Failed to get paginated works" });
   }
 };
+
+export const getPaginatedWorksForGallery = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
+  try {
+    // Define the pagination parameters
+    const { page = 1, limit = 10 } = req.query;
+
+    // Convert page and limit to numbers
+    const pageNumber = parseInt(page as string);
+    const limitNumber = parseInt(limit as string);
+
+    const totalWorks = await Work.countDocuments();
+    // Calculate the number of documents to skip
+    const skip = (pageNumber - 1) * limitNumber;
+
+    // Fetch paginated works from the database
+    const works = await Work.find(
+      {},
+      { _id: 1, name: 1, images: { $slice: 1 } }
+    )
+      .skip(skip)
+      .limit(limitNumber)
+      .lean();
+
+    return res.status(200).json({ totalWorks, currentPage: pageNumber, works });
+  } catch (error) {
+    console.error("Error fetching paginated works:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
