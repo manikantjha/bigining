@@ -9,13 +9,14 @@ import { IFigures } from "@/types/figures";
 import { IHero } from "@/types/hero";
 import { IServices } from "@/types/services";
 import { ITeamMembers } from "@/types/teamMembers";
+import { IUpcomingEvents } from "@/types/upcomingEvents";
 import { IWorks } from "@/types/works";
+import { IWorkFormDataNew, IWorkNew } from "@/types/worksNew";
 import Router from "next/router";
 import { get, post, remove } from "./fetchServices";
-import { IUpcomingEvents } from "@/types/upcomingEvents";
 
-// const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
+const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
+// const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
 
 //  Heroes --------------------------------------------------!
 
@@ -168,6 +169,46 @@ export const addUpdateWork = async (data: IWorks) => {
   const token = localStorage.getItem("token");
   try {
     return await post(`${BASE_URL}/api/works`, data, token);
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+};
+
+//  Works New --------------------------------------------------!
+
+export const getWorksNew = async (currentPage: number, limit: number) => {
+  return await get(
+    `${BASE_URL}/api/worksnew?page=${currentPage}&limit=${limit}`
+  );
+};
+
+export const getWorkNew = async (id: string) => {
+  if (!id || id === "add") return;
+  return await get(`${BASE_URL}/api/worksnew/${id}`);
+};
+
+export const addWorkNew = async (data: IWorkFormDataNew) => {
+  const token = localStorage.getItem("token");
+  try {
+    return await post(`${BASE_URL}/api/worksnew`, data, token);
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+};
+
+export const updateWorkNew = async (data: IWorkNew) => {
+  const token = localStorage.getItem("token");
+  try {
+    return await post(`${BASE_URL}/api/worksnew/${data._id}`, data, token);
+  } catch (error) {
+    console.log("Error: ", error);
+  }
+};
+
+export const deleteWorkNew = async (data: IWorkNew) => {
+  const token = localStorage.getItem("token");
+  try {
+    return await remove(`${BASE_URL}/api/worksnew/${data._id}`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }

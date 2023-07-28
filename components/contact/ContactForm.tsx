@@ -6,9 +6,9 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { UseQueryResult, useMutation } from "react-query";
 import * as yup from "yup";
+import Loading from "../common/Loading";
 import Modal from "../common/Modal";
 import ContactModalContent from "./ContactModalContent";
-import Loading from "../common/Loading";
 
 const schema = yup
   .object({
@@ -190,10 +190,7 @@ export default function ContactForm(props: IContactFormProps) {
         >
           {contactMutation.isLoading ? (
             <>
-              <Loading
-                loaderContainerHeightWidth="!h-fit !w-fit"
-                loaderHeightWidth="!h-6 !w-6"
-              />
+              <Loading containerSize="h-6 w-6" size="h-6 w-6" />
               <span>Sending...</span>
             </>
           ) : (

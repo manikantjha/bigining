@@ -19,7 +19,7 @@ export default function Heroes() {
         <FormSectionTitle title="Home Page Hero" />
         <RenderAppropriateComponent
           queryResult={homeHero}
-          loaderContainerHeightWidth="h-[400px] w-full"
+          containerSize="h-[400px] w-full"
         >
           <HomeHeroForm hero={homeHero} />
         </RenderAppropriateComponent>
@@ -28,7 +28,7 @@ export default function Heroes() {
         <FormSectionTitle title="About Page Hero" />
         <RenderAppropriateComponent
           queryResult={aboutHero}
-          loaderContainerHeightWidth="h-[400px] w-full"
+          containerSize="h-[400px] w-full"
         >
           <AboutHeroForm hero={aboutHero} />
         </RenderAppropriateComponent>
@@ -37,7 +37,7 @@ export default function Heroes() {
         <FormSectionTitle title="Service Page Hero" />
         <RenderAppropriateComponent
           queryResult={serviceHero}
-          loaderContainerHeightWidth="h-[400px] w-full"
+          containerSize="h-[400px] w-full"
         >
           <ServiceHeroForm hero={serviceHero} />
         </RenderAppropriateComponent>

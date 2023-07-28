@@ -12,7 +12,7 @@ export default function Work() {
       <FormSectionTitle title="Works" />
       <RenderAppropriateComponent
         queryResult={works}
-        loaderContainerHeightWidth="h-[400px] w-full"
+        containerSize="h-[400px] w-full"
       >
         <WorksForm works={works} />
       </RenderAppropriateComponent>

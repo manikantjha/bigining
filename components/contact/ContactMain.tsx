@@ -24,12 +24,10 @@ export default function ContactMain(props: IContactMain) {
         <div className="grid grid-rows-[1fr_auto] rounded-xl p-6 border border-black bg-gradient-to-br from-primaryLight via-secondaryLight to-accentLight">
           <RenderAppropriateComponent
             queryResult={contactInfos}
-            loadingComponent={
-              <Loading loaderContainerHeightWidth="h-full w-full" />
-            }
+            loadingComponent={<Loading containerSize="h-full w-full" />}
             errorComponent={
               <Error
-                errorContainerClassName="h-[200px] w-full overflow-hidden flex justify-center items-center"
+                containerClassName="h-[200px] w-full overflow-hidden flex justify-center items-center"
                 errorText="Failed to load contact info :("
               />
             }

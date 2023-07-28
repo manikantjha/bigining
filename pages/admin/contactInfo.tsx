@@ -13,7 +13,7 @@ export default function ContactInfo() {
         <FormSectionTitle title="Contact Info" />
         <RenderAppropriateComponent
           queryResult={contactInfos}
-          loaderContainerHeightWidth="h-[400px] w-full"
+          containerSize="h-[400px] w-full"
         >
           <ContactInfoForm contactInfos={contactInfos} />
         </RenderAppropriateComponent>

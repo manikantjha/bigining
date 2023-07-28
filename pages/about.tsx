@@ -1,6 +1,5 @@
 import StoryRow from "@/components/about/StoryRow";
 import FounderRow from "@/components/about/founderRow/FounderRow";
-import TeamRow from "@/components/about/teamRow/TeamRow";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
 import Hero from "@/components/common/Hero";
 import LinkBtn from "@/components/common/LinkBtn";
@@ -9,7 +8,6 @@ import FiguresRow from "@/components/home/figuresRow/FiguresRow";
 import CompaniesRowSkeleton from "@/components/skeletons/CompaniesRowSkeleton";
 import FiguresRowSkeleton from "@/components/skeletons/FiguresRowSkeleton";
 import HeroSkeleton from "@/components/skeletons/HeroSkeleton";
-import OurTeamRowSkeleton from "@/components/skeletons/OurTeamRowSkeleton";
 import Layout from "@/layout/Layout";
 import {
   getCompanies,
@@ -38,7 +36,7 @@ export default function About() {
         <RenderAppropriateComponent
           queryResult={hero}
           loadingComponent={<HeroSkeleton />}
-          errorContainerClassName="h-[70vh] bg-gray-200 w-full overflow-hidden flex justify-center items-center"
+          containerClassName="h-[70vh] bg-gray-200 w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load image :("
         >
           <Hero
@@ -59,7 +57,7 @@ export default function About() {
         <RenderAppropriateComponent
           queryResult={companies}
           loadingComponent={<CompaniesRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
+          containerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load features :("
         >
           <CompaniesRow companies={companies} theme="dark" />
@@ -70,7 +68,7 @@ export default function About() {
         <RenderAppropriateComponent
           queryResult={figures}
           loadingComponent={<FiguresRowSkeleton />}
-          errorContainerClassName="h-[300px] w-full overflow-hidden flex justify-center items-center"
+          containerClassName="h-[300px] w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load figures :("
         >
           <FiguresRow figures={figures} theme="light" />

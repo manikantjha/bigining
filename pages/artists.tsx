@@ -15,7 +15,7 @@ export default function Artists() {
         loadingComponent={<OurTeamRowSkeleton />}
         errorComponent={
           <Error
-            errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
+            containerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
             errorText="Failed to load artists :("
           />
         }

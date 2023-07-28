@@ -9,6 +9,7 @@ import FiguresRow from "@/components/home/figuresRow/FiguresRow";
 import RecentWorkRow from "@/components/home/recentWorkRow/RecentWorkRow";
 import ServicesRow from "@/components/home/servicesRow/ServicesRow";
 import TestimonialsRow from "@/components/home/testimonialsRow/TestimonialsRow";
+import ReviewForm from "@/components/reviews/ReviewForm";
 import CompaniesRowSkeleton from "@/components/skeletons/CompaniesRowSkeleton";
 import FeaturesRowSkeleton from "@/components/skeletons/FeaturesRowSkeleton";
 import FiguresRowSkeleton from "@/components/skeletons/FiguresRowSkeleton";
@@ -27,9 +28,8 @@ import {
   getUpcomingEvents,
   getWorks,
 } from "@/services/apiServices";
-import { useQuery } from "react-query";
 import Head from "next/head";
-import ReviewForm from "@/components/reviews/ReviewForm";
+import { useQuery } from "react-query";
 
 export default function Home() {
   const hero = useQuery("homeHero", () => getHero("home"));
@@ -53,7 +53,7 @@ export default function Home() {
         <RenderAppropriateComponent
           queryResult={hero}
           loadingComponent={<HeroSkeleton />}
-          errorContainerClassName="h-[70vh] bg-gray-200 w-full overflow-hidden flex justify-center items-center"
+          containerClassName="h-[70vh] bg-gray-200 w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load image :("
         >
           <Hero
@@ -90,7 +90,7 @@ export default function Home() {
         <RenderAppropriateComponent
           queryResult={upcomingEvents}
           loadingComponent={<FeaturesRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
+          containerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load upcoming events :("
         >
           <UpcomingEventsRow
@@ -102,7 +102,7 @@ export default function Home() {
         <RenderAppropriateComponent
           queryResult={works}
           loadingComponent={<RecentWorkRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-100 w-full overflow-hidden flex justify-center items-center"
+          containerClassName="h-[500px] bg-gray-100 w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load works :("
         >
           <RecentWorkRow works={works} theme="light" />
@@ -110,7 +110,7 @@ export default function Home() {
         <RenderAppropriateComponent
           queryResult={features}
           loadingComponent={<FeaturesRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
+          containerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load features :("
         >
           <FeaturesRow features={features} theme="dark" />
@@ -118,7 +118,7 @@ export default function Home() {
         <RenderAppropriateComponent
           queryResult={services}
           loadingComponent={<ServicesRowSkeleton />}
-          errorContainerClassName="h-[500px] w-full overflow-hidden flex justify-center items-center"
+          containerClassName="h-[500px] w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load services :("
         >
           <ServicesRow
@@ -131,7 +131,7 @@ export default function Home() {
         <RenderAppropriateComponent
           queryResult={figures}
           loadingComponent={<FiguresRowSkeleton />}
-          errorContainerClassName="h-[300px] w-full overflow-hidden flex justify-center items-center"
+          containerClassName="h-[300px] w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load figures :("
         >
           <FiguresRow figures={figures} theme="dark" />
@@ -139,7 +139,7 @@ export default function Home() {
         <RenderAppropriateComponent
           queryResult={companies}
           loadingComponent={<CompaniesRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
+          containerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load companies :("
         >
           <CompaniesRow companies={companies} theme="light" />
@@ -147,7 +147,7 @@ export default function Home() {
         <RenderAppropriateComponent
           queryResult={reviews}
           loadingComponent={<FeaturesRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
+          containerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load reviews :("
         >
           <TestimonialsRow theme="dark" reviews={reviews} />

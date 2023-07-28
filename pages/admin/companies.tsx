@@ -13,7 +13,7 @@ export default function Companies() {
       <FormSectionTitle title="Companies We Have Worked With" />
       <RenderAppropriateComponent
         queryResult={companies}
-        loaderContainerHeightWidth="h-[400px] w-full"
+        containerSize="h-[400px] w-full"
       >
         <CompaniesForm companies={companies} />
       </RenderAppropriateComponent>

@@ -13,7 +13,7 @@ export default function Artists() {
       <FormSectionTitle title="Artists" />
       <RenderAppropriateComponent
         queryResult={artists}
-        loaderContainerHeightWidth="h-[400px] w-full"
+        containerSize="h-[400px] w-full"
       >
         <ArtistsForm artists={artists} />
       </RenderAppropriateComponent>

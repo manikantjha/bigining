@@ -20,7 +20,7 @@ export default function ManageReviews() {
       <FormSectionTitle title="Manage Reviews" />
       <RenderAppropriateComponent
         queryResult={reviews}
-        loaderContainerHeightWidth="h-[400px] w-full"
+        containerSize="h-[400px] w-full"
       >
         <ReviewList reviews={reviews} handleDelete={mutate} />
       </RenderAppropriateComponent>

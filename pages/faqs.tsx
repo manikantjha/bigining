@@ -21,7 +21,7 @@ export default function FAQs() {
           queryResult={faqs}
           errorComponent={
             <Error
-              errorContainerClassName="h-[500px] w-full overflow-hidden flex justify-center items-center"
+              containerClassName="h-[500px] w-full overflow-hidden flex justify-center items-center"
               errorText="Failed to load faqs :("
             />
           }

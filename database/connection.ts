@@ -1,4 +1,6 @@
+import { initFirebaseAdminApp } from "@/services/firebaseAdminServices";
 import { getEnvVariable } from "@/utils/helpers";
+import admin from "firebase-admin";
 import mongoose from "mongoose";
 
 const connect = async () => {
@@ -8,6 +10,9 @@ const connect = async () => {
     const { connection } = await mongoose.connect(MONGO_URI);
     if (connection.readyState === 1) {
       console.log("Database connected");
+      if (!admin.app.length) {
+        initFirebaseAdminApp();
+      }
     }
   } catch (error) {
     Promise.reject(error);

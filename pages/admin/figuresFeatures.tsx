@@ -15,14 +15,14 @@ export default function FiguresFeatures() {
       <FormSectionTitle title="Figures" />
       <RenderAppropriateComponent
         queryResult={figures}
-        loaderContainerHeightWidth="h-[400px] w-full"
+        containerSize="h-[400px] w-full"
       >
         <FiguresForm figures={figures} />
       </RenderAppropriateComponent>
       <FormSectionTitle title="Features" />
       <RenderAppropriateComponent
         queryResult={features}
-        loaderContainerHeightWidth="h-[400px] w-full"
+        containerSize="h-[400px] w-full"
       >
         <FeaturesForm features={features} />
       </RenderAppropriateComponent>

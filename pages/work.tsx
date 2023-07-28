@@ -24,7 +24,7 @@ export default function Work() {
             loadingComponent={<WorkSkeleton />}
             errorComponent={
               <Error
-                errorContainerClassName="h-[500px] w-full overflow-hidden flex justify-center items-center"
+                containerClassName="h-[500px] w-full overflow-hidden flex justify-center items-center"
                 errorText="Failed to load works :("
               />
             }

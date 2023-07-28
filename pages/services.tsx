@@ -30,7 +30,7 @@ export default function Services() {
             loadingComponent={<HeroSkeleton />}
             errorComponent={
               <Error
-                errorContainerClassName="h-[70vh] bg-gray-200 w-full overflow-hidden flex justify-center items-center"
+                containerClassName="h-[70vh] bg-gray-200 w-full overflow-hidden flex justify-center items-center"
                 errorText="Failed to load image :("
               />
             }
@@ -55,7 +55,7 @@ export default function Services() {
             loadingComponent={<ServicesRowSkeleton />}
             errorComponent={
               <Error
-                errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
+                containerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
                 errorText="Failed to load services :("
               />
             }

@@ -12,7 +12,7 @@ export default function UpcomingEvents() {
       <FormSectionTitle title="Upcoming Events" />
       <RenderAppropriateComponent
         queryResult={upcomingEvents}
-        loaderContainerHeightWidth="h-[400px] w-full"
+        containerSize="h-[400px] w-full"
       >
         <UpcomingEventsForm upcomingEvents={upcomingEvents} />
       </RenderAppropriateComponent>
