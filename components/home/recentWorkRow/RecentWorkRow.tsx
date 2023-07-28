@@ -115,9 +115,9 @@ export default function RecentWorkRow(props: IWorkGalleryProps) {
       <div>
         <Slider {...settings}>
           {worksImages.map((item: string, index: number) => (
-            <div key={index} className="px-2">
+            <div key={index} className="px-2 h-[350px] overflow-hidden">
               <img
-                className="h-auto max-w-full rounded-lg border-2 border-black"
+                className="h-full w-full rounded-lg border-2 border-black object-cover"
                 src={item}
                 alt="interior image"
               />

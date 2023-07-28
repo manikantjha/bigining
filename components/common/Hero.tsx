@@ -14,7 +14,7 @@ interface IHero {
 
 export default function Hero(props: IHero) {
   return (
-    <div className="h-[70vh] w-full overflow-hidden relative block">
+    <div className="h-[75vh] w-full overflow-hidden relative block">
       {props.isVideo ? (
         <video
           autoPlay
@@ -26,6 +26,7 @@ export default function Hero(props: IHero) {
           src={props.imgSrc}
           alt={props.imgAlt}
           sizes="100vw"
+          className="object-center"
           style={{ objectFit: "cover", height: "100%", width: "100%" }}
         />
       )}
