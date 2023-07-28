@@ -63,7 +63,7 @@ export const lstAdminNavBarMenu = [
     path: "/admin/services",
   },
   {
-    id: 9,
+    id: 4,
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +84,7 @@ export const lstAdminNavBarMenu = [
     path: "/admin/companies",
   },
   {
-    id: 10,
+    id: 5,
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -105,7 +105,7 @@ export const lstAdminNavBarMenu = [
     path: "/admin/artists",
   },
   {
-    id: 4,
+    id: 6,
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +126,7 @@ export const lstAdminNavBarMenu = [
     path: "/admin/upcomingEvents",
   },
   {
-    id: 5,
+    id: 7,
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -143,32 +143,11 @@ export const lstAdminNavBarMenu = [
         />
       </svg>
     ),
-    name: "Work",
-    path: "/admin/work",
+    name: "Works",
+    path: "/admin/works",
   },
   {
-    id: 15,
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="w-6 h-6"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 01-1.125-1.125v-3.75zM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-8.25zM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-2.25z"
-        />
-      </svg>
-    ),
-    name: "Work New",
-    path: "/admin/workNew",
-  },
-  {
-    id: 6,
+    id: 8,
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -189,7 +168,7 @@ export const lstAdminNavBarMenu = [
     path: "/admin/foundersTeam",
   },
   {
-    id: 7,
+    id: 9,
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -210,7 +189,7 @@ export const lstAdminNavBarMenu = [
     path: "/admin/faqs",
   },
   {
-    id: 11,
+    id: 10,
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -231,7 +210,7 @@ export const lstAdminNavBarMenu = [
     path: "/admin/manageReviews",
   },
   {
-    id: 8,
+    id: 11,
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"

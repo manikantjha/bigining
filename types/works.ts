@@ -1,11 +1,26 @@
-export interface IWork {
+export interface IImageSize {
   _id?: string;
-  imageURL: string;
-  name: string;
-  description: string;
+  url: string;
+  width: number;
+  height: number;
+  path: string;
 }
 
-export interface IWorks {
-  _id?: string;
-  works: Array<IWork>;
+export interface IWorkImage {
+  original: IImageSize;
+  medium: IImageSize;
+  small: IImageSize;
+}
+
+export interface IWork {
+  _id: string;
+  name: string;
+  description: string;
+  images: IWorkImage[];
+}
+
+export interface IWorkForm {
+  name: string;
+  description: string;
+  images: IWorkImage[];
 }

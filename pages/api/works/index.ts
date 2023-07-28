@@ -1,4 +1,4 @@
-import { addUpdateWork, getWorks } from "@/controllers/worksControllers";
+import { addWork, getWorksPaginated } from "@/controllers/worksControllers";
 import connect from "@/database/connection";
 import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -13,10 +13,10 @@ export default async function handler(
 
   switch (req.method) {
     case "GET":
-      await getWorks(req, res);
+      await getWorksPaginated(req, res);
       break;
     case "POST":
-      await jwtMiddleware(req, res, addUpdateWork);
+      await jwtMiddleware(req, res, addWork);
       break;
     default:
       res.status(405).end(`Method ${req.method} not allowed!`);

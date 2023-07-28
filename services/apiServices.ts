@@ -10,8 +10,7 @@ import { IHero } from "@/types/hero";
 import { IServices } from "@/types/services";
 import { ITeamMembers } from "@/types/teamMembers";
 import { IUpcomingEvents } from "@/types/upcomingEvents";
-import { IWorks } from "@/types/works";
-import { IWorkFormDataNew, IWorkNew } from "@/types/worksNew";
+import { IWorkForm, IWork } from "@/types/works";
 import Router from "next/router";
 import { get, post, remove } from "./fetchServices";
 
@@ -157,15 +156,25 @@ export const addUpdateTeamMember = async (data: ITeamMembers) => {
 
 //  Works --------------------------------------------------!
 
-export const getWorks = async () => {
-  return await get(`${BASE_URL}/api/works`);
+export const getWorksPaginated = async (currentPage: number, limit: number) => {
+  return await get(`${BASE_URL}/api/works?page=${currentPage}&limit=${limit}`);
+};
+
+export const getWorksForGalleryPaginated = async (
+  currentPage: number,
+  limit: number
+) => {
+  return await get(
+    `${BASE_URL}/api/works/gallery?page=${currentPage}&limit=${limit}`
+  );
 };
 
 export const getWork = async (id: string) => {
+  if (!id || id === "add") return;
   return await get(`${BASE_URL}/api/works/${id}`);
 };
 
-export const addUpdateWork = async (data: IWorks) => {
+export const addWork = async (data: IWorkForm) => {
   const token = localStorage.getItem("token");
   try {
     return await post(`${BASE_URL}/api/works`, data, token);
@@ -174,50 +183,19 @@ export const addUpdateWork = async (data: IWorks) => {
   }
 };
 
-//  Works New --------------------------------------------------!
-
-export const getWorksNew = async (currentPage: number, limit: number) => {
-  return await get(
-    `${BASE_URL}/api/worksnew?page=${currentPage}&limit=${limit}`
-  );
-};
-
-export const getWorksForGalleryNew = async (
-  currentPage: number,
-  limit: number
-) => {
-  return await get(
-    `${BASE_URL}/api/worksnew/gallery?page=${currentPage}&limit=${limit}`
-  );
-};
-
-export const getWorkNew = async (id: string) => {
-  if (!id || id === "add") return;
-  return await get(`${BASE_URL}/api/worksnew/${id}`);
-};
-
-export const addWorkNew = async (data: IWorkFormDataNew) => {
+export const updateWork = async (data: IWork) => {
   const token = localStorage.getItem("token");
   try {
-    return await post(`${BASE_URL}/api/worksnew`, data, token);
+    return await post(`${BASE_URL}/api/works/${data._id}`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }
 };
 
-export const updateWorkNew = async (data: IWorkNew) => {
+export const deleteWork = async (data: IWork) => {
   const token = localStorage.getItem("token");
   try {
-    return await post(`${BASE_URL}/api/worksnew/${data._id}`, data, token);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
-};
-
-export const deleteWorkNew = async (data: IWorkNew) => {
-  const token = localStorage.getItem("token");
-  try {
-    return await remove(`${BASE_URL}/api/worksnew/${data._id}`, data, token);
+    return await remove(`${BASE_URL}/api/works/${data._id}`, data, token);
   } catch (error) {
     console.log("Error: ", error);
   }

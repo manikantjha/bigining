@@ -1,4 +1,4 @@
-import { getPaginatedWorksForGallery } from "@/controllers/worksControllersNew";
+import { getWorksForGalleryPaginated } from "@/controllers/worksControllers";
 import connect from "@/database/connection";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -12,7 +12,7 @@ export default async function handler(
 
   switch (req.method) {
     case "GET":
-      await getPaginatedWorksForGallery(req, res);
+      await getWorksForGalleryPaginated(req, res);
       break;
     default:
       res.status(405).end(`Method ${req.method} not allowed!`);

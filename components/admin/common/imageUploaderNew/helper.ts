@@ -1,8 +1,8 @@
-import { WorkImage } from "@/types/worksNew";
+import { IWorkImage } from "@/types/works";
 import { useState } from "react";
 
 export function useFileSelection() {
-  const [objImages, setObjImages] = useState<WorkImage | null>();
+  const [objImages, setObjImages] = useState<IWorkImage | null>();
 
   async function selectFile(
     files: FileList | null,
@@ -27,7 +27,7 @@ export const convertToWebp = async (
   fileName?: string,
   folderName?: string
 ) => {
-  return new Promise<WorkImage>((resolve) => {
+  return new Promise<IWorkImage>((resolve) => {
     const reader = new FileReader();
 
     reader.onload = () => {

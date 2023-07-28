@@ -1,6 +1,6 @@
 import Users from "@/models/users";
 import { auth } from "@/services/firebaseServices";
-import { getEnvVariable } from "@/utils/helpers";
+import { getEnvVariable } from "@/utils/server";
 import { signJWT } from "@/utils/token";
 import {
   createUserWithEmailAndPassword,

@@ -1,5 +1,11 @@
-import { getWork } from "@/controllers/worksControllers";
+import {
+  deleteWork,
+  getWork,
+  updateWork,
+} from "@/controllers/worksControllers";
 import connect from "@/database/connection";
+import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
+import { app } from "firebase-admin";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -13,6 +19,12 @@ export default async function handler(
   switch (req.method) {
     case "GET":
       await getWork(req, res);
+      break;
+    case "POST":
+      await jwtMiddleware(req, res, updateWork);
+      break;
+    case "DELETE":
+      await jwtMiddleware(req, res, deleteWork);
       break;
     default:
       res.status(405).end(`Method ${req.method} not allowed!`);

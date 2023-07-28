@@ -1,5 +1,5 @@
 import { initFirebaseAdminApp } from "@/services/firebaseAdminServices";
-import { getEnvVariable } from "@/utils/helpers";
+import { getEnvVariable } from "@/utils/server";
 import admin from "firebase-admin";
 import mongoose from "mongoose";
 

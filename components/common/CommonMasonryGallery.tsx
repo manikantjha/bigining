@@ -1,14 +1,14 @@
-import { ImageWithId } from "@/types/worksNew";
+import { IImageSize } from "@/types/works";
 import { CSSProperties } from "react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 interface ICommonMasonryGalleryProps {
-  images: ImageWithId[];
+  images: IImageSize[];
   containerClassName?: string;
   imageContainerClassName?: string;
-  imageContainerStyle?: (image: ImageWithId) => CSSProperties;
+  imageContainerStyle?: (image: IImageSize) => CSSProperties;
   imageClassName?: string;
-  onImageClick?: (image: ImageWithId, index: number) => void;
+  onImageClick?: (image: IImageSize, index: number) => void;
   columnsCountBreakPoints?: {
     [key: number]: number;
   };
@@ -29,7 +29,7 @@ const CommonMasonryGallery = ({
     <div className={`${containerClassName}`}>
       <ResponsiveMasonry columnsCountBreakPoints={columnsCountBreakPoints}>
         <Masonry>
-          {images.map((image: ImageWithId, index: number) => (
+          {images.map((image: IImageSize, index: number) => (
             <div key={index}>
               <div
                 style={imageContainerStyle(image)}

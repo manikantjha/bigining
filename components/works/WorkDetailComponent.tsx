@@ -1,14 +1,16 @@
-import { IWorkNew, ImageSize } from "@/types/worksNew";
+import { IImageSize, IWork } from "@/types/works";
 import { useCallback, useState } from "react";
 import { UseQueryResult } from "react-query";
 import ImageViewer from "react-simple-image-viewer";
 import CommonMasonryGallery from "../common/CommonMasonryGallery";
 
-interface IWorkDetailNewProps {
+interface IWorkDetailComponentProps {
   work: UseQueryResult<any, unknown>;
 }
 
-export default function WorkDetailNew({ work }: IWorkDetailNewProps) {
+export default function WorkDetailComponent({
+  work,
+}: IWorkDetailComponentProps) {
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
 
@@ -24,13 +26,13 @@ export default function WorkDetailNew({ work }: IWorkDetailNewProps) {
     setIsViewerOpen(false);
   };
 
-  const data: IWorkNew = work.data.data;
+  const data: IWork = work.data;
 
-  const worksImagesLarge: ImageSize[] = data.images.map(
+  const worksImagesLarge: IImageSize[] = data.images.map(
     (image) => image.original
   );
 
-  const worksImagesMedium: ImageSize[] = data.images.map(
+  const worksImagesMedium: IImageSize[] = data.images.map(
     (image) => image.medium
   );
 

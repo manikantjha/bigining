@@ -3,22 +3,23 @@ import Error from "@/components/common/Error";
 import Pagination from "@/components/common/Pagination";
 import RowWrapper from "@/components/common/RowWrapper";
 import WorkSkeleton from "@/components/skeletons/WorkSkeleton";
-import WorkGalleryNew from "@/components/work/WorkGalleryNew";
+import WorksGallery from "@/components/works/WorksGallery";
 import Layout from "@/layout/Layout";
-import { getWorksForGalleryNew } from "@/services/apiServices";
+import { getWorksForGalleryPaginated } from "@/services/apiServices";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function WorkNew() {
+export default function Works() {
   const limit = 10;
   const router = useRouter();
   const { page } = router.query;
   const works = useQuery(
     ["paginatedWorksForGallery", page ? parseInt(page as string) || 1 : 1],
     () => {
-      if (!parseInt(page as string)) return getWorksForGalleryNew(1, limit);
-      return getWorksForGalleryNew(parseInt(page as string), limit);
+      if (!parseInt(page as string))
+        return getWorksForGalleryPaginated(1, limit);
+      return getWorksForGalleryPaginated(parseInt(page as string), limit);
     }
   );
 
@@ -46,13 +47,13 @@ export default function WorkNew() {
               containerWrapperClassName="min-h-[calc(100vh-76px)] bg-bgLight"
               title="Recent Work"
             >
-              <WorkGalleryNew works={works} />
+              <WorksGallery works={works} />
               <Pagination
                 currentPage={works.data?.currentPage}
                 totalWorks={works.data?.totalWorks}
                 worksPerPage={limit}
                 containerClassName="mt-[80px]"
-                baseHref="/worknew"
+                baseHref="/works"
               />
             </RowWrapper>
           </RenderAppropriateComponent>

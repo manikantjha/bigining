@@ -1,4 +1,4 @@
-import { getEnvVariable } from "./helpers";
+import { getEnvVariable } from "./server";
 import { SignOptions, sign, verify } from "jsonwebtoken";
 
 export const signJWT = async (

@@ -1,18 +1,18 @@
 import FormSectionTitle from "@/components/admin/common/FormSectionTitle";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
-import WorkFormNew from "@/components/admin/workNew/WorkFormNew";
+import WorkForm from "@/components/admin/works/WorkForm";
 import AdminLayout from "@/layout/admin/AdminLayout";
-import { getWorkNew } from "@/services/apiServices";
+import { getWork } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function WorkFormPageNew() {
+export default function WorkFormPage() {
   const router = useRouter();
   const { id } = router.query;
 
   const caseOfAdd = id === "add" ? true : false;
 
-  const work = useQuery(["workNew", id], () => getWorkNew(id as string));
+  const work = useQuery(["work", id], () => getWork(id as string));
 
   return (
     <AdminLayout>
@@ -24,7 +24,7 @@ export default function WorkFormPageNew() {
         queryResult={work}
         containerSize="h-[400px] w-full"
       >
-        <WorkFormNew work={work} />
+        <WorkForm work={work} />
       </RenderAppropriateComponent>
     </AdminLayout>
   );

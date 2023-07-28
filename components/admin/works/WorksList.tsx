@@ -1,27 +1,23 @@
 import ConfirmDeleteModal from "@/components/common/ConfirmDeleteModal";
-import { deleteWorkNew } from "@/services/apiServices";
-import { IWorkNew } from "@/types/worksNew";
+import { deleteWork } from "@/services/apiServices";
+import { IWork } from "@/types/works";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { UseQueryResult, useMutation } from "react-query";
 import CommonButton from "../common/CommonButton";
+import { truncateText } from "@/utils/helpers";
 
-const truncateDescription = (description: string, maxLength: number) => {
-  if (description.length <= maxLength) return description;
-  return description.slice(0, maxLength) + "...";
-};
-
-interface IWorksListNewProps {
+interface IWorksListProps {
   works: UseQueryResult<any, unknown>;
 }
 
-const WorksListNew = (props: IWorksListNewProps) => {
+const WorksList = (props: IWorksListProps) => {
   const router = useRouter();
-  const deleteWorkMutation = useMutation("deleteWork", (data: IWorkNew) =>
-    deleteWorkNew(data)
+  const deleteWorkMutation = useMutation("deleteWork", (data: IWork) =>
+    deleteWork(data)
   );
   const [isOpen, setIsOpen] = useState(false);
-  const [work, setWork] = useState<IWorkNew | null>(null);
+  const [work, setWork] = useState<IWork | null>(null);
 
   if (!props.works?.data?.works) {
     return null;
@@ -46,7 +42,7 @@ const WorksListNew = (props: IWorksListNewProps) => {
   return (
     <div>
       <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {data?.map((work: IWorkNew) => (
+        {data?.map((work: IWork) => (
           <div
             key={work._id}
             className="border p-4 rounded-lg grid grid-rows-[auto_auto_auto] gap-4"
@@ -54,19 +50,21 @@ const WorksListNew = (props: IWorksListNewProps) => {
             <div>
               <h3 className="text-lg font-semibold">{work.name}</h3>
               <p className="text-gray-500">
-                {truncateDescription(work.description, 120)}
+                {truncateText(work.description, 120)}
               </p>
             </div>
             <div className="h-[200px] overflow-hidden border-2 border-dashed rounded-md bg-gray-50">
               <img
-                src={work.images[0].medium.url}
+                src={
+                  work?.images && work.images[0] && work.images[0].medium?.url
+                }
                 alt={work.name}
                 className="w-full h-full rounded object-cover"
               />
             </div>
             <div className="flex space-x-2 mt-2">
               <CommonButton
-                onClick={() => router.push(`workNew/${work._id}`)}
+                onClick={() => router.push(`works/${work._id}`)}
                 color="primary"
                 variant="outlined"
                 className="w-fit h-fit"
@@ -125,7 +123,7 @@ const WorksListNew = (props: IWorksListNewProps) => {
         >
           <div className="flex flex-col justify-center items-center space-y-4">
             <CommonButton
-              onClick={() => router.push(`workNew/add`)}
+              onClick={() => router.push(`works/add`)}
               variant="filled"
               className="w-fit"
               color="accent"
@@ -159,4 +157,4 @@ const WorksListNew = (props: IWorksListNewProps) => {
   );
 };
 
-export default WorksListNew;
+export default WorksList;

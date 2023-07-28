@@ -1,15 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-import { IWorkNew, ImageWithId } from "@/types/worksNew";
+import { IImageSize, IWork } from "@/types/works";
 import { useRouter } from "next/router";
 import { UseQueryResult } from "react-query";
-import NoData from "../common/NoData";
 import CommonMasonryGallery from "../common/CommonMasonryGallery";
+import NoData from "../common/NoData";
 
-interface IWorkGalleryProps {
+interface IWorksGalleryProps {
   works?: UseQueryResult<any, unknown>;
 }
 
-export default function WorkGalleryNew(props: IWorkGalleryProps) {
+export default function WorksGallery(props: IWorksGalleryProps) {
   const router = useRouter();
 
   if (
@@ -21,14 +21,14 @@ export default function WorkGalleryNew(props: IWorkGalleryProps) {
     return <NoData />;
   }
 
-  const works: IWorkNew[] = props.works.data.works;
+  const works: IWork[] = props.works.data.works;
 
-  const worksImagesLarge: ImageWithId[] = works.map((work) => ({
+  const worksImagesLarge: IImageSize[] = works.map((work) => ({
     ...work.images[0].original,
     _id: work._id,
   }));
 
-  const worksImagesMedium: ImageWithId[] = works.map((work) => ({
+  const worksImagesMedium: IImageSize[] = works.map((work) => ({
     ...work.images[0].medium,
     _id: work._id,
   }));
@@ -41,7 +41,7 @@ export default function WorkGalleryNew(props: IWorkGalleryProps) {
         images={worksImagesMedium}
         onImageClick={(image) => {
           if (image._id) {
-            router.push(`/worknew/${image._id}`);
+            router.push(`/works/${image._id}`);
           }
         }}
       />
@@ -51,7 +51,7 @@ export default function WorkGalleryNew(props: IWorkGalleryProps) {
         images={worksImagesLarge}
         onImageClick={(image) => {
           if (image._id) {
-            router.push(`/worknew/${image._id}`);
+            router.push(`/works/${image._id}`);
           }
         }}
       />

@@ -1,5 +1,5 @@
-import { addWorkNew, updateWorkNew } from "@/services/apiServices";
-import { WorkImage } from "@/types/worksNew";
+import { addWork, updateWork } from "@/services/apiServices";
+import { IWorkImage } from "@/types/works";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
@@ -42,11 +42,11 @@ const schema = yup.object().shape({
 
 type IForm = yup.InferType<typeof schema>;
 
-interface IWorkFormNewProps {
+interface IWorkFormProps {
   work: UseQueryResult<any, unknown>;
 }
 
-const WorkFormNew = (props: IWorkFormNewProps) => {
+const WorkForm = (props: IWorkFormProps) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -62,8 +62,10 @@ const WorkFormNew = (props: IWorkFormNewProps) => {
     getFieldState,
   } = useForm<IForm>({
     resolver: yupResolver(schema),
-    defaultValues: props.work?.data?.data ? { ...props.work?.data?.data } : {},
+    defaultValues: props.work?.data ? { ...props.work?.data } : {},
   });
+
+  const objWork = caseOfAdd ? {} : props.work?.data;
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -74,8 +76,8 @@ const WorkFormNew = (props: IWorkFormNewProps) => {
 
   const addWorkMutation = useMutation(
     "addWork",
-    (data: { name: string; description: string; images: WorkImage[] }) =>
-      addWorkNew(data)
+    (data: { name: string; description: string; images: IWorkImage[] }) =>
+      addWork(data)
   );
 
   const updateWorkMutation = useMutation(
@@ -84,23 +86,28 @@ const WorkFormNew = (props: IWorkFormNewProps) => {
       _id: string;
       name: string;
       description: string;
-      images: WorkImage[];
-    }) => updateWorkNew(data)
+      images: IWorkImage[];
+    }) => updateWork(data)
   );
 
   const onSubmit = async (data: IForm) => {
     try {
-      if (props.work?.data?.data?._id) {
+      if (objWork?._id) {
         updateWorkMutation.mutate(
           {
             ...data,
-            _id: props.work?.data?.data?._id,
+            _id: objWork._id,
           },
-          { onSuccess: () => router.replace("/admin/workNew") }
+          {
+            onSuccess: () => {
+              props.work.refetch();
+              router.replace("/admin/works");
+            },
+          }
         );
       } else {
         addWorkMutation.mutate(data, {
-          onSuccess: () => router.replace("/admin/workNew"),
+          onSuccess: () => router.replace("/admin/works"),
         });
       }
     } catch (error) {
@@ -222,4 +229,4 @@ const WorkFormNew = (props: IWorkFormNewProps) => {
   );
 };
 
-export default WorkFormNew;
+export default WorkForm;

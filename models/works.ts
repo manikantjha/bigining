@@ -1,16 +1,32 @@
-import { Schema, model, models } from "mongoose";
+import { IImageSize, IWorkImage } from "@/types/works";
+import mongoose, { Document, Schema } from "mongoose";
 
-const workSchema = new Schema(
-  {
-    imageURL: { type: String, required: true },
-    name: { type: String },
-    description: String,
-  },
-  { timestamps: true }
-);
+export interface IWorkDocument extends Document {
+  name: string;
+  description: string;
+  images: IWorkImage[];
+}
 
-const worksSchema = new Schema({ works: [workSchema] });
+const ImageSizeSchema = new Schema<IImageSize>({
+  url: { type: String, required: true },
+  path: { type: String, required: true },
+  width: { type: Number, required: true },
+  height: { type: Number, required: true },
+});
 
-const Works = models.works || model("works", worksSchema);
+const WorkImageSchema = new Schema<IWorkImage>({
+  original: { type: ImageSizeSchema, required: true },
+  medium: { type: ImageSizeSchema, required: true },
+  small: { type: ImageSizeSchema, required: true },
+});
 
-export default Works;
+const WorkSchema = new Schema<IWorkDocument>({
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  images: { type: [WorkImageSchema], required: true },
+});
+
+const Work =
+  mongoose.models.works || mongoose.model<IWorkDocument>("works", WorkSchema);
+
+export default Work;

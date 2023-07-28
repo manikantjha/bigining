@@ -1,4 +1,4 @@
-import { WorkImage } from "@/types/worksNew";
+import { IWorkImage } from "@/types/works";
 import { ChangeEvent } from "react";
 import { UseFieldArrayRemove } from "react-hook-form";
 import CommonButton from "../CommonButton";
@@ -6,19 +6,19 @@ import BlankInput from "./BlankInput";
 import ImageDisplay from "./ImageDisplay";
 import { useFileSelection } from "./helper";
 
-interface IImageUploader {
+interface IImageUploaderNew {
   id: string;
   label: string;
-  onChange: (event: WorkImage | ChangeEvent) => void;
+  onChange: (event: IWorkImage | ChangeEvent) => void;
   inputContainerClassName?: string;
-  image?: WorkImage;
+  image?: IWorkImage;
   index?: number;
   onRemove?: UseFieldArrayRemove;
   fileName?: string;
   folderName?: string;
 }
 
-export default function ImageUploaderNew(props: IImageUploader) {
+export default function ImageUploaderNew(props: IImageUploaderNew) {
   const { objImages, setObjImages, selectFile } = useFileSelection();
 
   return (
@@ -61,9 +61,9 @@ export default function ImageUploaderNew(props: IImageUploader) {
             />
           )}
           <label htmlFor={props.id}>
-            {props.image?.medium.url || objImages?.medium.url ? (
+            {objImages?.medium.url || props.image?.medium.url ? (
               <ImageDisplay
-                imgSrc={props.image?.medium.url || objImages?.medium.url || ""}
+                imgSrc={objImages?.medium.url || props.image?.medium.url || ""}
                 imgAlt="Selected image"
               />
             ) : (

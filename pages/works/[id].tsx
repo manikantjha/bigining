@@ -1,10 +1,10 @@
 import CommonButton from "@/components/admin/common/CommonButton";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
 import Error from "@/components/common/Error";
+import WorkDetailComponent from "@/components/works/WorkDetailComponent";
 import RowWrapper from "@/components/common/RowWrapper";
-import WorkDetailNew from "@/components/work/WorkDetailNew";
 import Layout from "@/layout/Layout";
-import { getWorkNew } from "@/services/apiServices";
+import { getWork } from "@/services/apiServices";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
@@ -13,7 +13,7 @@ export default function WorkDetail() {
   const router = useRouter();
   const { id } = router.query;
   const work = useQuery(["workDetail"], () => {
-    return getWorkNew(id as string);
+    return getWork(id as string);
   });
   return (
     <>
@@ -65,7 +65,7 @@ export default function WorkDetail() {
                   Go Back
                 </CommonButton>
               </div>
-              <WorkDetailNew work={work} />
+              <WorkDetailComponent work={work} />
             </RowWrapper>
           </RenderAppropriateComponent>
         </main>
