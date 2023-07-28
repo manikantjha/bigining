@@ -2,7 +2,7 @@ import React from "react";
 
 export default function HeroSkeleton() {
   return (
-    <div className="h-[70vh] w-full overflow-hidden relative block">
+    <div className="h-[75vh] w-full overflow-hidden relative block">
       <div className="flex items-center justify-center w-full h-full bg-gray-300 animate-pulse">
         <svg
           className="w-16 h-16 lg:w-20 lg:h-20 text-gray-200"
