@@ -10,7 +10,7 @@ import { IHero } from "@/types/hero";
 import { IServices } from "@/types/services";
 import { ITeamMembers } from "@/types/teamMembers";
 import { IUpcomingEvents } from "@/types/upcomingEvents";
-import { IWork, IWorkForm } from "@/types/works";
+import { IWork } from "@/types/works";
 import Router from "next/router";
 import { get, post, remove } from "./fetchServices";
 
@@ -174,7 +174,7 @@ export const getWork = async (id: string) => {
   return await get(`${BASE_URL}/api/works/${id}`);
 };
 
-export const addWork = async (data: IWorkForm) => {
+export const addWork = async (data: IWork) => {
   const token = localStorage.getItem("token");
   try {
     return await post(`${BASE_URL}/api/works`, data, token);

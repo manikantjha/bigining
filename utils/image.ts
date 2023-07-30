@@ -1,7 +1,7 @@
 import { IImage } from "@/types/images";
 import { useState } from "react";
 
-export function useFileSelection() {
+export function useImageSelection() {
   const [objImages, setObjImages] = useState<IImage | null>();
 
   async function selectFile(
@@ -37,11 +37,11 @@ export const convertToWebp = async (
         const originalWidth = img.width;
         const originalHeight = img.height;
 
-        const maxMediumWidth = 300;
-        const maxMediumHeight = 200;
+        const maxMediumWidth = 480;
+        const maxMediumHeight = 480;
 
-        const maxSmallWidth = 150;
-        const maxSmallHeight = 100;
+        const maxSmallWidth = 240;
+        const maxSmallHeight = 240;
 
         let mediumWidth, mediumHeight, smallWidth, smallHeight;
 

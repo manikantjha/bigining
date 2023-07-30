@@ -2,7 +2,7 @@ import ConfirmDeleteModal from "@/components/common/ConfirmDeleteModal";
 import { GetIcon } from "@/components/common/icons/icons";
 import { deleteArtist } from "@/services/apiServices";
 import { IArtist } from "@/types/artists";
-import { truncateText } from "@/utils/helpers";
+import { truncateText } from "@/utils/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { UseQueryResult, useMutation } from "react-query";
@@ -14,7 +14,6 @@ interface IArtistsListProps {
 }
 
 export default function ArtistsList(props: IArtistsListProps) {
-  console.log("artists", props.artists);
   const router = useRouter();
   const deleteArtsitMutation = useMutation("deleteArtist", (data: IArtist) =>
     deleteArtist(data)

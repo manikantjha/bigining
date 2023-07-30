@@ -28,8 +28,6 @@ export default function ArtistsRow(props: IArtistsRowProps) {
     (item: IArtist) => item.category === "singer"
   );
 
-  console.log("singers", singers);
-
   return (
     <RowWrapper
       title="Artists We Have Worked With"

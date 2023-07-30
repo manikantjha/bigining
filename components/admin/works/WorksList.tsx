@@ -2,7 +2,7 @@ import ConfirmDeleteModal from "@/components/common/ConfirmDeleteModal";
 import { GetIcon } from "@/components/common/icons/icons";
 import { deleteWork } from "@/services/apiServices";
 import { IWork } from "@/types/works";
-import { truncateText } from "@/utils/helpers";
+import { truncateText } from "@/utils/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { UseQueryResult, useMutation } from "react-query";

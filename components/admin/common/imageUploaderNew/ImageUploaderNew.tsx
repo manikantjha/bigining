@@ -1,11 +1,11 @@
+import { GetIcon } from "@/components/common/icons/icons";
 import { IImage } from "@/types/images";
+import { useImageSelection } from "@/utils/image";
 import { ChangeEvent } from "react";
 import { UseFieldArrayRemove } from "react-hook-form";
 import CommonButton from "../CommonButton";
 import BlankInput from "./BlankInput";
 import ImageDisplay from "./ImageDisplay";
-import { useFileSelection } from "./helper";
-import { GetIcon } from "@/components/common/icons/icons";
 
 interface IImageUploaderNew {
   id: string;
@@ -32,7 +32,7 @@ export default function ImageUploaderNew({
   fileName = "",
   folderName = "",
 }: IImageUploaderNew) {
-  const { objImages, setObjImages, selectFile } = useFileSelection();
+  const { objImages, setObjImages, selectFile } = useImageSelection();
 
   return (
     <div

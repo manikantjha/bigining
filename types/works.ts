@@ -6,9 +6,3 @@ export interface IWork {
   description: string;
   images: IImage[];
 }
-
-export interface IWorkForm {
-  name: string;
-  description: string;
-  images: IImage[];
-}
