@@ -3,11 +3,12 @@ import ArtistsRow from "@/components/artists/ArtistsRow";
 import Error from "@/components/common/Error";
 import OurTeamRowSkeleton from "@/components/skeletons/OurTeamRowSkeleton";
 import Layout from "@/layout/Layout";
-import { getArtists } from "@/services/apiServices";
+import { getArtistsPaginated } from "@/services/apiServices";
+
 import { useQuery } from "react-query";
 
 export default function Artists() {
-  const artists = useQuery("artists", () => getArtists());
+  const artists = useQuery("artists", () => getArtistsPaginated(1, 10));
   return (
     <Layout>
       <RenderAppropriateComponent

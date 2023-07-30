@@ -2,20 +2,29 @@ import ArtistsForm from "@/components/admin/artists/ArtistsForm";
 import FormSectionTitle from "@/components/admin/common/FormSectionTitle";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
 import AdminLayout from "@/layout/admin/AdminLayout";
-import { getArtists } from "@/services/apiServices";
+import { getArtist } from "@/services/apiServices";
+import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function Artists() {
-  const artists = useQuery("artists", () => getArtists());
+export default function ArtistFormPage() {
+  const router = useRouter();
+  const { id } = router.query;
+
+  const caseOfAdd = id === "add" ? true : false;
+
+  const artist = useQuery(["artist", id], () => getArtist(id as string));
 
   return (
     <AdminLayout>
-      <FormSectionTitle title="Artists" />
+      <FormSectionTitle
+        title={caseOfAdd ? "Add Artist" : "Edit Artist"}
+        hasBackButton
+      />
       <RenderAppropriateComponent
-        queryResult={artists}
+        queryResult={artist}
         containerSize="h-[400px] w-full"
       >
-        <ArtistsForm artists={artists} />
+        <ArtistsForm artist={artist} />
       </RenderAppropriateComponent>
     </AdminLayout>
   );

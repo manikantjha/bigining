@@ -1,12 +1,10 @@
+import { IImage } from "./images";
+
 export interface IArtist {
   _id?: string;
-  imageURL: string;
   name: string;
-  category: string;
   description?: string;
-}
-
-export interface IArtists {
-  _id?: string;
-  artists: Array<IArtist>;
+  category: string;
+  numberOfEvents?: number | null;
+  image: IImage;
 }

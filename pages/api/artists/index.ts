@@ -1,4 +1,7 @@
-import { addUpdateArtist, getArtists } from "@/controllers/artistsControllers";
+import {
+  addArtist,
+  getArtistsPaginated,
+} from "@/controllers/artistsControllers";
 import connect from "@/database/connection";
 import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -13,10 +16,10 @@ export default async function handler(
 
   switch (req.method) {
     case "GET":
-      await getArtists(req, res);
+      await getArtistsPaginated(req, res);
       break;
     case "POST":
-      await jwtMiddleware(req, res, addUpdateArtist);
+      await jwtMiddleware(req, res, addArtist);
       break;
     default:
       res.status(405).end(`Method ${req.method} not allowed!`);

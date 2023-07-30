@@ -1,11 +1,10 @@
 import {
   deleteWork,
-  getWork,
+  getWorkById,
   updateWork,
 } from "@/controllers/worksControllers";
 import connect from "@/database/connection";
 import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
-import { app } from "firebase-admin";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -18,7 +17,7 @@ export default async function handler(
 
   switch (req.method) {
     case "GET":
-      await getWork(req, res);
+      await getWorkById(req, res);
       break;
     case "POST":
       await jwtMiddleware(req, res, updateWork);

@@ -1,14 +1,9 @@
-import React from "react";
-import Card from "../common/Card";
+import { IArtist } from "@/types/artists";
 import { IRowTheme } from "@/types/row";
+import Card from "../common/Card";
 
 interface IArtistCard extends IRowTheme {
-  objArtist: {
-    imageURL: string;
-    name: string;
-    description: string;
-    numberOfEvents?: number;
-  };
+  objArtist: IArtist;
 }
 
 export default function ArtistCard(props: IArtistCard) {
@@ -16,7 +11,7 @@ export default function ArtistCard(props: IArtistCard) {
     <Card theme={props.theme} className="flex flex-col items-center p-8">
       <div className="w-[125px] h-[125px] md:w-[150px] md:h-[150px] overflow-hidden rounded-full border border-black">
         <img
-          src={props.objArtist.imageURL}
+          src={props.objArtist.image.medium.url}
           alt={props.objArtist.name}
           className="h-full w-full object-cover object-top"
         />

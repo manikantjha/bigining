@@ -1,284 +1,201 @@
-import { addUpdateArtist } from "@/services/apiServices";
-import { storage } from "@/services/firebaseServices";
-import { IArtists } from "@/types/artists";
+import { GetIcon } from "@/components/common/icons/icons";
+import { artistSchema } from "@/schemas/artistSchema";
+import { addArtist, updateArtist } from "@/services/apiServices";
+import { IArtist } from "@/types/artists";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { deleteObject, ref } from "firebase/storage";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { Controller, useForm } from "react-hook-form";
 import { UseQueryResult, useMutation } from "react-query";
-import { ToastOptions, toast } from "react-toastify";
 import * as yup from "yup";
-import AddMoreButton from "../common/AddMoreButton";
+import CommonButton from "../common/CommonButton";
 import FormSectionContainer from "../common/FormSectionContainer";
-import ImageUploader from "../common/ImageUploader";
-import SubmitButton from "../common/SubmitButton";
-import Toast from "../common/Toast";
+import ImageUploaderNew from "../common/imageUploaderNew/ImageUploaderNew";
+
+type TForm = yup.InferType<typeof artistSchema>;
 
 interface IArtistsFormProps {
-  artists?: UseQueryResult<any, unknown>;
+  artist?: UseQueryResult<any, unknown>;
 }
 
-const schema = yup.object({
-  artists: yup
-    .array()
-    .of(
-      yup.object({
-        imageURL: yup.string().required("Artist image is required!"),
-        name: yup.string().required("Artist name is required!"),
-        description: yup.string(),
-        category: yup.string().required("Category is required!"),
-        numberOfEvents: yup
-          .number()
-          .transform((value) => (Number.isNaN(value) ? null : value))
-          .nullable(),
-      })
-    )
-    .required(),
-});
-
-type TArtistsForm = yup.InferType<typeof schema>;
-
 export default function ArtistsForm(props: IArtistsFormProps) {
+  const router = useRouter();
+  const { id } = router.query;
+  const caseOfAdd = id === "add" ? true : false;
+  const objArtist = caseOfAdd ? {} : props.artist?.data;
+
+  const defaultValues = props.artist?.data
+    ? props.artist?.data
+    : {
+        name: "",
+        description: "",
+        category: "celebrity",
+        numberOfEvents: "",
+        image: {},
+      };
+
   const {
     register,
-    control,
     handleSubmit,
-    formState: { errors },
-  } = useForm<TArtistsForm>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      artists: props.artists?.data
-        ? props.artists?.data?.artists[0]?.artists
-        : [
-            {
-              imageURL: "",
-              name: "",
-              description: "",
-              category: "Celebrity",
-            },
-          ],
-    },
-  });
-
-  const { fields, append, remove } = useFieldArray({
     control,
-    name: "artists",
+    formState: { errors },
+    getValues,
+  } = useForm<TForm>({
+    resolver: yupResolver<TForm>(artistSchema),
+    defaultValues,
   });
 
-  const addUpdateArtistMutation = useMutation(addUpdateArtist, {
-    onSuccess: () => {},
-  });
+  const addArtistMutation = useMutation("addArtist", addArtist);
+  const updateArtistMutation = useMutation("updateArtist", updateArtist);
 
-  function deleteFile(index: number) {
-    if (
-      !(
-        props.artists?.data?.artists &&
-        props.artists?.data?.artists[0]?.artists[index]?.imageURL
-      )
-    ) {
-      return;
-    }
-    const imageRef = ref(
-      storage,
-      (props.artists?.data?.artists &&
-        props.artists?.data?.artists[0]?.artists[index]?.imageURL) ||
-        ""
-    );
-
-    deleteObject(imageRef)
-      .then(() => {
-        console.log("Deleted successfuly!");
-        notify("Image removed", { type: "success" });
-      })
-      .catch((error) => {
-        console.log("Error: ", error);
-      });
-  }
-
-  const notify = (text: string, options: ToastOptions) => toast(text, options);
-
-  function onSubmit(data: IArtists) {
-    const _id = props.artists?.data?.artists
-      ? props.artists?.data?.artists[0]?._id
-      : "";
-    addUpdateArtistMutation.mutate(
-      {
-        ...data,
-        _id,
-      },
-      {
-        onSuccess: () => {
-          notify("Submitted succesfully!", { type: "success" });
-        },
-        onError: () => {
-          notify("Failed to submit!", { type: "error" });
-        },
+  function onSubmit(data: IArtist) {
+    try {
+      if (objArtist._id) {
+        updateArtistMutation.mutate(
+          { ...data, _id: objArtist._id },
+          {
+            onSuccess: () => {
+              props.artist?.refetch();
+              router.replace("/admin/artists");
+            },
+          }
+        );
+      } else {
+        addArtistMutation.mutate(data, {
+          onSuccess: () => {
+            router.replace("/admin/artists");
+          },
+        });
       }
-    );
+    } catch (error) {
+      console.log("Error submitting form: ", error);
+    }
   }
+
   return (
-    <>
+    <FormSectionContainer>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormSectionContainer>
-          <div className="grid gap-6 mb-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {fields.map((item, index) => (
-              <div key={item.id}>
-                <FormSectionContainer>
-                  <div className="w-full flex justify-end">
-                    <button
-                      type="button"
-                      className="bg-accentDark text-white border hover:bg-orange-800 active:bg-orange-800 p-1 font-semibold rounded-full flex"
-                      onClick={() => {
-                        deleteFile(index);
-                        remove(index);
-                        const temp = fields.filter((artist, i) => i !== index);
-                        onSubmit({ artists: temp });
-                      }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-5 h-5"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  <div className="mb-4">
-                    <Controller
-                      control={control}
-                      name={`artists.${index}.imageURL`}
-                      render={({ field: { onChange, onBlur, value, ref } }) => (
-                        <ImageUploader
-                          label="Artist Image"
-                          onChange={onChange}
-                          index={index}
-                          id={`artists.${index}.imageURL`}
-                          imageURL={fields[index]?.imageURL || ""}
-                        />
-                      )}
-                    />
-                    {errors.artists &&
-                      (errors as any).artists[index]?.imageURL && (
-                        <p className="text-red-700 text-sm">
-                          * {(errors as any).artists[index]?.imageURL?.message}
-                        </p>
-                      )}
-                  </div>
-                  <div>
-                    <div>
-                      <p className="block mb-2 text-sm font-medium text-gray-900">
-                        Artist Name
-                      </p>
-                      <input
-                        type="text"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-                        placeholder="Artist Name"
-                        {...register(`artists.${index}.name`)}
-                      />
-                      {errors.artists &&
-                        (errors as any).artists[index]?.name && (
-                          <p className="text-red-700 text-sm">
-                            * {(errors as any).artists[index]?.name?.message}
-                          </p>
-                        )}
-                    </div>
-                  </div>
-
-                  <div className="mt-2">
-                    <p className="block mb-2 text-sm font-medium text-gray-900">
-                      Artist Description
-                    </p>
-                    <input
-                      type="text"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-                      placeholder="Artist Description"
-                      {...register(`artists.${index}.description`)}
-                    />
-                    {errors.artists &&
-                      (errors as any).artists[index]?.description && (
-                        <p className="text-red-700 text-sm">
-                          *{" "}
-                          {(errors as any).artists[index]?.description?.message}
-                        </p>
-                      )}
-                  </div>
-                  <div className="mt-2">
-                    <p className="block mb-2 text-sm font-medium text-gray-900">
-                      Category
-                    </p>
-                    <Controller
-                      control={control}
-                      name={`artists.${index}.category`}
-                      render={({ field: { onChange, onBlur, value, ref } }) => (
-                        <select
-                          id="countries"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-                          onChange={onChange}
-                          value={value}
-                        >
-                          <option selected>Choose a category</option>
-                          <option value="Celebrity">Celebrity</option>
-                          <option value="Singer">Singer</option>
-                        </select>
-                      )}
-                    />
-                    {errors.artists &&
-                      (errors as any).artists[index]?.category && (
-                        <p className="text-red-700 text-sm">
-                          * {(errors as any).artists[index]?.category?.message}
-                        </p>
-                      )}
-                  </div>
-                  <div className="mt-2">
-                    <p className="block mb-2 text-sm font-medium text-gray-900">
-                      Number of Events
-                    </p>
-                    <input
-                      type="number"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-                      placeholder="Number of Events Done"
-                      {...register(`artists.${index}.numberOfEvents`)}
-                    />
-                    {errors.artists &&
-                      (errors as any).artists[index]?.numberOfEvents && (
-                        <p className="text-red-700 text-sm">
-                          *{" "}
-                          {
-                            (errors as any).artists[index]?.numberOfEvents
-                              ?.message
-                          }
-                        </p>
-                      )}
-                  </div>
-                </FormSectionContainer>
-              </div>
-            ))}
-          </div>
-
-          <div className="w-full flex items-center space-x-4 mt-8">
-            <AddMoreButton
-              onClick={() =>
-                append({
-                  name: "",
-                  imageURL: "",
-                  description: "",
-                  category: "Celebrity",
-                })
-              }
-              text="Add Artist"
-            />
-            <SubmitButton isLoading={addUpdateArtistMutation.isLoading} />
-          </div>
-        </FormSectionContainer>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* Other Fields */}
+          <FormSectionContainer>
+            {/* Name Field */}
+            <div>
+              <p className="block mb-2 text-sm font-medium text-gray-900">
+                Artist Name
+              </p>
+              <input
+                type="text"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
+                placeholder="Artist Name"
+                {...register("name")}
+              />
+              {errors.name && (
+                <p className="text-red-700 text-sm">* {errors.name.message}</p>
+              )}
+            </div>
+            {/* Description Field */}
+            <div className="mt-2">
+              <p className="block mb-2 text-sm font-medium text-gray-900">
+                Artist Description
+              </p>
+              <input
+                type="text"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
+                placeholder="Artist Description"
+                {...register("description")}
+              />
+              {errors.description && (
+                <p className="text-red-700 text-sm">
+                  * {errors.description.message}
+                </p>
+              )}
+            </div>
+            {/* Category Field */}
+            <div className="mt-2">
+              <p className="block mb-2 text-sm font-medium text-gray-900">
+                Category
+              </p>
+              <Controller
+                control={control}
+                name={"category"}
+                render={({ field: { onChange, onBlur, value, ref } }) => (
+                  <select
+                    id="celebrity"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
+                    onChange={onChange}
+                    value={value}
+                  >
+                    <option selected>Choose a category</option>
+                    <option value="celebrity">Celebrity</option>
+                    <option value="singer">Singer</option>
+                  </select>
+                )}
+              />
+              {errors.category && (
+                <p className="text-red-700 text-sm">
+                  * {errors.category.message}
+                </p>
+              )}
+            </div>
+            {/* Number of Events Field */}
+            <div className="mt-2">
+              <p className="block mb-2 text-sm font-medium text-gray-900">
+                Number of Events
+              </p>
+              <input
+                type="number"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
+                placeholder="Number of Events Done"
+                {...register("numberOfEvents")}
+              />
+              {errors.numberOfEvents && (
+                <p className="text-red-700 text-sm">
+                  * {errors.numberOfEvents.message}
+                </p>
+              )}
+            </div>
+          </FormSectionContainer>
+          {/* Image Field */}
+          <FormSectionContainer>
+            {/* Image Field */}
+            <div className="w-full h-full">
+              <Controller
+                control={control}
+                name="image"
+                render={({ field: { onChange, onBlur, value, ref } }) => (
+                  <ImageUploaderNew
+                    label="Artist Image"
+                    onChange={onChange}
+                    id={`artistImage`}
+                    folderName="artists"
+                    fileName={getValues("name")}
+                    image={value}
+                  />
+                )}
+              />
+              {errors.image && (
+                <p className="text-red-700 text-sm">
+                  * Artist image is required
+                </p>
+              )}
+            </div>
+          </FormSectionContainer>
+        </div>
+        {/* Submit Button */}
+        <div className="flex !mt-8 space-x-4">
+          <CommonButton
+            type="submit"
+            color="accent"
+            loading={
+              caseOfAdd
+                ? addArtistMutation.isLoading
+                : updateArtistMutation.isLoading
+            }
+            icon={<GetIcon name="send" size="w-5 h-5" />}
+          >
+            Submit
+          </CommonButton>
+        </div>
       </form>
-      <Toast />
-    </>
+    </FormSectionContainer>
   );
 }

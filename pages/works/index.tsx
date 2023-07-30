@@ -50,8 +50,8 @@ export default function Works() {
               <WorksGallery works={works} />
               <Pagination
                 currentPage={works.data?.currentPage}
-                totalWorks={works.data?.totalWorks}
-                worksPerPage={limit}
+                totalItems={works.data?.totalWorks}
+                itemsPerPage={limit}
                 containerClassName="mt-[80px]"
                 baseHref="/works"
               />

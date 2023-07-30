@@ -11,23 +11,24 @@ interface IArtistsRowProps extends IRowTheme {
 
 export default function ArtistsRow(props: IArtistsRowProps) {
   if (
-    !props.artists ||
-    !props.artists.data ||
-    !props.artists.data.artists ||
-    !props.artists.data.artists[0] ||
-    !props.artists.data.artists[0].artists ||
-    !props.artists.data.artists[0].artists.length
+    !props.artists?.data?.artists ||
+    !Array.isArray(props.artists?.data?.artists) ||
+    !props.artists?.data?.artists?.length
   ) {
     return <NoData />;
   }
 
-  const celebs = props.artists.data.artists[0].artists.filter(
-    (item: IArtist) => item.category === "Celebrity"
+  const artists = props.artists.data.artists;
+
+  const celebs: IArtist[] = artists.filter(
+    (item: IArtist) => item.category === "celebrity"
   );
 
-  const singers = props.artists.data.artists[0].artists.filter(
-    (item: IArtist) => item.category === "Singer"
+  const singers: IArtist[] = artists.filter(
+    (item: IArtist) => item.category === "singer"
   );
+
+  console.log("singers", singers);
 
   return (
     <RowWrapper
@@ -45,7 +46,7 @@ export default function ArtistsRow(props: IArtistsRowProps) {
             </h3>
           </div>
           <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {celebs.map((item: any, index: number) => (
+            {celebs.map((item, index: number) => (
               <ArtistCard
                 key={index + "celeb"}
                 objArtist={item}
@@ -65,7 +66,7 @@ export default function ArtistsRow(props: IArtistsRowProps) {
             </h3>
           </div>
           <div className="grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            {singers.map((item: any, index: number) => (
+            {singers.map((item, index: number) => (
               <ArtistCard
                 key={index + "singer"}
                 objArtist={item}

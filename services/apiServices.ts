@@ -1,4 +1,4 @@
-import { IArtists } from "@/types/artists";
+import { IArtist } from "@/types/artists";
 import { IUserCredentials } from "@/types/auth";
 import { ICompanies } from "@/types/companies";
 import { ISendMessage } from "@/types/contact";
@@ -10,12 +10,12 @@ import { IHero } from "@/types/hero";
 import { IServices } from "@/types/services";
 import { ITeamMembers } from "@/types/teamMembers";
 import { IUpcomingEvents } from "@/types/upcomingEvents";
-import { IWorkForm, IWork } from "@/types/works";
+import { IWork, IWorkForm } from "@/types/works";
 import Router from "next/router";
 import { get, post, remove } from "./fetchServices";
 
-// const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
+const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
+// const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
 
 //  Heroes --------------------------------------------------!
 
@@ -268,23 +268,34 @@ export const addUpdateCompany = async (data: ICompanies) => {
   }
 };
 
-//  Artists --------------------------------------------------!
+//  Artists New New --------------------------------------------------!
 
-export const getArtists = async () => {
-  return await get(`${BASE_URL}/api/artists`);
+export const getArtistsPaginated = async (
+  currentPage: number,
+  limit: number
+) => {
+  return await get(
+    `${BASE_URL}/api/artists?page=${currentPage}&limit=${limit}`
+  );
 };
 
 export const getArtist = async (id: string) => {
   return await get(`${BASE_URL}/api/artists/${id}`);
 };
 
-export const addUpdateArtist = async (data: IArtists) => {
+export const addArtist = async (data: IArtist) => {
   const token = localStorage.getItem("token");
-  try {
-    return await post(`${BASE_URL}/api/artists`, data, token);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
+  return await post(`${BASE_URL}/api/artists/`, data, token);
+};
+
+export const updateArtist = async (data: IArtist) => {
+  const token = localStorage.getItem("token");
+  return await post(`${BASE_URL}/api/artists/${data._id}`, data, token);
+};
+
+export const deleteArtist = async (data: IArtist) => {
+  const token = localStorage.getItem("token");
+  return await remove(`${BASE_URL}/api/artists/${data._id}`, data, token);
 };
 
 //  Upcoming Events --------------------------------------------------!

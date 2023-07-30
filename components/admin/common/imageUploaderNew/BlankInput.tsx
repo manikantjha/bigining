@@ -1,6 +1,6 @@
 export default function BlankInput() {
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full p-4">
+    <div className="!h-full !w-full p-4 flex flex-col items-center justify-center">
       <div className="grid grid-rows-[auto_auto_auto] gap-1 place-items-center">
         <svg
           aria-hidden="true"

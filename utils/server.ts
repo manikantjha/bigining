@@ -1,4 +1,4 @@
-import { IImageSize, IWorkImage } from "@/types/works";
+import { IImage, IImageSize } from "@/types/images";
 import { storage } from "firebase-admin";
 import { NextApiResponse } from "next";
 
@@ -42,8 +42,7 @@ export const sendError = (
   res.status(status).json({ success: false, error: message });
 };
 
-// Function to upload image to Firebase Storage and get its URL
-export const uploadImageToFirebase = async (
+export const uploadImageToFirebaseAndGetURL = async (
   image: IImageSize
 ): Promise<string> => {
   // Convert imageBase64 to a Buffer
@@ -75,8 +74,58 @@ export const uploadImageToFirebase = async (
   return result;
 };
 
+const uploadImageToFirebaseAndGetObject = async (
+  image: IImage
+): Promise<IImage> => {
+  if (image.original.url.startsWith("data:image")) {
+    // New image, upload to Firebase
+    const originalUrl = await uploadImageToFirebaseAndGetURL(image.original);
+    const mediumUrl = await uploadImageToFirebaseAndGetURL(image.medium);
+    const smallUrl = await uploadImageToFirebaseAndGetURL(image.small);
+
+    return {
+      original: {
+        url: originalUrl,
+        width: image.original.width,
+        height: image.original.height,
+        path: image.original.path,
+      },
+      medium: {
+        url: mediumUrl,
+        width: image.medium.width,
+        height: image.medium.height,
+        path: image.medium.path,
+      },
+      small: {
+        url: smallUrl,
+        width: image.small.width,
+        height: image.small.height,
+        path: image.small.path,
+      },
+    };
+  } else {
+    // Existing image, keep the same URL
+    return image;
+  }
+};
+
+// A function to upload image/images to Firebase Storage and get IImage/IImage[]
+export const firebaseImageUploader = async <T extends IImage[] | IImage>(
+  images: T
+): Promise<T> => {
+  if (Array.isArray(images)) {
+    const temp: IImage[] = await Promise.all(
+      images.map(uploadImageToFirebaseAndGetObject)
+    );
+    return temp as T;
+  } else {
+    const temp = await uploadImageToFirebaseAndGetObject(images);
+    return temp as T;
+  }
+};
+
 // Function to delete image from Firebase Storage
-export const deleteImageFromFirebase = async (image: IWorkImage) => {
+export const deleteImageFromFirebase = async (image: IImage) => {
   try {
     await storage().bucket().file(image.original.path).delete();
     await storage().bucket().file(image.medium.path).delete();

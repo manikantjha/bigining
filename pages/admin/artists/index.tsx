@@ -1,39 +1,39 @@
+import ArtistsList from "@/components/admin/artists/ArtistsList";
 import FormSectionTitle from "@/components/admin/common/FormSectionTitle";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
-import WorksList from "@/components/admin/works/WorksList";
 import Pagination from "@/components/common/Pagination";
 import AdminLayout from "@/layout/admin/AdminLayout";
-import { getWorksPaginated } from "@/services/apiServices";
+import { getArtistsPaginated } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function WorksListPage() {
+export default function ArtistsListPage() {
   const router = useRouter();
   const { page } = router.query;
   const limit = 10;
 
-  const works = useQuery(["worksPaginated", page || 1], () => {
+  const artists = useQuery(["artistsPaginated", page || 1], () => {
     if (!page) {
-      return getWorksPaginated(1, limit);
+      return getArtistsPaginated(1, limit);
     }
-    return getWorksPaginated(parseInt(page as string), limit);
+    return getArtistsPaginated(parseInt(page as string), limit);
   });
 
   return (
     <AdminLayout>
-      <FormSectionTitle title="Works" />
+      <FormSectionTitle title="Artists" />
       <RenderAppropriateComponent
-        queryResult={{} as any}
+        queryResult={artists}
         containerSize="h-[400px] w-full"
       >
-        <WorksList works={works} />
+        <ArtistsList artists={artists} />
         <Pagination
-          currentPage={works?.data?.currentPage}
-          totalItems={works?.data?.totalWorks}
+          currentPage={artists?.data?.currentPage}
+          totalItems={artists?.data?.totalArtists}
           itemsPerPage={limit}
-          containerClassName="!mt-[80px]"
-          baseHref="/admin/works"
           alwaysVisible
+          containerClassName="!mt-[80px]"
+          baseHref="/admin/artists"
         />
       </RenderAppropriateComponent>
     </AdminLayout>

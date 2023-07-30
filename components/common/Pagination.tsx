@@ -2,21 +2,25 @@ import React from "react";
 import CommonLinkButton from "../admin/common/CommonLinkButton";
 
 interface PaginationProps {
-  totalWorks: number;
+  totalItems: number;
   currentPage: number;
-  worksPerPage: number;
+  itemsPerPage: number;
   containerClassName?: string;
   baseHref: string;
+  alwaysVisible?: boolean;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
-  totalWorks,
+  totalItems,
   currentPage,
-  worksPerPage,
+  itemsPerPage,
   containerClassName = "",
   baseHref,
+  alwaysVisible = false,
 }) => {
-  const totalPages = Math.ceil(totalWorks / worksPerPage);
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  if (!alwaysVisible && totalPages <= 1) return null;
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -40,27 +44,25 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className={`flex justify-center mt-4 ${containerClassName}`}>
-      {totalPages > 1 && (
-        <div className="flex space-x-2">
-          <CommonLinkButton
-            href={`${baseHref}?page=${currentPage - 1}`}
-            passHref
-            disabled={currentPage === 1}
-            color="primary"
-          >
-            Prev
-          </CommonLinkButton>
-          {renderPageNumbers()}
-          <CommonLinkButton
-            href={`${baseHref}?page=${currentPage + 1}`}
-            disabled={currentPage === totalPages}
-            color="primary"
-            passHref
-          >
-            Next
-          </CommonLinkButton>
-        </div>
-      )}
+      <div className="flex space-x-2">
+        <CommonLinkButton
+          href={`${baseHref}?page=${currentPage - 1}`}
+          passHref
+          disabled={currentPage === 1}
+          color="primary"
+        >
+          Prev
+        </CommonLinkButton>
+        {renderPageNumbers()}
+        <CommonLinkButton
+          href={`${baseHref}?page=${currentPage + 1}`}
+          disabled={currentPage >= totalPages}
+          color="primary"
+          passHref
+        >
+          Next
+        </CommonLinkButton>
+      </div>
     </div>
   );
 };
