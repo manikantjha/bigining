@@ -10,7 +10,7 @@ import FiguresRowSkeleton from "@/components/skeletons/FiguresRowSkeleton";
 import HeroSkeleton from "@/components/skeletons/HeroSkeleton";
 import Layout from "@/layout/Layout";
 import {
-  getCompanies,
+  getCompaniesPaginated,
   getFigures,
   getHero,
   getTeamMembers,
@@ -21,7 +21,9 @@ import { useQuery } from "react-query";
 export default function About() {
   const hero = useQuery("aboutHero", () => getHero("about"));
   const figures = useQuery("figures", () => getFigures());
-  const companies = useQuery("companies", () => getCompanies());
+  const companies = useQuery("clientCompaniesHome", () =>
+    getCompaniesPaginated(0, 20)
+  );
   const teamMembers = useQuery("teamMembers", () => getTeamMembers());
 
   return (

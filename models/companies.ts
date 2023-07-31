@@ -1,19 +1,21 @@
 import { Schema, model, models } from "mongoose";
+import { imageSchema } from "./images";
 
 const companySchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, "Company name is required!"],
+      required: true,
       trim: true,
     },
-    imageURL: { type: String, required: [true, "Company logo is required!"] },
+    image: {
+      type: imageSchema,
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
-const companiesSchema = new Schema({ companies: [companySchema] });
+const Company = models.companies || model("companies", companySchema);
 
-const Companies = models.companies || model("companies", companiesSchema);
-
-export default Companies;
+export default Company;

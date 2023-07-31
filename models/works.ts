@@ -8,11 +8,14 @@ export interface IWorkDocument extends Document {
   images: IImage[];
 }
 
-const workSchema = new Schema<IWorkDocument>({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  images: { type: [imageSchema], required: true },
-});
+const workSchema = new Schema<IWorkDocument>(
+  {
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    images: { type: [imageSchema], required: true },
+  },
+  { timestamps: true }
+);
 
 const Work = models.works || model<IWorkDocument>("works", workSchema);
 

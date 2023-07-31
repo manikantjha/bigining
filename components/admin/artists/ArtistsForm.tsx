@@ -160,7 +160,6 @@ export default function ArtistsForm(props: IArtistsFormProps) {
           </FormSectionContainer>
           {/* Image Field */}
           <FormSectionContainer>
-            {/* Image Field */}
             <div className="w-full h-full">
               <Controller
                 control={control}

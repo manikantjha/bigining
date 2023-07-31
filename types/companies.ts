@@ -1,10 +1,7 @@
+import { IImage } from "./images";
+
 export interface ICompany {
   _id?: string;
-  imageURL: string;
+  image: IImage;
   name: string;
-}
-
-export interface ICompanies {
-  _id?: string;
-  companies: Array<ICompany>;
 }

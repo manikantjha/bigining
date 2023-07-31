@@ -4,6 +4,7 @@ import React from "react";
 import { UseQueryResult } from "react-query";
 import CompanyCard from "./CompanyCard";
 import Slider, { CustomArrowProps } from "react-slick";
+import { ICompany } from "@/types/companies";
 
 interface ICompaniesRowProps extends IRowTheme {
   companies: UseQueryResult<any, unknown>;
@@ -62,8 +63,8 @@ function SamplePrevArrow(props: CustomArrowProps) {
 }
 
 export default function CompaniesRow(props: ICompaniesRowProps) {
-  if (!props?.companies?.data?.companies[0]?.companies?.length) return;
-  const companies = props?.companies?.data?.companies[0]?.companies;
+  if (!props?.companies?.data?.companies?.length) return;
+  const companies = props?.companies?.data?.companies;
 
   const settings = {
     dots: false,
@@ -102,21 +103,13 @@ export default function CompaniesRow(props: ICompaniesRowProps) {
     ],
   };
   return (
-    <RowWrapper
-      title="Our Clients"
-      // description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, error?"
-      theme={props.theme}
-    >
+    <RowWrapper title="Our Clients" theme={props.theme}>
       <Slider {...settings}>
-        {props?.companies?.data?.companies
-          ? props?.companies?.data?.companies[0]?.companies?.map(
-              (item: any, index: number) => (
-                <div key={index} className="px-2">
-                  <CompanyCard objCompany={{ ...item }} theme={props.theme} />
-                </div>
-              )
-            )
-          : null}
+        {companies.map((item: ICompany, index: number) => (
+          <div key={index} className="px-2">
+            <CompanyCard company={item} theme={props.theme} />
+          </div>
+        ))}
       </Slider>
     </RowWrapper>
   );

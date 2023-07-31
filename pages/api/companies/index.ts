@@ -1,6 +1,6 @@
 import {
-  addUpdateCompany,
-  getCompanies,
+  addCompany,
+  getCompaniesPaginated,
 } from "@/controllers/companiesControllers";
 import connect from "@/database/connection";
 import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
@@ -16,10 +16,10 @@ export default async function handler(
 
   switch (req.method) {
     case "GET":
-      await getCompanies(req, res);
+      await getCompaniesPaginated(req, res);
       break;
     case "POST":
-      await jwtMiddleware(req, res, addUpdateCompany);
+      await jwtMiddleware(req, res, addCompany);
       break;
     default:
       res.status(405).end(`Method ${req.method} not allowed!`);

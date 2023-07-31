@@ -1,6 +1,6 @@
 import { IArtist } from "@/types/artists";
 import { IUserCredentials } from "@/types/auth";
-import { ICompanies } from "@/types/companies";
+import { ICompany } from "@/types/companies";
 import { ISendMessage } from "@/types/contact";
 import { IContactInfo } from "@/types/contactInfo";
 import { IFAQs } from "@/types/faqs";
@@ -261,21 +261,32 @@ export async function deleteReview(data: { id: string }) {
 
 //  Companies --------------------------------------------------!
 
-export const getCompanies = async () => {
-  return await get(`${BASE_URL}/api/companies`);
+export const getCompaniesPaginated = async (
+  currentPage: number,
+  limit: number
+) => {
+  return await get(
+    `${BASE_URL}/api/companies?page=${currentPage}&limit=${limit}`
+  );
 };
 
 export const getCompany = async (id: string) => {
   return await get(`${BASE_URL}/api/companies/${id}`);
 };
 
-export const addUpdateCompany = async (data: ICompanies) => {
+export const addCompany = async (data: ICompany) => {
   const token = localStorage.getItem("token");
-  try {
-    return await post(`${BASE_URL}/api/companies`, data, token);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
+  return await post(`${BASE_URL}/api/companies`, data, token);
+};
+
+export const updateCompany = async (data: ICompany) => {
+  const token = localStorage.getItem("token");
+  return await post(`${BASE_URL}/api/companies/${data._id}`, data, token);
+};
+
+export const deleteCompany = async (data: ICompany) => {
+  const token = localStorage.getItem("token");
+  return await remove(`${BASE_URL}/api/companies/${data._id}`, data, token);
 };
 
 //  Artists --------------------------------------------------!
@@ -295,7 +306,7 @@ export const getArtist = async (id: string) => {
 
 export const addArtist = async (data: IArtist) => {
   const token = localStorage.getItem("token");
-  return await post(`${BASE_URL}/api/artists/`, data, token);
+  return await post(`${BASE_URL}/api/artists`, data, token);
 };
 
 export const updateArtist = async (data: IArtist) => {

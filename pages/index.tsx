@@ -2,6 +2,7 @@ import RenderAppropriateComponent from "@/components/admin/common/RenderAppropri
 import Hero from "@/components/common/Hero";
 import LinkBtn from "@/components/common/LinkBtn";
 import Logo from "@/components/common/Logo";
+import RowWrapper from "@/components/common/RowWrapper";
 import ContactMain from "@/components/contact/ContactMain";
 import CompaniesRow from "@/components/home/companiesRow/CompaniesRow";
 import FeaturesRow from "@/components/home/featuresRow/FeaturesRow";
@@ -19,7 +20,7 @@ import ServicesRowSkeleton from "@/components/skeletons/ServicesRowSkeleton";
 import UpcomingEventsRow from "@/components/upcomingEvents/UpcomingEventsRow";
 import Layout from "@/layout/Layout";
 import {
-  getCompanies,
+  getCompaniesPaginated,
   getFeatures,
   getFigures,
   getHero,
@@ -32,18 +33,38 @@ import Head from "next/head";
 import { useQuery } from "react-query";
 
 export default function Home() {
-  const hero = useQuery("homeHero", () => getHero("home"));
-  const companies = useQuery("companies", () => getCompanies());
-  const features = useQuery("features", () => getFeatures());
-  const figures = useQuery("figures", () => getFigures());
-  const services = useQuery("clientServicesHome", () =>
-    getServicesPaginated(1, 3)
-  );
-  const works = useQuery("clientRecentWorksHome", () =>
-    getWorksForGalleryPaginated(1, 8)
-  );
-  const upcomingEvents = useQuery("upcomingEvents", () => getUpcomingEvents());
-  const reviews = useQuery("reviews", () => getReviews());
+  const hero = useQuery({
+    queryKey: ["clientHeroHome"],
+    queryFn: () => getHero("home"),
+  });
+  const companies = useQuery({
+    queryKey: ["clientCompaniesHome"],
+    queryFn: () => getCompaniesPaginated(1, 20),
+  });
+  const features = useQuery({
+    queryKey: ["clientFeaturesHome"],
+    queryFn: () => getFeatures(),
+  });
+  const figures = useQuery({
+    queryKey: ["clientFiguresHome"],
+    queryFn: () => getFigures(),
+  });
+  const services = useQuery({
+    queryKey: ["clientServicesHome"],
+    queryFn: () => getServicesPaginated(1, 3),
+  });
+  const works = useQuery({
+    queryKey: ["clientRecentWorksHome"],
+    queryFn: () => getWorksForGalleryPaginated(1, 8),
+  });
+  const upcomingEvents = useQuery({
+    queryKey: ["clientUpcomingEventsHome"],
+    queryFn: () => getUpcomingEvents(),
+  });
+  const reviews = useQuery({
+    queryKey: ["clientReviewsHome"],
+    queryFn: () => getReviews(),
+  });
 
   return (
     <>
@@ -125,7 +146,9 @@ export default function Home() {
           containerClassName="h-[500px] w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load services :("
         >
-          <ServicesRow showButton services={services} theme="light" />
+          <RowWrapper title="Our Services" theme="light">
+            <ServicesRow showButton services={services} theme="light" />
+          </RowWrapper>
         </RenderAppropriateComponent>
         <RenderAppropriateComponent
           queryResult={figures}

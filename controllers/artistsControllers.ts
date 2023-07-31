@@ -154,7 +154,7 @@ export const updateArtist = async (
 
     sendResponse(res, 200, existingArtist);
   } catch (error) {
-    console.error("Error updating work:", error);
+    console.error("Error updating artist:", error);
     sendError(res, 500, "Internal server error!");
   }
 };
