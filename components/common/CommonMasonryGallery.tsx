@@ -1,4 +1,4 @@
-import { IImageSize } from "@/types/works";
+import { IImageSize } from "@/types/images";
 import { CSSProperties } from "react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 

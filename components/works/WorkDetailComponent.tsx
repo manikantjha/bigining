@@ -1,4 +1,5 @@
-import { IImageSize, IWork } from "@/types/works";
+import { IImageSize } from "@/types/images";
+import { IWork } from "@/types/works";
 import { useCallback, useState } from "react";
 import { UseQueryResult } from "react-query";
 import ImageViewer from "react-simple-image-viewer";
