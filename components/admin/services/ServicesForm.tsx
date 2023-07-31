@@ -1,75 +1,76 @@
-import { addUpdateService } from "@/services/apiServices";
-import { IServices } from "@/types/services";
+import { GetIcon } from "@/components/common/icons/icons";
+import { serviceSchema } from "@/schemas/serviceSchema";
+import { addService, updateService } from "@/services/apiServices";
+import { IService } from "@/types/services";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FormProvider, useFieldArray, useForm } from "react-hook-form";
-import { UseQueryResult, useMutation } from "react-query";
-import { ToastOptions, toast } from "react-toastify";
+import { useRouter } from "next/router";
+import { FormProvider, useForm } from "react-hook-form";
+import { UseQueryResult, useMutation, useQueryClient } from "react-query";
 import * as yup from "yup";
-import AddMoreButton from "../common/AddMoreButton";
+import CommonButton from "../common/CommonButton";
 import FormSectionContainer from "../common/FormSectionContainer";
 import FormSectionWrapper from "../common/FormSectionWrapper";
-import SubmitButton from "../common/SubmitButton";
-import Toast from "../common/Toast";
 import ServicesListForm from "./ServicesListForm";
 
+type TForm = yup.InferType<typeof serviceSchema>;
+
 interface IServicesFormProps {
-  services: UseQueryResult<any, unknown>;
+  service?: UseQueryResult<any, unknown>;
+  caseOfAdd: boolean;
 }
 
-const schema = yup
-  .object({
-    services: yup.array().of(
-      yup.object({
-        title: yup.string().required("Title is required"),
-        list: yup.array().of(yup.string().required("List item is required")),
-      })
-    ),
-  })
-  .required();
+export default function ServiceForm(props: IServicesFormProps) {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { page = 1 } = router.query;
 
-export default function ServicesForm(props: IServicesFormProps) {
-  const objForm = useForm<IServices>({
-    resolver: yupResolver(schema as any),
-    defaultValues: {
-      services: props?.services?.data?.services
-        ? props?.services?.data?.services[0]?.services
-        : [{ title: "", list: [] }],
-    },
+  const objService = props.caseOfAdd ? {} : props.service?.data;
+
+  const defaultValues = props.service?.data
+    ? props.service?.data
+    : {
+        title: "",
+      };
+
+  const objForm = useForm<TForm>({
+    resolver: yupResolver<TForm>(serviceSchema),
+    defaultValues: defaultValues,
   });
 
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
   } = objForm;
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "services",
+  const addServiceMutation = useMutation({
+    mutationFn: addService,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["service", data._id], data);
+      queryClient.invalidateQueries(["services"]);
+      router.replace(`/admin/services?page=${page}`);
+    },
   });
 
-  const notify = (text: string, options: ToastOptions) => toast(text, options);
-
-  const addUpdateServicesMutation = useMutation(addUpdateService, {
-    onSuccess: () => {},
+  const updateServiceMutation = useMutation({
+    mutationFn: updateService,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["service", data._id], data);
+      queryClient.invalidateQueries(["services", page]);
+      router.replace(`/admin/services?page=${page}`);
+    },
   });
 
-  const onSubmit = (data: IServices) => {
-    const _id = props?.services?.data?.services
-      ? props?.services?.data?.services[0]?._id
-      : undefined;
-    addUpdateServicesMutation.mutate(
-      { ...data, _id },
-      {
-        onSuccess: () => {
-          notify("Submitted succesfully!", { type: "success" });
-        },
-        onError: () => {
-          notify("Failed to submit!", { type: "error" });
-        },
+  const onSubmit = (data: IService) => {
+    try {
+      if (objService._id) {
+        updateServiceMutation.mutate({ ...data, _id: objService._id });
+      } else {
+        addServiceMutation.mutate(data);
       }
-    );
+    } catch (error) {
+      console.log("Error submitting form: ", error);
+    }
   };
 
   return (
@@ -77,66 +78,48 @@ export default function ServicesForm(props: IServicesFormProps) {
       <FormProvider {...objForm}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormSectionContainer>
-            {fields.map((item, index) => (
-              <FormSectionContainer key={item.id} className="mb-4">
-                <div className="grid gap-4 mb-4">
-                  <div className="w-full flex justify-end">
-                    <button
-                      type="button"
-                      className="bg-accentDark text-white border hover:bg-orange-800 active:bg-orange-800 p-1 font-semibold rounded-full flex"
-                      onClick={() => remove(index)}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-5 h-5"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  <div>
-                    <label
-                      htmlFor={`title${index}`}
-                      className="block mb-2 text-sm font-medium text-gray-900"
-                    >
-                      Service {index + 1} Title
-                    </label>
-                    <input
-                      id={`title${index}`}
-                      type="text"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-                      placeholder="Title"
-                      {...register(`services.${index}.title`)}
-                    />
-                  </div>
-                  {errors.services && errors.services[index]?.title && (
-                    <p className="text-red-700 text-sm">
-                      * {errors.services[index]?.title?.message}
-                    </p>
-                  )}
-                  <ServicesListForm parentIndex={index} />
+            <FormSectionContainer className="mb-4">
+              <div className="grid gap-4 mb-4">
+                <div>
+                  <label
+                    htmlFor="title"
+                    className="block mb-2 text-sm font-medium text-gray-900"
+                  >
+                    Service Title
+                  </label>
+                  <input
+                    id="title"
+                    type="text"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
+                    placeholder="Title"
+                    {...register("title")}
+                  />
                 </div>
-              </FormSectionContainer>
-            ))}
+                {errors.title && (
+                  <p className="text-red-700 text-sm">
+                    * {errors.title.message}
+                  </p>
+                )}
+                <ServicesListForm />
+              </div>
+            </FormSectionContainer>
             <div className="w-full flex items-center space-x-4 mt-8">
-              <AddMoreButton
-                onClick={() => append({ title: "", list: [""] })}
-                text="Add Service"
-              />
-              <SubmitButton isLoading={addUpdateServicesMutation.isLoading} />
+              <CommonButton
+                type="submit"
+                color="accent"
+                loading={
+                  props.caseOfAdd
+                    ? addServiceMutation.isLoading
+                    : updateServiceMutation.isLoading
+                }
+                icon={<GetIcon name="send" size="w-5 h-5" />}
+              >
+                Submit
+              </CommonButton>
             </div>
           </FormSectionContainer>
         </form>
       </FormProvider>
-      <Toast />
     </FormSectionWrapper>
   );
 }

@@ -2,7 +2,6 @@ import { IArtist } from "@/types/artists";
 import { IRowTheme } from "@/types/row";
 import { UseQueryResult } from "react-query";
 import NoData from "../common/NoData";
-import RowWrapper from "../common/RowWrapper";
 import ArtistCard from "./ArtistCard";
 
 interface IArtistsRowProps extends IRowTheme {
@@ -29,11 +28,7 @@ export default function ArtistsRow(props: IArtistsRowProps) {
   );
 
   return (
-    <RowWrapper
-      title="Artists We Have Worked With"
-      theme={props.theme}
-      containerWrapperClassName="min-h-[calc(100vh-89px)]"
-    >
+    <>
       {!!celebs.length && (
         <div className="mb-16">
           <div className={`text-center mb-16`}>
@@ -74,6 +69,6 @@ export default function ArtistsRow(props: IArtistsRowProps) {
           </div>
         </div>
       )}
-    </RowWrapper>
+    </>
   );
 }

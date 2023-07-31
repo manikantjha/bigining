@@ -9,14 +9,14 @@ import { useQuery } from "react-query";
 
 export default function ArtistsListPage() {
   const router = useRouter();
-  const { page } = router.query;
+  const { page = 1 } = router.query;
   const limit = 10;
 
-  const artists = useQuery(["artistsPaginated", page || 1], () => {
-    if (!page) {
-      return getArtistsPaginated(1, limit);
-    }
-    return getArtistsPaginated(parseInt(page as string), limit);
+  const artists = useQuery({
+    queryKey: ["artists", page],
+    queryFn: () => {
+      return getArtistsPaginated(parseInt(page as string), limit);
+    },
   });
 
   return (

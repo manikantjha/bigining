@@ -7,7 +7,7 @@ import { IFAQs } from "@/types/faqs";
 import { IFeatures } from "@/types/features";
 import { IFigures } from "@/types/figures";
 import { IHero } from "@/types/hero";
-import { IServices } from "@/types/services";
+import { IService } from "@/types/services";
 import { ITeamMembers } from "@/types/teamMembers";
 import { IUpcomingEvents } from "@/types/upcomingEvents";
 import { IWork } from "@/types/works";
@@ -18,7 +18,6 @@ const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
 // const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
 
 //  Heroes --------------------------------------------------!
-
 export const getHeroes = async () => {
   return await get(`${BASE_URL}/api/heroes`);
 };
@@ -76,25 +75,36 @@ export const addUpdateFeature = async (data: IFeatures) => {
 
 //  Services --------------------------------------------------!
 
-export const getServices = async () => {
-  return await get(`${BASE_URL}/api/services`);
+export const getServicesList = async () => {
+  return await get(`${BASE_URL}/api/services/list`);
+};
+
+export const getServicesPaginated = async (
+  currentPage: number,
+  limit: number
+) => {
+  return await get(
+    `${BASE_URL}/api/services?page=${currentPage}&limit=${limit}`
+  );
 };
 
 export const getService = async (id: string) => {
   return await get(`${BASE_URL}/api/services/${id}`);
 };
 
-export const addUpdateService = async (data: IServices) => {
+export const addService = async (data: IService) => {
   const token = localStorage.getItem("token");
-  try {
-    return await post(`${BASE_URL}/api/services`, data, token);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
+  return await post(`${BASE_URL}/api/services/`, data, token);
 };
 
-export const getLstServices = async () => {
-  return await get(`${BASE_URL}/api/services/list`);
+export const updateService = async (data: IService) => {
+  const token = localStorage.getItem("token");
+  return await post(`${BASE_URL}/api/services/${data._id}`, data, token);
+};
+
+export const deleteService = async (id: string) => {
+  const token = localStorage.getItem("token");
+  return await remove(`${BASE_URL}/api/services/${id}`, {}, token);
 };
 
 //  FAQs --------------------------------------------------!
@@ -268,7 +278,7 @@ export const addUpdateCompany = async (data: ICompanies) => {
   }
 };
 
-//  Artists New New --------------------------------------------------!
+//  Artists --------------------------------------------------!
 
 export const getArtistsPaginated = async (
   currentPage: number,

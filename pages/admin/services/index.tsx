@@ -1,38 +1,38 @@
 import FormSectionTitle from "@/components/admin/common/FormSectionTitle";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
-import WorksList from "@/components/admin/works/WorksList";
+import ServicesList from "@/components/admin/services/list/ServicesList";
 import Pagination from "@/components/common/Pagination";
 import AdminLayout from "@/layout/admin/AdminLayout";
-import { getWorksPaginated } from "@/services/apiServices";
+import { getServicesPaginated } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function WorksListPage() {
+export default function ServicesListPage() {
   const router = useRouter();
   const { page = 1 } = router.query;
   const limit = 10;
 
-  const works = useQuery({
-    queryKey: ["works", page],
+  const services = useQuery({
+    queryKey: ["services", page],
     queryFn: () => {
-      return getWorksPaginated(parseInt(page as string), limit);
+      return getServicesPaginated(parseInt(page as string), limit);
     },
   });
 
   return (
     <AdminLayout>
-      <FormSectionTitle title="Works" />
+      <FormSectionTitle title="Services" />
       <RenderAppropriateComponent
         queryResult={{} as any}
         containerSize="h-[400px] w-full"
       >
-        <WorksList works={works} />
+        <ServicesList services={services} />
         <Pagination
-          currentPage={works?.data?.currentPage}
-          totalItems={works?.data?.totalWorks}
+          currentPage={services?.data?.currentPage}
+          totalItems={services?.data?.totalServices}
           itemsPerPage={limit}
           containerClassName="!mt-[80px]"
-          baseHref="/admin/works"
+          baseHref="/admin/services"
           alwaysVisible
         />
       </RenderAppropriateComponent>

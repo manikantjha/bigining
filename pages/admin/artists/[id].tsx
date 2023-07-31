@@ -12,7 +12,15 @@ export default function ArtistFormPage() {
 
   const caseOfAdd = id === "add" ? true : false;
 
-  const artist = useQuery(["artist", id], () => getArtist(id as string));
+  const artist = useQuery({
+    queryKey: ["artist", id],
+    queryFn: () => {
+      if (caseOfAdd) {
+        return Promise.resolve(undefined);
+      }
+      return getArtist(id as string);
+    },
+  });
 
   return (
     <AdminLayout>
@@ -24,7 +32,7 @@ export default function ArtistFormPage() {
         queryResult={artist}
         containerSize="h-[400px] w-full"
       >
-        <ArtistsForm artist={artist} />
+        <ArtistsForm artist={artist} caseOfAdd={caseOfAdd} />
       </RenderAppropriateComponent>
     </AdminLayout>
   );

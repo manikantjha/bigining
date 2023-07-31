@@ -1,6 +1,6 @@
 import LinkBtn from "@/components/common/LinkBtn";
-import RowWrapper from "@/components/common/RowWrapper";
 import { IRowTheme } from "@/types/row";
+import { IService } from "@/types/services";
 import { UseQueryResult } from "react-query";
 import ServiceCard from "./ServiceCard";
 
@@ -8,24 +8,18 @@ interface IServicesRow extends IRowTheme {
   containerClassName?: string;
   showButton?: boolean;
   services?: UseQueryResult<any, unknown>;
-  isHomePage?: boolean;
 }
 
 export default function ServicesRow(props: IServicesRow) {
+  const services: IService[] = props.services?.data?.services || [];
+  if (!services.length) return null;
+
   return (
-    <RowWrapper title="Our Services" theme={props.theme}>
+    <>
       <div className="grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {props?.services?.data?.services &&
-          props?.services?.data?.services[0]?.services
-            .slice(
-              0,
-              props.isHomePage
-                ? 3
-                : props?.services?.data?.services[0]?.services?.length
-            )
-            ?.map((item: any, index: number) => (
-              <ServiceCard key={index} objService={item} theme={props.theme} />
-            ))}
+        {services.map((item: any, index: number) => (
+          <ServiceCard key={index} objService={item} theme={props.theme} />
+        ))}
       </div>
       {props.showButton && (
         <div className="mt-16">
@@ -36,6 +30,6 @@ export default function ServicesRow(props: IServicesRow) {
           />
         </div>
       )}
-    </RowWrapper>
+    </>
   );
 }

@@ -1,6 +1,13 @@
 import { SVGProps } from "react";
 
-type TName = "send" | "edit" | "delete" | "back" | "add" | "close";
+type TName =
+  | "send"
+  | "edit"
+  | "delete"
+  | "back"
+  | "add"
+  | "close"
+  | "check-circle";
 
 interface IIconProps extends SVGProps<SVGSVGElement> {
   name: TName;
@@ -61,6 +68,15 @@ const icons = new Map<TName, JSX.Element>([
       strokeLinecap="round"
       strokeLinejoin="round"
       d="M6 18L18 6M6 6l12 12"
+    />,
+  ],
+  [
+    "check-circle",
+    <path
+      key="check-circle"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
     />,
   ],
 ]);

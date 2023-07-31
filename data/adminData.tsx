@@ -60,7 +60,7 @@ export const lstAdminNavBarMenu = [
       </svg>
     ),
     name: "Services",
-    path: "/admin/services",
+    path: "/admin/services?page=1",
   },
   {
     id: 4,
@@ -102,7 +102,7 @@ export const lstAdminNavBarMenu = [
       </svg>
     ),
     name: "Artists",
-    path: "/admin/artists",
+    path: "/admin/artists?page=1",
   },
   {
     id: 6,
@@ -144,7 +144,7 @@ export const lstAdminNavBarMenu = [
       </svg>
     ),
     name: "Works",
-    path: "/admin/works",
+    path: "/admin/works?page=1",
   },
   {
     id: 8,

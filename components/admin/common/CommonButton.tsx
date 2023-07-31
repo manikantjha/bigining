@@ -147,7 +147,7 @@ const CommonButton = ({
       disabled={loading || disabled}
       {...rest}
     >
-      {icon && iconPosition === "left" && (
+      {!loading && icon && iconPosition === "left" && (
         <span className={`${children ? "mr-2" : "mr-0"}`}>{icon}</span>
       )}
       {loading ? (

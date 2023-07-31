@@ -11,17 +11,14 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
 export default function Works() {
-  const limit = 10;
   const router = useRouter();
-  const { page } = router.query;
-  const works = useQuery(
-    ["paginatedWorksForGallery", page ? parseInt(page as string) || 1 : 1],
-    () => {
-      if (!parseInt(page as string))
-        return getWorksForGalleryPaginated(1, limit);
-      return getWorksForGalleryPaginated(parseInt(page as string), limit);
-    }
-  );
+  const { page = 1 } = router.query;
+  const limit = 10;
+
+  const works = useQuery({
+    queryKey: ["clientWorks", page],
+    queryFn: () => getWorksForGalleryPaginated(parseInt(page as string), limit),
+  });
 
   return (
     <>

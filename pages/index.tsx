@@ -24,7 +24,7 @@ import {
   getFigures,
   getHero,
   getReviews,
-  getServices,
+  getServicesPaginated,
   getUpcomingEvents,
   getWorksForGalleryPaginated,
 } from "@/services/apiServices";
@@ -36,8 +36,10 @@ export default function Home() {
   const companies = useQuery("companies", () => getCompanies());
   const features = useQuery("features", () => getFeatures());
   const figures = useQuery("figures", () => getFigures());
-  const services = useQuery("services", () => getServices());
-  const works = useQuery("recentWorks", () =>
+  const services = useQuery("clientServicesHome", () =>
+    getServicesPaginated(1, 3)
+  );
+  const works = useQuery("clientRecentWorksHome", () =>
     getWorksForGalleryPaginated(1, 8)
   );
   const upcomingEvents = useQuery("upcomingEvents", () => getUpcomingEvents());
@@ -123,12 +125,7 @@ export default function Home() {
           containerClassName="h-[500px] w-full overflow-hidden flex justify-center items-center"
           errorText="Failed to load services :("
         >
-          <ServicesRow
-            showButton
-            services={services}
-            isHomePage
-            theme="light"
-          />
+          <ServicesRow showButton services={services} theme="light" />
         </RenderAppropriateComponent>
         <RenderAppropriateComponent
           queryResult={figures}

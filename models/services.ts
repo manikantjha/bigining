@@ -1,13 +1,18 @@
-import { Schema, model, models } from "mongoose";
+import { Document, Schema, model, models } from "mongoose";
 
-const serviceSchema = new Schema({
-  title: { type: String, required: true },
-  list: [String],
-  createdAt: { type: Date, default: Date.now },
-});
+export interface IServiceDocument extends Document {
+  title: string;
+  list: string;
+}
 
-const servicesSchema = new Schema({ services: [serviceSchema] });
+const serviceSchema = new Schema(
+  {
+    title: { type: String, required: true },
+    list: [String],
+  },
+  { timestamps: true }
+);
 
-const Services = models.services || model("services", servicesSchema);
+const Service = models.services || model("services", serviceSchema);
 
-export default Services;
+export default Service;

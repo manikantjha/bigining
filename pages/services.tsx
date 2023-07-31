@@ -2,18 +2,32 @@ import RenderAppropriateComponent from "@/components/admin/common/RenderAppropri
 import Error from "@/components/common/Error";
 import Hero from "@/components/common/Hero";
 import LinkBtn from "@/components/common/LinkBtn";
+import Pagination from "@/components/common/Pagination";
+import RowWrapper from "@/components/common/RowWrapper";
 import ContactMain from "@/components/contact/ContactMain";
 import ServicesRow from "@/components/home/servicesRow/ServicesRow";
 import HeroSkeleton from "@/components/skeletons/HeroSkeleton";
 import ServicesRowSkeleton from "@/components/skeletons/ServicesRowSkeleton";
 import Layout from "@/layout/Layout";
-import { getHero, getServices } from "@/services/apiServices";
+import { getHero, getServicesPaginated } from "@/services/apiServices";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
 export default function Services() {
-  const services = useQuery("services", () => getServices());
-  const hero = useQuery("serviceHero", () => getHero("service"));
+  const router = useRouter();
+  const { page = 1 } = router.query;
+  const limit = 10;
+
+  const services = useQuery({
+    queryKey: ["clientServices", page],
+    queryFn: () => getServicesPaginated(parseInt(page as string), limit),
+  });
+
+  const hero = useQuery({
+    queryKey: "clientServiceHero",
+    queryFn: () => getHero("service"),
+  });
 
   return (
     <>
@@ -60,7 +74,17 @@ export default function Services() {
               />
             }
           >
-            <ServicesRow services={services} theme="dark" />
+            <RowWrapper title="Our Services" theme="dark">
+              <ServicesRow services={services} />
+              <Pagination
+                currentPage={services.data?.currentPage}
+                totalItems={services.data?.totalServices}
+                itemsPerPage={limit}
+                containerClassName="mt-[80px]"
+                baseHref="/services"
+                scroll={false}
+              />
+            </RowWrapper>
           </RenderAppropriateComponent>
           <ContactMain />
         </main>

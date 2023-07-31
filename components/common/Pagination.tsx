@@ -8,6 +8,7 @@ interface PaginationProps {
   containerClassName?: string;
   baseHref: string;
   alwaysVisible?: boolean;
+  scroll?: boolean;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -17,6 +18,7 @@ const Pagination: React.FC<PaginationProps> = ({
   containerClassName = "",
   baseHref,
   alwaysVisible = false,
+  scroll = true,
 }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -36,6 +38,7 @@ const Pagination: React.FC<PaginationProps> = ({
         passHref
         variant="filled"
         color={pageNumber === currentPage ? "primary" : "gray"}
+        scroll={scroll}
       >
         {pageNumber}
       </CommonLinkButton>
@@ -46,19 +49,21 @@ const Pagination: React.FC<PaginationProps> = ({
     <div className={`flex justify-center mt-4 ${containerClassName}`}>
       <div className="flex space-x-2">
         <CommonLinkButton
-          href={`${baseHref}?page=${currentPage - 1}`}
           passHref
           disabled={currentPage === 1}
           color="primary"
+          href={`${baseHref}?page=${currentPage - 1}`}
+          scroll={scroll}
         >
           Prev
         </CommonLinkButton>
         {renderPageNumbers()}
         <CommonLinkButton
-          href={`${baseHref}?page=${currentPage + 1}`}
           disabled={currentPage >= totalPages}
           color="primary"
           passHref
+          href={`${baseHref}?page=${currentPage + 1}`}
+          scroll={scroll}
         >
           Next
         </CommonLinkButton>

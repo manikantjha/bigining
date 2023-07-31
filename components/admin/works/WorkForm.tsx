@@ -4,7 +4,7 @@ import { IWork } from "@/types/works";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { UseQueryResult, useMutation } from "react-query";
+import { UseQueryResult, useMutation, useQueryClient } from "react-query";
 import * as yup from "yup";
 import CommonButton from "../common/CommonButton";
 import FormSectionContainer from "../common/FormSectionContainer";
@@ -14,16 +14,18 @@ import { GetIcon } from "@/components/common/icons/icons";
 type TForm = yup.InferType<typeof workSchema>;
 
 interface IWorkFormProps {
-  work: UseQueryResult<any, unknown>;
+  work?: UseQueryResult<any, unknown>;
+  caseOfAdd: boolean;
 }
 
 export default function WorkForm(props: IWorkFormProps) {
   const router = useRouter();
-  const { id } = router.query;
-  const caseOfAdd = id === "add" ? true : false;
+  const queryClient = useQueryClient();
+  const { page = 1 } = router.query;
+
+  const objWork = props.caseOfAdd ? {} : props.work?.data;
 
   const defaultValues = props.work?.data ? props.work?.data : {};
-  const objWork = caseOfAdd ? {} : props.work?.data;
 
   const {
     register,
@@ -42,28 +44,33 @@ export default function WorkForm(props: IWorkFormProps) {
     name: "images",
   });
 
-  const addWorkMutation = useMutation("addWork", addWork);
-  const updateWorkMutation = useMutation("updateWork", updateWork);
+  const addWorkMutation = useMutation({
+    mutationFn: addWork,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["work", data._id], data);
+      queryClient.invalidateQueries(["works"]);
+      router.replace(`/admin/works?page=${page}`);
+    },
+  });
+
+  const updateWorkMutation = useMutation({
+    mutationFn: updateWork,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["work", data._id], data);
+      queryClient.invalidateQueries(["works", page]);
+      router.replace(`/admin/works?page=${page}`);
+    },
+  });
 
   const onSubmit = async (data: IWork) => {
     try {
       if (objWork._id) {
-        updateWorkMutation.mutate(
-          {
-            ...data,
-            _id: objWork._id,
-          },
-          {
-            onSuccess: () => {
-              props.work.refetch();
-              router.replace("/admin/works");
-            },
-          }
-        );
-      } else {
-        addWorkMutation.mutate(data, {
-          onSuccess: () => router.replace("/admin/works"),
+        updateWorkMutation.mutate({
+          ...data,
+          _id: objWork._id,
         });
+      } else {
+        addWorkMutation.mutate(data);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -167,7 +174,7 @@ export default function WorkForm(props: IWorkFormProps) {
             type="submit"
             color="accent"
             loading={
-              caseOfAdd
+              props.caseOfAdd
                 ? addWorkMutation.isLoading
                 : updateWorkMutation.isLoading
             }

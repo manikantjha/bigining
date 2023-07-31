@@ -17,6 +17,7 @@ export const getAllArtists = async (
 ) => {
   try {
     const artists = await Artist.find();
+    if (!artists) sendError(res, 404, "No artists found!");
     sendResponse(res, 200, artists);
   } catch (error) {
     sendError(res, 500, "Server error!");
@@ -36,6 +37,8 @@ export const getArtistsPaginated = async (
     const totalArtists = await Artist.countDocuments();
 
     const artists = await Artist.find().skip(skip).limit(parsedLimit);
+
+    if (!artists) sendError(res, 404, "No artists found!");
 
     sendResponse(res, 200, {
       totalArtists,

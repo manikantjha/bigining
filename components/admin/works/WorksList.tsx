@@ -5,7 +5,7 @@ import { IWork } from "@/types/works";
 import { truncateText } from "@/utils/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { UseQueryResult, useMutation } from "react-query";
+import { UseQueryResult, useMutation, useQueryClient } from "react-query";
 import AddNewButton from "../common/AddNewButton";
 import CommonButton from "../common/CommonButton";
 
@@ -15,32 +15,40 @@ interface IWorksListProps {
 
 export default function WorksList(props: IWorksListProps) {
   const router = useRouter();
-  const deleteWorkMutation = useMutation("deleteWork", (data: IWork) =>
-    deleteWork(data)
-  );
   const [isOpen, setIsOpen] = useState(false);
   const [work, setWork] = useState<IWork | null>(null);
+  const queryClient = useQueryClient();
 
-  function onClose() {
+  const { page = 1 } = router.query;
+
+  const deleteWorkMutation = useMutation({
+    mutationFn: (data: IWork) => deleteWork(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["works"]);
+    },
+    onSettled: () => {
+      setIsOpen(false);
+    },
+  });
+
+  function handleClose() {
     setIsOpen(false);
   }
 
-  function onConfirm() {
-    if (work)
-      deleteWorkMutation.mutate(work, {
-        onSettled() {
-          setIsOpen(false);
-          props.works.refetch();
-        },
-      });
+  function handleConfirm() {
+    if (work) deleteWorkMutation.mutate(work);
   }
 
-  const data = props.works?.data?.works || [];
+  const data: IWork[] = props.works?.data?.works || [];
 
   return (
     <div>
       <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <AddNewButton herf="works/add" router={router} text="Add New Work" />
+        <AddNewButton
+          herf={`works/add?page=${page}`}
+          router={router}
+          text="Add New Work"
+        />
         {!!data.length &&
           data.map((work: IWork) => (
             <div
@@ -70,7 +78,7 @@ export default function WorksList(props: IWorksListProps) {
               </div>
               <div className="flex space-x-2 mt-2">
                 <CommonButton
-                  onClick={() => router.push(`works/${work._id}`)}
+                  onClick={() => router.push(`works/${work._id}?page=${page}`)}
                   color="primary"
                   variant="outlined"
                   className="w-fit h-fit"
@@ -96,8 +104,8 @@ export default function WorksList(props: IWorksListProps) {
       </div>
       <ConfirmDeleteModal
         isOpen={isOpen}
-        onClose={onClose}
-        onConfirm={onConfirm}
+        onClose={handleClose}
+        onConfirm={handleConfirm}
       />
     </div>
   );

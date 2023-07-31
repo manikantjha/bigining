@@ -12,9 +12,14 @@ import { useQuery } from "react-query";
 export default function WorkDetail() {
   const router = useRouter();
   const { id } = router.query;
-  const work = useQuery(["workDetail"], () => {
-    return getWork(id as string);
+
+  const work = useQuery({
+    queryKey: ["clientWorkDetail", id],
+    queryFn: () => {
+      return getWork(id as string);
+    },
   });
+
   return (
     <>
       <Head>

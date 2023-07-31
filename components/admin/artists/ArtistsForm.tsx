@@ -5,7 +5,7 @@ import { IArtist } from "@/types/artists";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
-import { UseQueryResult, useMutation } from "react-query";
+import { UseQueryResult, useMutation, useQueryClient } from "react-query";
 import * as yup from "yup";
 import CommonButton from "../common/CommonButton";
 import FormSectionContainer from "../common/FormSectionContainer";
@@ -15,13 +15,15 @@ type TForm = yup.InferType<typeof artistSchema>;
 
 interface IArtistsFormProps {
   artist?: UseQueryResult<any, unknown>;
+  caseOfAdd: boolean;
 }
 
 export default function ArtistsForm(props: IArtistsFormProps) {
   const router = useRouter();
-  const { id } = router.query;
-  const caseOfAdd = id === "add" ? true : false;
-  const objArtist = caseOfAdd ? {} : props.artist?.data;
+  const queryClient = useQueryClient();
+  const { page = 1 } = router.query;
+
+  const objArtist = props.caseOfAdd ? {} : props.artist?.data;
 
   const defaultValues = props.artist?.data
     ? props.artist?.data
@@ -44,27 +46,29 @@ export default function ArtistsForm(props: IArtistsFormProps) {
     defaultValues,
   });
 
-  const addArtistMutation = useMutation("addArtist", addArtist);
-  const updateArtistMutation = useMutation("updateArtist", updateArtist);
+  const addArtistMutation = useMutation({
+    mutationFn: addArtist,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["artist", data._id], data);
+      queryClient.invalidateQueries(["artists"]);
+      router.replace(`/admin/artists?page=${page}`);
+    },
+  });
+  const updateArtistMutation = useMutation({
+    mutationFn: updateArtist,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["artist", data._id], data);
+      queryClient.invalidateQueries(["artists", page]);
+      router.replace(`/admin/artists?page=${page}`);
+    },
+  });
 
   function onSubmit(data: IArtist) {
     try {
       if (objArtist._id) {
-        updateArtistMutation.mutate(
-          { ...data, _id: objArtist._id },
-          {
-            onSuccess: () => {
-              props.artist?.refetch();
-              router.replace("/admin/artists");
-            },
-          }
-        );
+        updateArtistMutation.mutate({ ...data, _id: objArtist._id });
       } else {
-        addArtistMutation.mutate(data, {
-          onSuccess: () => {
-            router.replace("/admin/artists");
-          },
-        });
+        addArtistMutation.mutate(data);
       }
     } catch (error) {
       console.log("Error submitting form: ", error);
@@ -124,7 +128,7 @@ export default function ArtistsForm(props: IArtistsFormProps) {
                     onChange={onChange}
                     value={value}
                   >
-                    <option selected>Choose a category</option>
+                    <option>Choose a category</option>
                     <option value="celebrity">Celebrity</option>
                     <option value="singer">Singer</option>
                   </select>
@@ -186,7 +190,7 @@ export default function ArtistsForm(props: IArtistsFormProps) {
             type="submit"
             color="accent"
             loading={
-              caseOfAdd
+              props.caseOfAdd
                 ? addArtistMutation.isLoading
                 : updateArtistMutation.isLoading
             }

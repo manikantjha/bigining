@@ -8,7 +8,6 @@ import {
   sendError,
   sendResponse,
 } from "@/utils/server";
-import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ValidationError } from "yup";
@@ -30,7 +29,7 @@ export const getWorksPaginated = async (
 
     // Fetch paginated works from the database
     const works = await Work.find().skip(skip).limit(parsedLimit);
-
+    if (!works) sendError(res, 404, "No works found!");
     sendResponse(res, 200, {
       totalWorks,
       currentPage: parsedPageNumber,
@@ -66,7 +65,7 @@ export const getWorksForGalleryPaginated = async (
       .skip(skip)
       .limit(parsedLimit)
       .lean();
-
+    if (!works) sendError(res, 404, "No works found!");
     sendResponse(res, 200, {
       totalWorks,
       currentPage: parsedPageNumber,

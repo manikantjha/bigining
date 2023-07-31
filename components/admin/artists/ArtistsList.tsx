@@ -5,7 +5,7 @@ import { IArtist } from "@/types/artists";
 import { truncateText } from "@/utils/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { UseQueryResult, useMutation } from "react-query";
+import { UseQueryResult, useMutation, useQueryClient } from "react-query";
 import AddNewButton from "../common/AddNewButton";
 import CommonButton from "../common/CommonButton";
 
@@ -15,24 +15,28 @@ interface IArtistsListProps {
 
 export default function ArtistsList(props: IArtistsListProps) {
   const router = useRouter();
-  const deleteArtsitMutation = useMutation("deleteArtist", (data: IArtist) =>
-    deleteArtist(data)
-  );
   const [isOpen, setIsOpen] = useState(false);
   const [artist, setArtist] = useState<IArtist | null>(null);
+  const queryClient = useQueryClient();
 
-  function onClose() {
+  const { page = 1 } = router.query;
+
+  const deleteArtsitMutation = useMutation({
+    mutationFn: (data: IArtist) => deleteArtist(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["artists"]);
+    },
+    onSettled: () => {
+      setIsOpen(false);
+    },
+  });
+
+  function handleClose() {
     setIsOpen(false);
   }
 
-  function onConfirm() {
-    if (artist)
-      deleteArtsitMutation.mutate(artist, {
-        onSettled() {
-          setIsOpen(false);
-          props.artists.refetch();
-        },
-      });
+  function handleConfirm() {
+    if (artist) deleteArtsitMutation.mutate(artist);
   }
 
   const data = props.artists?.data?.artists || [];
@@ -41,7 +45,7 @@ export default function ArtistsList(props: IArtistsListProps) {
     <div>
       <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <AddNewButton
-          herf="artists/add"
+          herf={`artists/add?page=${page}`}
           router={router}
           text="Add New Artist"
         />
@@ -68,7 +72,9 @@ export default function ArtistsList(props: IArtistsListProps) {
               </div>
               <div className="flex space-x-2 mt-2">
                 <CommonButton
-                  onClick={() => router.push(`artists/${artist._id}`)}
+                  onClick={() =>
+                    router.push(`artists/${artist._id}?page=${page}`)
+                  }
                   color="primary"
                   variant="outlined"
                   className="w-fit h-fit"
@@ -94,8 +100,8 @@ export default function ArtistsList(props: IArtistsListProps) {
       </div>
       <ConfirmDeleteModal
         isOpen={isOpen}
-        onClose={onClose}
-        onConfirm={onConfirm}
+        onClose={handleClose}
+        onConfirm={handleConfirm}
       />
     </div>
   );
