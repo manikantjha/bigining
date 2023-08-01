@@ -1,5 +1,10 @@
-import { getUpcomingEvent } from "@/controllers/upcomingEventsControllers";
+import {
+  deleteUpcomingEvent,
+  getUpcomingEventById,
+  updateUpcomingEvent,
+} from "@/controllers/upcomingEventsControllers";
 import connect from "@/database/connection";
+import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -12,7 +17,13 @@ export default async function handler(
 
   switch (req.method) {
     case "GET":
-      await getUpcomingEvent(req, res);
+      await getUpcomingEventById(req, res);
+      break;
+    case "POST":
+      await jwtMiddleware(req, res, updateUpcomingEvent);
+      break;
+    case "DELETE":
+      await jwtMiddleware(req, res, deleteUpcomingEvent);
       break;
     default:
       res.status(405).end(`Method ${req.method} not allowed!`);

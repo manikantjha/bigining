@@ -26,7 +26,7 @@ import {
   getHero,
   getReviews,
   getServicesPaginated,
-  getUpcomingEvents,
+  getUpcomingEventsPaginated,
   getWorksForGalleryPaginated,
 } from "@/services/apiServices";
 import Head from "next/head";
@@ -59,7 +59,7 @@ export default function Home() {
   });
   const upcomingEvents = useQuery({
     queryKey: ["clientUpcomingEventsHome"],
-    queryFn: () => getUpcomingEvents(),
+    queryFn: () => getUpcomingEventsPaginated(1, 6),
   });
   const reviews = useQuery({
     queryKey: ["clientReviewsHome"],

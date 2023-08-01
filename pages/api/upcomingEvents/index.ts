@@ -1,6 +1,6 @@
 import {
-  addUpdateUpcomingEvent,
-  getUpcomingEvents,
+  addUpcomingEvent,
+  getUpcomingEventsPaginated,
 } from "@/controllers/upcomingEventsControllers";
 import connect from "@/database/connection";
 import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
@@ -16,10 +16,10 @@ export default async function handler(
 
   switch (req.method) {
     case "GET":
-      await getUpcomingEvents(req, res);
+      await getUpcomingEventsPaginated(req, res);
       break;
     case "POST":
-      await jwtMiddleware(req, res, addUpdateUpcomingEvent);
+      await jwtMiddleware(req, res, addUpcomingEvent);
       break;
     default:
       res.status(405).end(`Method ${req.method} not allowed!`);

@@ -1,13 +1,13 @@
 import { IRowTheme } from "@/types/row";
-import { UseQueryResult } from "react-query";
-import UpcomingEventCard from "./UpcomingEventCard";
-import RowWrapper from "../common/RowWrapper";
 import { IUpcomingEvent } from "@/types/upcomingEvents";
+import { UseQueryResult } from "react-query";
 import Slider, { CustomArrowProps, Settings } from "react-slick";
 import LinkBtn from "../common/LinkBtn";
+import RowWrapper from "../common/RowWrapper";
+import UpcomingEventCard from "./UpcomingEventCard";
 
 interface IUpcomingEventsRowProps extends IRowTheme {
-  upcomingEvents: UseQueryResult<any, unknown>;
+  upcomingEvents?: UseQueryResult<any, unknown>;
   rowWrapperClassName?: string;
 }
 
@@ -63,18 +63,14 @@ function SamplePrevArrow(props: CustomArrowProps) {
   );
 }
 
-export default function UpcomingEventsRow(props: IUpcomingEventsRowProps) {
-  if (
-    !props.upcomingEvents ||
-    !props.upcomingEvents.data ||
-    !props.upcomingEvents.data.upcomingEvents ||
-    !props.upcomingEvents.data.upcomingEvents[0] ||
-    !props.upcomingEvents.data.upcomingEvents[0].upcomingEvents ||
-    !props.upcomingEvents.data.upcomingEvents[0].upcomingEvents.length
-  )
-    return;
-  const upcomingEvents =
-    props.upcomingEvents.data.upcomingEvents[0].upcomingEvents;
+export default function UpcomingEventsRow({
+  upcomingEvents,
+  rowWrapperClassName = "",
+  theme = "light",
+}: IUpcomingEventsRowProps) {
+  if (!upcomingEvents?.data?.upcomingEvents?.length) return null;
+
+  const data = upcomingEvents?.data?.upcomingEvents || [];
 
   const settings: Settings = {
     dots: false,
@@ -90,32 +86,27 @@ export default function UpcomingEventsRow(props: IUpcomingEventsRowProps) {
   return (
     <RowWrapper
       title="Upcoming Events"
-      // description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, error?"
-      theme={props.theme}
-      containerWrapperClassName={`${props.rowWrapperClassName || ""}`}
+      theme={theme}
+      containerWrapperClassName={`${rowWrapperClassName}`}
     >
       <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {upcomingEvents.map((event: IUpcomingEvent, index: number) => (
+        {data.map((event: IUpcomingEvent, index: number) => (
           <div key={index} className="px-2">
-            <UpcomingEventCard objUpcomingEvent={event} theme={props.theme} />
+            <UpcomingEventCard upcomingEvent={event} theme={theme} />
           </div>
         ))}
       </div>
       <div className="block md:hidden">
         <Slider {...settings}>
-          {upcomingEvents.map((event: IUpcomingEvent, index: number) => (
+          {data.map((event: IUpcomingEvent, index: number) => (
             <div key={index} className="px-2">
-              <UpcomingEventCard objUpcomingEvent={event} theme={props.theme} />
+              <UpcomingEventCard upcomingEvent={event} theme={theme} />
             </div>
           ))}
         </Slider>
       </div>
       <div className="mt-12">
-        <LinkBtn
-          href="/upcomingEvents"
-          text="Sell All Events"
-          theme={props.theme}
-        />
+        <LinkBtn href="/upcomingEvents" text="Sell All Events" theme={theme} />
       </div>
     </RowWrapper>
   );

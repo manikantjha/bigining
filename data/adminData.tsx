@@ -123,7 +123,7 @@ export const lstAdminNavBarMenu = [
       </svg>
     ),
     name: "Upcoming Events",
-    path: "/admin/upcomingEvents",
+    path: "/admin/upcomingEvents?page=1",
   },
   {
     id: 7,

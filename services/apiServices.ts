@@ -9,7 +9,7 @@ import { IFigures } from "@/types/figures";
 import { IHero } from "@/types/hero";
 import { IService } from "@/types/services";
 import { ITeamMembers } from "@/types/teamMembers";
-import { IUpcomingEvents } from "@/types/upcomingEvents";
+import { IUpcomingEvent } from "@/types/upcomingEvents";
 import { IWork } from "@/types/works";
 import Router from "next/router";
 import { get, post, remove } from "./fetchServices";
@@ -321,19 +321,34 @@ export const deleteArtist = async (data: IArtist) => {
 
 //  Upcoming Events --------------------------------------------------!
 
-export const getUpcomingEvents = async () => {
-  return await get(`${BASE_URL}/api/upcomingEvents`);
+export const getUpcomingEventsPaginated = async (
+  currentPage: number,
+  limit: number
+) => {
+  return await get(
+    `${BASE_URL}/api/upcomingEvents?page=${currentPage}&limit=${limit}`
+  );
 };
 
 export const getUpcomingEvent = async (id: string) => {
   return await get(`${BASE_URL}/api/upcomingEvents/${id}`);
 };
 
-export const addUpdateUpcomingEvent = async (data: IUpcomingEvents) => {
+export const addUpcomingEvent = async (data: IUpcomingEvent) => {
   const token = localStorage.getItem("token");
-  try {
-    return await post(`${BASE_URL}/api/upcomingEvents`, data, token);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
+  return await post(`${BASE_URL}/api/upcomingEvents`, data, token);
+};
+
+export const updateUpcomingEvent = async (data: IUpcomingEvent) => {
+  const token = localStorage.getItem("token");
+  return await post(`${BASE_URL}/api/upcomingEvents/${data._id}`, data, token);
+};
+
+export const deleteUpcomingEvent = async (data: IUpcomingEvent) => {
+  const token = localStorage.getItem("token");
+  return await remove(
+    `${BASE_URL}/api/upcomingEvents/${data._id}`,
+    data,
+    token
+  );
 };

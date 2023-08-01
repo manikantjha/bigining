@@ -3,26 +3,23 @@ import { IUpcomingEvent } from "@/types/upcomingEvents";
 import Card from "../common/Card";
 
 interface IUpcomingEventCard extends IRowTheme {
-  objUpcomingEvent?: IUpcomingEvent;
+  upcomingEvent?: IUpcomingEvent;
 }
 
 export default function UpcomingEventCard(props: IUpcomingEventCard) {
-  if (!props.objUpcomingEvent) return;
+  if (!props.upcomingEvent) return;
   return (
     <div>
       <Card className="space-y-1 !p-3 text-black" theme={props.theme}>
-        <div className="h-auto min-h-[300px] w-full overflow-hidden rounded-md mb-4 border border-black">
+        <div className="h-[350px] w-full overflow-hidden rounded-md mb-4 border border-black">
           <img
-            src={props.objUpcomingEvent.imageURL}
-            alt={props.objUpcomingEvent.name}
-            className="object-cover h-full w-full"
+            src={props.upcomingEvent.image.medium.url}
+            alt={props.upcomingEvent.name}
+            className="!object-cover !h-full !w-full"
           />
         </div>
-        <h3 className="text-xl font-medium">{props.objUpcomingEvent.name}</h3>
-        {/* {props.objUpcomingEvent.description && (
-          <p>{props.objUpcomingEvent.description}</p>
-        )} */}
-        {props.objUpcomingEvent.startDate && (
+        <h3 className="text-xl font-medium">{props.upcomingEvent.name}</h3>
+        {props.upcomingEvent.startDate && (
           <p className="flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -38,15 +35,13 @@ export default function UpcomingEventCard(props: IUpcomingEventCard) {
                 d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
               />
             </svg>
-            {new Date(props.objUpcomingEvent.startDate).toDateString()}
+            {new Date(props.upcomingEvent.startDate).toDateString()}
           </p>
         )}
-        {/* {props.objUpcomingEvent.endDate && (
-          <p>
-            Ending: {new Date(props.objUpcomingEvent.endDate).toDateString()}
-          </p>
+        {/* {props.upcomingEvent.endDate && (
+          <p>Ending: {new Date(props.upcomingEvent.endDate).toDateString()}</p>
         )} */}
-        {props.objUpcomingEvent.location && (
+        {props.upcomingEvent.location && (
           <p className="flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +62,7 @@ export default function UpcomingEventCard(props: IUpcomingEventCard) {
                 d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
               />
             </svg>
-            {props.objUpcomingEvent.location}
+            {props.upcomingEvent.location}
           </p>
         )}
       </Card>
