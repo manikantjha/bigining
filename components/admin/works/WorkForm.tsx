@@ -1,6 +1,6 @@
 import { workSchema } from "@/schemas/workSchema";
 import { addWork, updateWork } from "@/services/apiServices";
-import { IWork } from "@/types/works";
+import { IWork } from "@/types/work";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import { Controller, useFieldArray, useForm } from "react-hook-form";

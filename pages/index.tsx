@@ -24,7 +24,7 @@ import {
   getFeatures,
   getFigures,
   getHero,
-  getReviews,
+  getActiveReviewsPaginated,
   getServicesPaginated,
   getUpcomingEventsPaginated,
   getWorksForGalleryPaginated,
@@ -63,7 +63,7 @@ export default function Home() {
   });
   const reviews = useQuery({
     queryKey: ["clientReviewsHome"],
-    queryFn: () => getReviews(),
+    queryFn: () => getActiveReviewsPaginated(),
   });
 
   return (

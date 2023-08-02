@@ -1,18 +1,20 @@
-import { IArtist } from "@/types/artists";
+import { IArtist } from "@/types/artist";
 import { IUserCredentials } from "@/types/auth";
-import { ICompany } from "@/types/companies";
+import { ICompany } from "@/types/company";
 import { ISendMessage } from "@/types/contact";
 import { IContactInfo } from "@/types/contactInfo";
 import { IFAQs } from "@/types/faqs";
 import { IFeatures } from "@/types/features";
 import { IFigures } from "@/types/figures";
 import { IHero } from "@/types/hero";
-import { IService } from "@/types/services";
-import { ITeamMembers } from "@/types/teamMembers";
-import { IUpcomingEvent } from "@/types/upcomingEvents";
-import { IWork } from "@/types/works";
+import { IService } from "@/types/service";
+import { ITeamMember } from "@/types/teamMember";
+import { IUpcomingEvent } from "@/types/upcomingEvent";
+import { IWork } from "@/types/work";
 import Router from "next/router";
 import { get, post, remove } from "./fetchServices";
+import { IReview } from "@/types/review";
+import createEntityService from "@/HOFs/servicesHOF";
 
 const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
 // const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
@@ -147,21 +149,33 @@ export const addUpdateContactInfo = async (data: IContactInfo) => {
 
 //  Team Members --------------------------------------------------!
 
-export const getTeamMembers = async () => {
-  return await get(`${BASE_URL}/api/teamMembers`);
+const teamMemberService = createEntityService<ITeamMember>("teamMembers");
+
+export const getTeamMembersPaginated = async (
+  currentPage: number,
+  limit: number
+) => {
+  return await teamMemberService.getPaginated(
+    `?page=${currentPage}&limit=${limit}`
+  );
 };
 
 export const getTeamMember = async (id: string) => {
-  return await get(`${BASE_URL}/api/teamMembers/${id}`);
+  return await teamMemberService.get(`/${id}`);
 };
 
-export const addUpdateTeamMember = async (data: ITeamMembers) => {
-  const token = localStorage.getItem("token");
-  try {
-    return await post(`${BASE_URL}/api/teamMembers`, data, token);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
+export const addTeamMember = async (data: ITeamMember) => {
+  return await teamMemberService.post(data);
+};
+
+export const updateTeamMember = async (data: ITeamMember) => {
+  if (!data._id) return;
+  return await teamMemberService.update(data._id, data);
+};
+
+export const deleteTeamMember = async (data: ITeamMember) => {
+  if (!data._id) return;
+  return await teamMemberService.remove(data._id, data);
 };
 
 //  Works --------------------------------------------------!
@@ -251,12 +265,20 @@ export async function sendReviewForm(data: IReview) {
   return await post(`${BASE_URL}/api/reviews`, data);
 }
 
-export async function getReviews() {
+export async function getActiveReviewsPaginated(
+  currentPage: number,
+  limit: number
+) {
   return await get(`${BASE_URL}/api/reviews`);
 }
 
-export async function deleteReview(data: { id: string }) {
-  return await remove(`${BASE_URL}/api/reviews`, data);
+export async function getReviewsPaginated(currentPage: number, limit: number) {
+  return await get(`${BASE_URL}/api/reviews`);
+}
+
+export async function deleteReview(id: string) {
+  const token = localStorage.getItem("token");
+  return await remove(`${BASE_URL}/api/reviews/${id}`, {}, token);
 }
 
 //  Companies --------------------------------------------------!

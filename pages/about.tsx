@@ -13,7 +13,7 @@ import {
   getCompaniesPaginated,
   getFigures,
   getHero,
-  getTeamMembers,
+  getTeamMembersPaginated,
 } from "@/services/apiServices";
 import Head from "next/head";
 import { useQuery } from "react-query";
@@ -24,7 +24,9 @@ export default function About() {
   const companies = useQuery("clientCompaniesHome", () =>
     getCompaniesPaginated(0, 20)
   );
-  const teamMembers = useQuery("teamMembers", () => getTeamMembers());
+  const teamMembers = useQuery("teamMembers", () =>
+    getTeamMembersPaginated(1, 2)
+  );
 
   return (
     <>

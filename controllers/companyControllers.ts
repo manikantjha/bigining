@@ -1,6 +1,6 @@
-import Artist from "@/models/artists";
-import { artistSchema } from "@/schemas/artistSchema";
-import { IImage } from "@/types/images";
+import Company from "@/models/company";
+import { companySchema } from "@/schemas/companySchema";
+import { IImage } from "@/types/image";
 import {
   deleteImageFromFirebase,
   firebaseImageUploader,
@@ -11,20 +11,20 @@ import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ValidationError } from "yup";
 
-export const getAllArtists = async (
+export const getAllCompanies = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
   try {
-    const artists = await Artist.find();
-    if (!artists) sendError(res, 404, "No artists found!");
-    sendResponse(res, 200, artists);
+    const companies = await Company.find();
+    if (!companies) sendError(res, 404, "No companies found!");
+    sendResponse(res, 200, companies);
   } catch (error) {
     sendError(res, 500, "Server error!");
   }
 };
 
-export const getArtistsPaginated = async (
+export const getCompaniesPaginated = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
@@ -34,48 +34,48 @@ export const getArtistsPaginated = async (
     const parsedLimit = parseInt(limit as string, 10);
     const skip = (parsedPageNumber - 1) * parsedLimit;
 
-    const totalArtists = await Artist.countDocuments();
+    const totalCompanies = await Company.countDocuments();
 
-    const artists = await Artist.find().skip(skip).limit(parsedLimit);
+    const companies = await Company.find().skip(skip).limit(parsedLimit);
 
-    if (!artists) sendError(res, 404, "No artists found!");
+    if (!companies) sendError(res, 404, "No companies found!");
 
     sendResponse(res, 200, {
-      totalArtists,
+      totalCompanies,
       currentPage: parsedPageNumber,
-      artists,
+      companies,
     });
   } catch (error) {
-    console.error("Error fetching paginated artists: ", error);
+    console.error("Error fetching paginated companies: ", error);
     sendError(res, 500, "Internal server error!");
   }
 };
 
-export const getArtistById = async (
+export const getCompanyById = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
   try {
     const { id } = req.query;
     if (!mongoose.Types.ObjectId.isValid(id as string)) {
-      return sendError(res, 400, "Invalid artist ID!");
+      return sendError(res, 400, "Invalid company ID!");
     }
-    const artist = await Artist.findById(id);
-    if (!artist) {
-      return sendError(res, 404, "Artist not found!");
+    const company = await Company.findById(id);
+    if (!company) {
+      return sendError(res, 404, "Company not found!");
     }
-    sendResponse(res, 200, artist);
+    sendResponse(res, 200, company);
   } catch (error) {
-    console.error("Error getting artist:", error);
+    console.error("Error getting company:", error);
     sendError(res, 500, "Internal server error!");
   }
 };
 
-export const addArtist = async (req: NextApiRequest, res: NextApiResponse) => {
+export const addCompany = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // Validate the request body
     try {
-      await artistSchema.validate(req.body);
+      await companySchema.validate(req.body);
     } catch (error) {
       if (error instanceof ValidationError) {
         return sendError(res, 400, error.message);
@@ -83,40 +83,37 @@ export const addArtist = async (req: NextApiRequest, res: NextApiResponse) => {
       return sendError(res, 400, "Bad request!");
     }
 
-    const { name, description, category, numberOfEvents, image } = req.body;
+    const { name, image } = req.body;
 
     const newImage = await firebaseImageUploader<IImage>(image);
 
-    const newArtist = new Artist({
+    const newCompany = new Company({
       name,
-      description,
-      category,
-      numberOfEvents,
       image: newImage,
     });
 
-    await newArtist.save();
+    await newCompany.save();
 
-    sendResponse(res, 201, newArtist);
+    sendResponse(res, 201, newCompany);
   } catch (error) {
-    console.error("Error adding artist:", error);
+    console.error("Error adding company:", error);
     sendError(res, 500, "Internal server error!");
   }
 };
 
-export const updateArtist = async (
+export const updateCompany = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
   try {
     const { id } = req.query;
     if (!mongoose.Types.ObjectId.isValid(id as string)) {
-      return sendError(res, 400, "Invalid artist ID!");
+      return sendError(res, 400, "Invalid company ID!");
     }
 
     // Validate the request body
     try {
-      await artistSchema.validate(req.body);
+      await companySchema.validate(req.body);
     } catch (error) {
       if (error instanceof ValidationError) {
         return sendError(res, 400, error.message);
@@ -124,12 +121,12 @@ export const updateArtist = async (
       return sendError(res, 400, "Bad request!");
     }
 
-    const existingArtist = await Artist.findById(id);
-    if (!existingArtist) {
-      return sendError(res, 404, "Artist not found!");
+    const existingCompany = await Company.findById(id);
+    if (!existingCompany) {
+      return sendError(res, 404, "Company not found!");
     }
 
-    const { name, description, category, numberOfEvents, image } = req.body;
+    const { name, image } = req.body;
 
     // These only need to happen if the image is changed!
 
@@ -137,29 +134,26 @@ export const updateArtist = async (
 
     if (
       image.original.url.startsWith("data:image") &&
-      existingArtist.image.original.url
+      existingCompany.image.original.url
     ) {
-      deleteImageFromFirebase(existingArtist.image);
+      deleteImageFromFirebase(existingCompany.image);
     }
 
-    existingArtist.set({
+    existingCompany.set({
       name,
-      description,
-      category,
-      numberOfEvents,
       image: newImage,
     });
 
-    await existingArtist.save();
+    await existingCompany.save();
 
-    sendResponse(res, 200, existingArtist);
+    sendResponse(res, 200, existingCompany);
   } catch (error) {
-    console.error("Error updating artist:", error);
+    console.error("Error updating company:", error);
     sendError(res, 500, "Internal server error!");
   }
 };
 
-export const deleteArtist = async (
+export const deleteCompany = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
@@ -167,16 +161,16 @@ export const deleteArtist = async (
     const { id } = req.query;
     const body = req.body;
     if (!mongoose.Types.ObjectId.isValid(id as string)) {
-      return sendError(res, 400, "Invalid artist ID!");
+      return sendError(res, 400, "Invalid company ID!");
     }
 
     deleteImageFromFirebase(body.image);
 
-    await Artist.findByIdAndDelete(id);
+    await Company.findByIdAndDelete(id);
 
-    sendResponse(res, 200, { message: "Artist deleted successfully!" });
+    sendResponse(res, 200, { message: "Company deleted successfully!" });
   } catch (error) {
-    console.error("Error deleting artist:", error);
+    console.error("Error deleting company:", error);
     sendError(res, 500, "Internal server error!");
   }
 };

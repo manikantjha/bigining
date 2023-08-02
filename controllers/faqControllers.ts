@@ -1,4 +1,4 @@
-import FAQs from "@/models/faqs";
+import FAQs from "@/models/faq";
 import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 

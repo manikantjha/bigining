@@ -1,6 +1,6 @@
-import { IImage } from "@/types/images";
+import { IImage } from "@/types/image";
 import { Document, Schema, model, models } from "mongoose";
-import { imageSchema } from "./images";
+import { imageSchema } from "./image";
 
 export interface IWorkDocument extends Document {
   name: string;

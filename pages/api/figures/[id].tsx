@@ -1,4 +1,4 @@
-import { getFigure } from "@/controllers/figuresControllers";
+import { getFigure } from "@/controllers/figureControllers";
 import connect from "@/database/connection";
 import type { NextApiRequest, NextApiResponse } from "next";
 

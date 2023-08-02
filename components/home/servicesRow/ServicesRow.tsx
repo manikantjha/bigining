@@ -1,6 +1,6 @@
 import LinkBtn from "@/components/common/LinkBtn";
 import { IRowTheme } from "@/types/row";
-import { IService } from "@/types/services";
+import { IService } from "@/types/service";
 import { UseQueryResult } from "react-query";
 import ServiceCard from "./ServiceCard";
 

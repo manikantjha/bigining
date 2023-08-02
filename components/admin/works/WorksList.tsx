@@ -1,7 +1,7 @@
 import ConfirmDeleteModal from "@/components/common/ConfirmDeleteModal";
 import { GetIcon } from "@/components/common/icons/icons";
 import { deleteWork } from "@/services/apiServices";
-import { IWork } from "@/types/works";
+import { IWork } from "@/types/work";
 import { truncateText } from "@/utils/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";

@@ -1,4 +1,4 @@
-import { getFeature } from "@/controllers/featuresControllers";
+import { getFeature } from "@/controllers/featureControllers";
 import connect from "@/database/connection";
 import type { NextApiRequest, NextApiResponse } from "next";
 

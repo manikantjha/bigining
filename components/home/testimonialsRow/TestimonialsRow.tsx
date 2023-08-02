@@ -1,8 +1,8 @@
 import RowWrapper from "@/components/common/RowWrapper";
-import { lstTestimonials } from "@/data/data";
+import { IReview } from "@/types/review";
 import { IRowTheme } from "@/types/row";
-import ReviewCard from "../reviewRow/ReviewCard";
 import { UseQueryResult } from "react-query";
+import ReviewCard from "../reviewRow/ReviewCard";
 
 interface ITestimonialsRowProps extends IRowTheme {
   reviews?: UseQueryResult<any, unknown>;

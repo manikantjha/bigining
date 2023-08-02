@@ -2,7 +2,7 @@
 import LinkBtn from "@/components/common/LinkBtn";
 import RowWrapper from "@/components/common/RowWrapper";
 import { IRowTheme } from "@/types/row";
-import { IWork } from "@/types/works";
+import { IWork } from "@/types/work";
 import { UseQueryResult } from "react-query";
 import Slider, { CustomArrowProps } from "react-slick";
 

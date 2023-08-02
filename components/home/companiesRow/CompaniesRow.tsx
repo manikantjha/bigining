@@ -4,7 +4,7 @@ import React from "react";
 import { UseQueryResult } from "react-query";
 import CompanyCard from "./CompanyCard";
 import Slider, { CustomArrowProps } from "react-slick";
-import { ICompany } from "@/types/companies";
+import { ICompany } from "@/types/company";
 
 interface ICompaniesRowProps extends IRowTheme {
   companies: UseQueryResult<any, unknown>;

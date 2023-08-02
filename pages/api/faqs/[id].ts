@@ -1,4 +1,4 @@
-import { getFAQ } from "@/controllers/faqsControllers";
+import { getFAQ } from "@/controllers/faqControllers";
 import connect from "@/database/connection";
 import type { NextApiRequest, NextApiResponse } from "next";
 

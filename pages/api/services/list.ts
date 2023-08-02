@@ -1,4 +1,4 @@
-import { getServicesList } from "@/controllers/servicesControllers";
+import { getServicesList } from "@/controllers/serviceControllers";
 import connect from "@/database/connection";
 import type { NextApiRequest, NextApiResponse } from "next";
 

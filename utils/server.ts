@@ -1,4 +1,4 @@
-import { IImage, IImageSize } from "@/types/images";
+import { IImage, IImageSize } from "@/types/image";
 import { storage } from "firebase-admin";
 import { NextApiResponse } from "next";
 

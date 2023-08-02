@@ -1,7 +1,7 @@
 import ConfirmDeleteModal from "@/components/common/ConfirmDeleteModal";
 import { GetIcon } from "@/components/common/icons/icons";
 import { deleteService } from "@/services/apiServices";
-import { IService } from "@/types/services";
+import { IService } from "@/types/service";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { UseQueryResult, useMutation, useQueryClient } from "react-query";

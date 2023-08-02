@@ -1,7 +1,7 @@
 import { GetIcon } from "@/components/common/icons/icons";
 import { upcomingEventSchema } from "@/schemas/upcomingEventSchema";
 import { addUpcomingEvent, updateUpcomingEvent } from "@/services/apiServices";
-import { IUpcomingEvent } from "@/types/upcomingEvents";
+import { IUpcomingEvent } from "@/types/upcomingEvent";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import { useState } from "react";

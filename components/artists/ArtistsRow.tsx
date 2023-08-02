@@ -1,4 +1,4 @@
-import { IArtist } from "@/types/artists";
+import { IArtist } from "@/types/artist";
 import { IRowTheme } from "@/types/row";
 import { UseQueryResult } from "react-query";
 import NoData from "../common/NoData";
@@ -11,13 +11,14 @@ interface IArtistsRowProps extends IRowTheme {
 export default function ArtistsRow(props: IArtistsRowProps) {
   if (
     !props.artists?.data?.artists ||
-    !Array.isArray(props.artists?.data?.artists) ||
+    !Array.isArray(props.artists?.data?.items) ||
     !props.artists?.data?.artists?.length
   ) {
     return <NoData />;
   }
 
-  const artists = props.artists.data.artists;
+  const artists = props.artists.data.items;
+  console.log("artists", artists);
 
   const celebs: IArtist[] = artists.filter(
     (item: IArtist) => item.category === "celebrity"

@@ -2,7 +2,7 @@ import {
   deleteService,
   getServiceById,
   updateService,
-} from "@/controllers/servicesControllers";
+} from "@/controllers/serviceControllers";
 import connect from "@/database/connection";
 import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
 import type { NextApiRequest, NextApiResponse } from "next";

@@ -1,7 +1,7 @@
 import ConfirmDeleteModal from "@/components/common/ConfirmDeleteModal";
 import { GetIcon } from "@/components/common/icons/icons";
 import { deleteUpcomingEvent } from "@/services/apiServices";
-import { IUpcomingEvent } from "@/types/upcomingEvents";
+import { IUpcomingEvent } from "@/types/upcomingEvent";
 import { truncateText } from "@/utils/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";

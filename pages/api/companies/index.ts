@@ -1,7 +1,7 @@
 import {
   addCompany,
   getCompaniesPaginated,
-} from "@/controllers/companiesControllers";
+} from "@/controllers/companyControllers";
 import connect from "@/database/connection";
 import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
 import type { NextApiRequest, NextApiResponse } from "next";

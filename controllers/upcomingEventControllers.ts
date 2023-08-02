@@ -1,7 +1,7 @@
-import UpcomingEvent from "@/models/upcomingEvents";
+import UpcomingEvent from "@/models/upcomingEvent";
 import { upcomingEventSchema } from "@/schemas/upcomingEventSchema";
-import { IImage } from "@/types/images";
-import { IUpcomingEvent } from "@/types/upcomingEvents";
+import { IImage } from "@/types/image";
+import { IUpcomingEvent } from "@/types/upcomingEvent";
 import {
   deleteImageFromFirebase,
   firebaseImageUploader,

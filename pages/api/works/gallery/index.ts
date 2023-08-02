@@ -1,4 +1,4 @@
-import { getWorksForGalleryPaginated } from "@/controllers/worksControllers";
+import { getWorksForGalleryPaginated } from "@/controllers/workControllers";
 import connect from "@/database/connection";
 import type { NextApiRequest, NextApiResponse } from "next";
 

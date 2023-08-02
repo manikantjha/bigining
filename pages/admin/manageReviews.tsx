@@ -2,17 +2,22 @@ import FormSectionTitle from "@/components/admin/common/FormSectionTitle";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
 import ReviewList from "@/components/admin/manageReviews/ReviewsList";
 import AdminLayout from "@/layout/admin/AdminLayout";
-import { deleteReview, getReviews } from "@/services/apiServices";
+import {
+  deleteReview,
+  getActiveReviewsPaginated,
+} from "@/services/apiServices";
 import { useMutation, useQuery } from "react-query";
 
 export default function ManageReviews() {
-  const reviews = useQuery("manageReviews", () => getReviews());
+  const reviews = useQuery("manageReviews", () => getActiveReviewsPaginated());
+
   const useDeleteReview = () => {
-    const mutate = useMutation("deleteReview", (id: string) =>
-      deleteReview({ id })
-    );
+    const mutate = useMutation({
+      mutationFn: (id: string) => deleteReview(id),
+    });
     return mutate;
   };
+
   const { mutate, isLoading } = useDeleteReview();
 
   return (

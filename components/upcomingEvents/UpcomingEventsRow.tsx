@@ -1,5 +1,5 @@
 import { IRowTheme } from "@/types/row";
-import { IUpcomingEvent } from "@/types/upcomingEvents";
+import { IUpcomingEvent } from "@/types/upcomingEvent";
 import { UseQueryResult } from "react-query";
 import Slider, { CustomArrowProps, Settings } from "react-slick";
 import LinkBtn from "../common/LinkBtn";

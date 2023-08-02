@@ -1,5 +1,5 @@
 import { GetIcon } from "@/components/common/icons/icons";
-import { IImage } from "@/types/images";
+import { IImage } from "@/types/image";
 import { useImageSelection } from "@/utils/image";
 import { ChangeEvent } from "react";
 import { UseFieldArrayRemove } from "react-hook-form";

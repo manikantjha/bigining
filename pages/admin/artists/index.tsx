@@ -29,7 +29,7 @@ export default function ArtistsListPage() {
         <ArtistsList artists={artists} />
         <Pagination
           currentPage={artists?.data?.currentPage}
-          totalItems={artists?.data?.totalArtists}
+          totalItems={artists?.data?.totalItems}
           itemsPerPage={limit}
           alwaysVisible
           containerClassName="!mt-[80px]"

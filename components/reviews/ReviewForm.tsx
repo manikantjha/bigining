@@ -1,31 +1,18 @@
+import { reviewSchema } from "@/schemas/reviewSchema";
+import { sendReviewForm } from "@/services/apiServices";
+import { IReview } from "@/types/review";
 import { IRowTheme } from "@/types/row";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, useForm } from "react-hook-form";
-import * as yup from "yup";
-import RowWrapper from "../common/RowWrapper";
-import Card from "../common/Card";
-import { sendReviewForm } from "@/services/apiServices";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
+import { InferType } from "yup";
+import Card from "../common/Card";
 import Modal from "../common/Modal";
+import RowWrapper from "../common/RowWrapper";
 import ContactModalContent from "../contact/ContactModalContent";
 
-const schema = yup.object({
-  email: yup
-    .string()
-    .required("Email is required")
-    .email("Invalid email address"),
-  rating: yup.number().required("Rating is required").min(1).max(5),
-  name: yup.string().required("Name is required"),
-  message: yup.string().required("Message is required"),
-});
-
-type ReviewFormData = {
-  email: string;
-  name: string;
-  rating: number;
-  message: string;
-};
+type TForm = InferType<typeof reviewSchema>;
 
 interface IReviewFormProps extends IRowTheme {}
 
@@ -39,11 +26,12 @@ const ReviewForm = (props: IReviewFormProps) => {
     formState: { errors },
     reset,
     register,
-  } = useForm<ReviewFormData>({
-    resolver: yupResolver(schema),
+  } = useForm<TForm>({
+    resolver: yupResolver<TForm>(reviewSchema),
   });
 
-  const reviewMutation = useMutation(sendReviewForm, {
+  const reviewMutation = useMutation({
+    mutationFn: sendReviewForm,
     onSuccess(data, variables, context) {
       setIsSuccess(true);
       setIsOpen(true);
@@ -60,14 +48,13 @@ const ReviewForm = (props: IReviewFormProps) => {
     setIsOpen(false);
   }
 
-  const onSubmit = (data: ReviewFormData) => {
+  const onSubmit = (data: IReview) => {
     reviewMutation.mutate(data);
   };
 
   return (
     <RowWrapper
       title="Add A Review"
-      // description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, error?"
       theme={props.theme}
       containerWrapperClassName="border-t-4 border-secondaryDark bg-primaryLighter"
     >

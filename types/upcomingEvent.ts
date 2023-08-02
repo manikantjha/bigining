@@ -1,4 +1,4 @@
-import { IImage } from "./images";
+import { IImage } from "./image";
 
 export interface IUpcomingEvent {
   _id?: string;

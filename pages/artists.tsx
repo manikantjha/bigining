@@ -39,7 +39,7 @@ export default function Artists() {
           <ArtistsRow artists={artists} />
           <Pagination
             currentPage={artists.data?.currentPage}
-            totalItems={artists.data?.totalArtists}
+            totalItems={artists.data?.totalItems}
             itemsPerPage={limit}
             containerClassName="mt-[80px]"
             baseHref="/artists"

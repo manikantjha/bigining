@@ -1,5 +1,5 @@
 import Card from "@/components/common/Card";
-import { ICompany } from "@/types/companies";
+import { ICompany } from "@/types/company";
 import { IRowTheme } from "@/types/row";
 import React from "react";
 

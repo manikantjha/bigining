@@ -1,4 +1,4 @@
-import Figures from "@/models/figures";
+import Figures from "@/models/figure";
 import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 

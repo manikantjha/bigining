@@ -1,4 +1,4 @@
-import { addUpdateFAQs, getFAQs } from "@/controllers/faqsControllers";
+import { addUpdateFAQs, getFAQs } from "@/controllers/faqControllers";
 import connect from "@/database/connection";
 import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
 import type { NextApiRequest, NextApiResponse } from "next";

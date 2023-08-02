@@ -1,4 +1,4 @@
-import Users from "@/models/users";
+import Users from "@/models/user";
 import { auth } from "@/services/firebaseServices";
 import { getEnvVariable } from "@/utils/server";
 import { signJWT } from "@/utils/token";

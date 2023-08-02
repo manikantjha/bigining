@@ -1,4 +1,4 @@
-import { IImage } from "@/types/images";
+import { IImage } from "@/types/image";
 import { useState } from "react";
 
 export function useImageSelection() {

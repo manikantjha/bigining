@@ -39,6 +39,18 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, handleDelete }) => {
               });
             }}
           >
+            Approve Review
+          </CommonButton>
+          <CommonButton
+            className="h-fit w-fit place-self-end"
+            color="red"
+            icon={<GetIcon name="delete" size="h-5 w-5" />}
+            onClick={() => {
+              handleDelete(review._id, {
+                onSuccess: async () => await reviews.refetch(),
+              });
+            }}
+          >
             Delete Review
           </CommonButton>
         </div>

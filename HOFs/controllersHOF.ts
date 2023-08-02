@@ -1,0 +1,242 @@
+import { IImage } from "@/types/image";
+import {
+  deleteImageFromFirebase,
+  firebaseImageUploader,
+  sendError,
+  sendResponse,
+} from "@/utils/server";
+import mongoose from "mongoose";
+import { NextApiRequest, NextApiResponse } from "next";
+import { AnyObject, ObjectSchema, ValidationError } from "yup";
+
+type ImageKeyType = "image" | "images";
+
+type ImageKeyTypeMap = {
+  image: IImage;
+  images: IImage[];
+};
+
+type GetImageKeyTypeByType<T extends ImageKeyType> = ImageKeyTypeMap[T];
+
+type ModelType = mongoose.Model<mongoose.Document>;
+
+interface GenericControllerProps {
+  Model: ModelType;
+  schema: ObjectSchema<AnyObject>;
+  imageKey?: "image" | "images";
+}
+
+export const createGenericController = ({
+  Model,
+  schema,
+  imageKey,
+}: GenericControllerProps) => {
+  const getAll = async (req: NextApiRequest, res: NextApiResponse) => {
+    try {
+      const items = await Model.find();
+      if (!items)
+        sendError(res, 404, `No ${Model.modelName.toLowerCase()} found!`);
+      sendResponse(res, 200, items);
+    } catch (error) {
+      sendError(res, 500, "Server error!");
+    }
+  };
+
+  const getPaginated = async (req: NextApiRequest, res: NextApiResponse) => {
+    try {
+      const { page = 1, limit = 10 } = req.query;
+      const parsedPageNumber = parseInt(page as string, 10);
+      const parsedLimit = parseInt(limit as string, 10);
+      const skip = (parsedPageNumber - 1) * parsedLimit;
+
+      const totalItems = await Model.countDocuments();
+
+      const items = await Model.find().skip(skip).limit(parsedLimit);
+
+      if (!items)
+        sendError(res, 404, `No ${Model.modelName.toLowerCase()} found!`);
+
+      sendResponse(res, 200, {
+        totalItems,
+        currentPage: parsedPageNumber,
+        items,
+      });
+    } catch (error) {
+      sendError(res, 500, "Server error!");
+    }
+  };
+
+  const getById = async (req: NextApiRequest, res: NextApiResponse) => {
+    try {
+      const { id } = req.query;
+      if (!mongoose.Types.ObjectId.isValid(id as string)) {
+        return sendError(res, 400, "Invalid ID!");
+      }
+      const item = await Model.findById(id);
+      if (!item) {
+        return sendError(res, 404, `${Model.modelName} not found!`);
+      }
+      sendResponse(res, 200, item);
+    } catch (error) {
+      console.error(`Error getting ${Model.modelName.toLowerCase()}:`, error);
+      sendError(res, 500, "Internal server error!");
+    }
+  };
+
+  const create = async (req: NextApiRequest, res: NextApiResponse) => {
+    try {
+      // Validate the request body
+      try {
+        await schema.validate(req.body);
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          return sendError(res, 400, error.message);
+        }
+        return sendError(res, 400, "Bad request!");
+      }
+
+      let newItem;
+
+      if (imageKey) {
+        const newValue = await firebaseImageUploader<
+          GetImageKeyTypeByType<typeof imageKey>
+        >(req.body[imageKey]);
+
+        newItem = new Model({
+          ...req.body,
+          [imageKey]: newValue,
+        });
+      } else {
+        newItem = new Model(req.body);
+      }
+
+      await newItem.save();
+
+      sendResponse(res, 201, newItem);
+    } catch (error) {
+      console.error(`Error adding ${Model.modelName.toLowerCase()}:`, error);
+      sendError(res, 500, "Internal server error!");
+    }
+  };
+
+  const update = async (req: NextApiRequest, res: NextApiResponse) => {
+    try {
+      const { id } = req.query;
+      if (!mongoose.Types.ObjectId.isValid(id as string)) {
+        return sendError(res, 400, "Invalid ID!");
+      }
+
+      // Validate the request body
+      try {
+        await schema.validate(req.body);
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          return sendError(res, 400, error.message);
+        }
+        return sendError(res, 400, "Bad request!");
+      }
+
+      const existingItem = await Model.findById<any>(id);
+
+      if (!existingItem) {
+        return sendError(res, 404, `${Model.modelName} not found!`);
+      }
+
+      if (imageKey) {
+        if (imageKey === "image") {
+          if (
+            req.body.image &&
+            req.body.image.original.url?.startsWith("data:image")
+          ) {
+            const newImage = await firebaseImageUploader<IImage>(
+              req.body.image
+            );
+
+            if (existingItem.image.original.url) {
+              deleteImageFromFirebase(existingItem.image);
+            }
+
+            req.body.image = newImage;
+          }
+        } else {
+          const newImages = await firebaseImageUploader<IImage[]>(
+            req.body.images
+          );
+
+          // Delete removed images from Firebase Storage
+          existingItem.images.forEach((existingImage: IImage) => {
+            const imageUrl = existingImage.original.url;
+            const imageExists = newImages.some(
+              (newImage) => newImage.original.url === imageUrl
+            );
+
+            if (!imageExists) {
+              deleteImageFromFirebase(existingImage);
+            }
+          });
+
+          req.body.images = newImages;
+        }
+      }
+
+      existingItem.set(req.body);
+
+      await existingItem.save();
+
+      sendResponse(res, 200, existingItem);
+    } catch (error) {
+      console.error(`Error updating ${Model.modelName.toLowerCase()}:`, error);
+      sendError(res, 500, "Internal server error!");
+    }
+  };
+
+  const remove = async (req: NextApiRequest, res: NextApiResponse) => {
+    try {
+      const { id } = req.query;
+      if (!mongoose.Types.ObjectId.isValid(id as string)) {
+        return sendError(res, 400, "Invalid ID!");
+      }
+
+      const item = await Model.findByIdAndDelete<any>(id);
+
+      if (!item)
+        sendError(res, 404, `No ${Model.modelName.toLowerCase()} found!`);
+
+      if (imageKey) {
+        if (imageKey === "image") {
+          if (item?.image) {
+            await deleteImageFromFirebase(item.image);
+          }
+        } else {
+          await item.images.forEach((existingImage: IImage) => {
+            deleteImageFromFirebase(existingImage);
+          });
+        }
+      }
+
+      sendResponse(res, 200, {
+        message: `${Model.modelName} deleted successfully!`,
+      });
+    } catch (error) {
+      console.error(`Error deleting ${Model.modelName.toLowerCase()}:`, error);
+      sendError(res, 500, "Internal server error!");
+    }
+  };
+
+  return {
+    getPaginated,
+    getAll,
+    getById,
+    create,
+    update,
+    remove,
+  };
+};
+
+// // Usage for Artist entity
+// const artistController = createGenericController<Artist>({
+//   Model: Artist,
+//   schema: artistSchema,
+// });
+
+// export default artistController;

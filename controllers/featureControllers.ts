@@ -1,4 +1,4 @@
-import Features from "@/models/features";
+import Features from "@/models/feature";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
 

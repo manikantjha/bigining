@@ -2,7 +2,7 @@ import {
   deleteWork,
   getWorkById,
   updateWork,
-} from "@/controllers/worksControllers";
+} from "@/controllers/workControllers";
 import connect from "@/database/connection";
 import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
 import type { NextApiRequest, NextApiResponse } from "next";

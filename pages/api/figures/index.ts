@@ -1,4 +1,4 @@
-import { addUpdateFigure, getFigures } from "@/controllers/figuresControllers";
+import { addUpdateFigure, getFigures } from "@/controllers/figureControllers";
 import connect from "@/database/connection";
 import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
 import type { NextApiRequest, NextApiResponse } from "next";

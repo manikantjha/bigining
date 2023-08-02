@@ -1,4 +1,4 @@
-import Service, { IServiceDocument } from "@/models/services";
+import Service, { IServiceDocument } from "@/models/service";
 import { serviceSchema } from "@/schemas/serviceSchema";
 import { sendError, sendResponse } from "@/utils/server";
 import mongoose from "mongoose";

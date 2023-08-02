@@ -1,7 +1,7 @@
 import { GetIcon } from "@/components/common/icons/icons";
 import { serviceSchema } from "@/schemas/serviceSchema";
 import { addService, updateService } from "@/services/apiServices";
-import { IService } from "@/types/services";
+import { IService } from "@/types/service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import { FormProvider, useForm } from "react-hook-form";

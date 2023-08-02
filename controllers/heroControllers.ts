@@ -1,4 +1,4 @@
-import Heroes from "@/models/heroes";
+import Heroes from "@/models/hero";
 import { NextApiRequest, NextApiResponse } from "next";
 
 // Get All Heroes

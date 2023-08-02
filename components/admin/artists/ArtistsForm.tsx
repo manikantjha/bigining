@@ -1,7 +1,7 @@
 import { GetIcon } from "@/components/common/icons/icons";
 import { artistSchema } from "@/schemas/artistSchema";
 import { addArtist, updateArtist } from "@/services/apiServices";
-import { IArtist } from "@/types/artists";
+import { IArtist } from "@/types/artist";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";

@@ -1,7 +1,7 @@
-import Work, { IWorkDocument } from "@/models/works";
+import Work, { IWorkDocument } from "@/models/work";
 import { workSchema } from "@/schemas/workSchema";
-import { IImage } from "@/types/images";
-import { IWork } from "@/types/works";
+import { IImage } from "@/types/image";
+import { IWork } from "@/types/work";
 import {
   deleteImageFromFirebase,
   firebaseImageUploader,

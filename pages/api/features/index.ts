@@ -1,7 +1,7 @@
 import {
   addUpdateFeatures,
   getFeatures,
-} from "@/controllers/featuresControllers";
+} from "@/controllers/featureControllers";
 import connect from "@/database/connection";
 import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
 import type { NextApiRequest, NextApiResponse } from "next";

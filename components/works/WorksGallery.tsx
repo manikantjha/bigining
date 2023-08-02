@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import { IWork } from "@/types/works";
-import { IImageSize } from "@/types/images";
+import { IWork } from "@/types/work";
+import { IImageSize } from "@/types/image";
 import { useRouter } from "next/router";
 import { UseQueryResult } from "react-query";
 import CommonMasonryGallery from "../common/CommonMasonryGallery";

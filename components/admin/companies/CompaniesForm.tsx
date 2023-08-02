@@ -1,7 +1,7 @@
 import { GetIcon } from "@/components/common/icons/icons";
 import { companySchema } from "@/schemas/companySchema";
 import { addCompany, updateCompany } from "@/services/apiServices";
-import { ICompany } from "@/types/companies";
+import { ICompany } from "@/types/company";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";

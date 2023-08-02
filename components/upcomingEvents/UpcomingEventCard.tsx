@@ -1,5 +1,5 @@
 import { IRowTheme } from "@/types/row";
-import { IUpcomingEvent } from "@/types/upcomingEvents";
+import { IUpcomingEvent } from "@/types/upcomingEvent";
 import Card from "../common/Card";
 
 interface IUpcomingEventCard extends IRowTheme {

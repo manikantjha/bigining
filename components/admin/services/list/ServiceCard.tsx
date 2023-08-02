@@ -1,5 +1,5 @@
 import { GetIcon } from "@/components/common/icons/icons";
-import { IService } from "@/types/services";
+import { IService } from "@/types/service";
 import CommonButton from "../../common/CommonButton";
 import ListItem from "./ListItem";
 

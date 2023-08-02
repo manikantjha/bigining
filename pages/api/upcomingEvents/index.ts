@@ -1,7 +1,7 @@
 import {
   addUpcomingEvent,
   getUpcomingEventsPaginated,
-} from "@/controllers/upcomingEventsControllers";
+} from "@/controllers/upcomingEventControllers";
 import connect from "@/database/connection";
 import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
 import type { NextApiRequest, NextApiResponse } from "next";
