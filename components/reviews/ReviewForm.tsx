@@ -1,5 +1,5 @@
 import { reviewSchema } from "@/schemas/reviewSchema";
-import { sendReviewForm } from "@/services/apiServices";
+import { addReview } from "@/services/apiServices";
 import { IReview } from "@/types/review";
 import { IRowTheme } from "@/types/row";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -31,7 +31,7 @@ const ReviewForm = (props: IReviewFormProps) => {
   });
 
   const reviewMutation = useMutation({
-    mutationFn: sendReviewForm,
+    mutationFn: addReview,
     onSuccess(data, variables, context) {
       setIsSuccess(true);
       setIsOpen(true);
@@ -49,7 +49,7 @@ const ReviewForm = (props: IReviewFormProps) => {
   }
 
   const onSubmit = (data: IReview) => {
-    reviewMutation.mutate(data);
+    reviewMutation.mutate({ ...data, isActive: false });
   };
 
   return (

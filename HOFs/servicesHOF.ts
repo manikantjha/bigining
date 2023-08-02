@@ -21,7 +21,8 @@ type Entity =
   | "teamMembers"
   | "upcomingEvents"
   | "heroes"
-  | "contactInfos";
+  | "contactInfos"
+  | "reviews";
 
 function createEntityService<T>(entity: Entity) {
   const url = `${BASE_URL}/api/${entity}`;
@@ -40,21 +41,29 @@ function createEntityService<T>(entity: Entity) {
     return await get(`${url}${query}`);
   }
 
-  async function genericPost<Data>(data: Data): Promise<Data> {
-    const token = localStorage.getItem("token");
+  async function genericPost<Data>(
+    data: Data,
+    isPublic?: boolean
+  ): Promise<Data> {
+    const token = isPublic ? null : localStorage.getItem("token");
     return await post(url, data, token);
   }
 
-  async function genericUpdate<Data>(id: string, data: Data): Promise<Data> {
-    const token = localStorage.getItem("token");
+  async function genericUpdate<Data>(
+    id: string,
+    data: Data,
+    isPublic?: boolean
+  ): Promise<Data> {
+    const token = isPublic ? null : localStorage.getItem("token");
     return await post(`${url}/${id}`, data, token);
   }
 
   async function genericDelete<Data>(
     id: string,
-    data: Data
+    data: Data,
+    isPublic?: boolean
   ): Promise<IDeleteApiResult> {
-    const token = localStorage.getItem("token");
+    const token = isPublic ? null : localStorage.getItem("token");
     return await remove(`${url}/${id}`, data, token);
   }
 

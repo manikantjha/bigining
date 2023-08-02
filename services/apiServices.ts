@@ -261,24 +261,31 @@ export async function sendContactForm(data: ISendMessage) {
 
 //  Reviews --------------------------------------------------!
 
-export async function sendReviewForm(data: IReview) {
-  return await post(`${BASE_URL}/api/reviews`, data);
-}
+const reviewService = createEntityService<IReview>("reviews");
 
 export async function getActiveReviewsPaginated(
   currentPage: number,
   limit: number
 ) {
-  return await get(`${BASE_URL}/api/reviews`);
+  return await reviewService.get(`/active?page=${currentPage}&limit=${limit}`);
 }
 
 export async function getReviewsPaginated(currentPage: number, limit: number) {
-  return await get(`${BASE_URL}/api/reviews`);
+  return await reviewService.get(`?page=${currentPage}&limit=${limit}`);
 }
 
-export async function deleteReview(id: string) {
-  const token = localStorage.getItem("token");
-  return await remove(`${BASE_URL}/api/reviews/${id}`, {}, token);
+export async function addReview(data: IReview) {
+  return await reviewService.post(data, true);
+}
+
+export async function updateReview(data: IReview) {
+  if (!data._id) return;
+  return await reviewService.update(data._id, data);
+}
+
+export async function deleteReview(data: IReview) {
+  if (!data._id) return;
+  return await reviewService.remove(data._id, data);
 }
 
 //  Companies --------------------------------------------------!

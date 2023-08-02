@@ -63,7 +63,7 @@ export default function Home() {
   });
   const reviews = useQuery({
     queryKey: ["clientReviewsHome"],
-    queryFn: () => getActiveReviewsPaginated(),
+    queryFn: () => getActiveReviewsPaginated(1, 4),
   });
 
   return (

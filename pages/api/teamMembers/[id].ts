@@ -1,10 +1,10 @@
 import { createHandler } from "@/HOFs/handlersHOF";
 import teamMemberControllers from "@/controllers/teamMemberControllers";
 
-const artistsHandler = createHandler({
+const handler = createHandler({
   getFunction: teamMemberControllers.getById,
   postFunction: teamMemberControllers.update,
   deleteFunction: teamMemberControllers.remove,
 });
 
-export default artistsHandler;
+export default handler;

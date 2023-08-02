@@ -5,7 +5,7 @@ import {
   sendError,
   sendResponse,
 } from "@/utils/server";
-import mongoose from "mongoose";
+import mongoose, { FilterQuery } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import { AnyObject, ObjectSchema, ValidationError } from "yup";
 
@@ -31,9 +31,13 @@ export const createGenericController = ({
   schema,
   imageKey,
 }: GenericControllerProps) => {
-  const getAll = async (req: NextApiRequest, res: NextApiResponse) => {
+  const getAll = async (
+    req: NextApiRequest,
+    res: NextApiResponse,
+    filter: FilterQuery<any>
+  ) => {
     try {
-      const items = await Model.find();
+      const items = await Model.find(filter);
       if (!items)
         sendError(res, 404, `No ${Model.modelName.toLowerCase()} found!`);
       sendResponse(res, 200, items);
@@ -42,7 +46,11 @@ export const createGenericController = ({
     }
   };
 
-  const getPaginated = async (req: NextApiRequest, res: NextApiResponse) => {
+  const getPaginated = async (
+    req: NextApiRequest,
+    res: NextApiResponse,
+    filter: FilterQuery<any> = {}
+  ) => {
     try {
       const { page = 1, limit = 10 } = req.query;
       const parsedPageNumber = parseInt(page as string, 10);
@@ -51,7 +59,7 @@ export const createGenericController = ({
 
       const totalItems = await Model.countDocuments();
 
-      const items = await Model.find().skip(skip).limit(parsedLimit);
+      const items = await Model.find(filter).skip(skip).limit(parsedLimit);
 
       if (!items)
         sendError(res, 404, `No ${Model.modelName.toLowerCase()} found!`);
@@ -232,11 +240,3 @@ export const createGenericController = ({
     remove,
   };
 };
-
-// // Usage for Artist entity
-// const artistController = createGenericController<Artist>({
-//   Model: Artist,
-//   schema: artistSchema,
-// });
-
-// export default artistController;

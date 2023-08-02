@@ -1,9 +1,9 @@
 import { createHandler } from "@/HOFs/handlersHOF";
 import teamMemberControllers from "@/controllers/teamMemberControllers";
 
-const artistsHandler = createHandler({
+const handler = createHandler({
   getFunction: teamMemberControllers.getPaginated,
   postFunction: teamMemberControllers.create,
 });
 
-export default artistsHandler;
+export default handler;
