@@ -7,7 +7,7 @@ import { getTeamMembersPaginated } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function ArtistsListPage() {
+export default function TeamMembersListAdminPage() {
   const router = useRouter();
   const { page = 1 } = router.query;
   const limit = 10;

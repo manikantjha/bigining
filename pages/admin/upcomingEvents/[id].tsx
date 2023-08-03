@@ -6,7 +6,7 @@ import { getUpcomingEvent } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function UpcomingEventsListPage() {
+export default function UpcomingEventsFormAdminPage() {
   const router = useRouter();
   const { id } = router.query;
 

@@ -177,7 +177,6 @@ export default function UpcomingEventsForm(props: IUpcomingEventsFormProps) {
                   <ImageUploaderNew
                     label="Upcoming Event Image"
                     onChange={onChange}
-                    id={`upcomingEventImage`}
                     folderName="upcomingEvents"
                     fileName={getValues("name")}
                     image={value}

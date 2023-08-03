@@ -6,7 +6,7 @@ import { getCompany } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function CompaniesFormPage() {
+export default function CompaniesFormAdminPage() {
   const router = useRouter();
   const { id } = router.query;
 

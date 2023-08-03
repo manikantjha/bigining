@@ -7,7 +7,7 @@ import { getUpcomingEventsPaginated } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function UpcomingEventsListPage() {
+export default function UpcomingEventsListAdminPage() {
   const router = useRouter();
   const { page = 1 } = router.query;
   const limit = 10;

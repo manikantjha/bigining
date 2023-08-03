@@ -1,40 +1,41 @@
-import ArtistsList from "@/components/admin/artists/ArtistsList";
 import FormSectionTitle from "@/components/admin/common/FormSectionTitle";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
-import CompaniesList from "@/components/admin/companies/CompaniesList";
+import FAQsList from "@/components/admin/faqs/FaqsList";
 import Pagination from "@/components/common/Pagination";
 import AdminLayout from "@/layout/admin/AdminLayout";
-import { getCompaniesPaginated } from "@/services/apiServices";
+import { getFaqsPaginated } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function CompaniesListAdminPage() {
+export default function FaqsListAdminPage() {
   const router = useRouter();
   const { page = 1 } = router.query;
   const limit = 10;
 
-  const companies = useQuery({
-    queryKey: ["companies", page],
+  const faqs = useQuery({
+    queryKey: ["faqs", page],
     queryFn: () => {
-      return getCompaniesPaginated(parseInt(page as string), limit);
+      return getFaqsPaginated(parseInt(page as string), limit);
     },
   });
 
+  console.log(faqs);
+
   return (
     <AdminLayout>
-      <FormSectionTitle title="Companies" />
+      <FormSectionTitle title="FAQs" />
       <RenderAppropriateComponent
-        queryResult={companies}
+        queryResult={{} as any}
         containerSize="h-[400px] w-full"
       >
-        <CompaniesList companies={companies} />
+        <FAQsList faqs={faqs} />
         <Pagination
-          currentPage={companies?.data?.currentPage}
-          totalItems={companies?.data?.totalArtists}
+          currentPage={faqs?.data?.currentPage || 0}
+          totalItems={faqs?.data?.totalItems || 0}
           itemsPerPage={limit}
-          alwaysVisible
           containerClassName="!mt-[80px]"
-          baseHref="/admin/companies"
+          baseHref="/admin/faqs"
+          alwaysVisible
         />
       </RenderAppropriateComponent>
     </AdminLayout>

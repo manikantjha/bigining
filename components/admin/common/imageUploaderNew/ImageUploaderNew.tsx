@@ -1,14 +1,14 @@
 import { GetIcon } from "@/components/common/icons/icons";
 import { IImage } from "@/types/image";
 import { useImageSelection } from "@/utils/image";
+import { camelize } from "@/utils/utils";
 import { ChangeEvent } from "react";
-import { UseFieldArrayRemove } from "react-hook-form";
+import { DeepMap, FieldError, UseFieldArrayRemove } from "react-hook-form";
 import CommonButton from "../CommonButton";
 import BlankInput from "./BlankInput";
 import ImageDisplay from "./ImageDisplay";
 
 interface IImageUploaderNew {
-  id: string;
   label: string;
   onChange: (event: IImage | ChangeEvent) => void;
   containerClassName?: string;
@@ -18,10 +18,10 @@ interface IImageUploaderNew {
   onRemove?: UseFieldArrayRemove;
   fileName?: string;
   folderName?: string;
+  error?: DeepMap<any, FieldError>;
 }
 
 export default function ImageUploaderNew({
-  id,
   label,
   onChange,
   inputContainerClassName = "",
@@ -31,12 +31,15 @@ export default function ImageUploaderNew({
   onRemove,
   fileName = "",
   folderName = "",
+  error,
 }: IImageUploaderNew) {
   const { objImages, setObjImages, selectFile } = useImageSelection();
 
+  const ID = camelize(label);
+
   return (
     <div
-      className={`w-full h-80 grid grid-rows-[auto_1fr] gap-2 ${containerClassName}`}
+      className={`w-full h-80 grid grid-rows-[auto_1fr_auto] gap-2 ${containerClassName}`}
     >
       <p className="text-sm font-medium text-gray-900">{label}</p>
       <div
@@ -55,18 +58,18 @@ export default function ImageUploaderNew({
             }}
           />
         )}
-        <label htmlFor={id}>
+        <label htmlFor={ID}>
           {objImages?.medium?.url || image?.medium?.url ? (
             <ImageDisplay
               imgSrc={objImages?.medium?.url || image?.medium?.url || ""}
-              imgAlt={id}
+              imgAlt={label}
             />
           ) : (
             <BlankInput />
           )}
         </label>
         <input
-          id={id}
+          id={ID}
           type="file"
           accept="image/*"
           className="hidden"
@@ -82,6 +85,7 @@ export default function ImageUploaderNew({
           }}
         />
       </div>
+      {error && <p className="text-red-700 text-sm">* Image is required</p>}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { lstAdminNavBarMenu } from "@/data/adminData";
+import { lstAdminNavBarMenu } from "@/data/dataAdmin";
 import { signout } from "@/services/apiServices";
 import SidebarMenuItem from "./SidebarMenuItem";
 

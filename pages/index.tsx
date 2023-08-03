@@ -20,11 +20,11 @@ import ServicesRowSkeleton from "@/components/skeletons/ServicesRowSkeleton";
 import UpcomingEventsRow from "@/components/upcomingEvents/UpcomingEventsRow";
 import Layout from "@/layout/Layout";
 import {
+  getActiveReviewsPaginated,
   getCompaniesPaginated,
   getFeatures,
   getFigures,
   getHero,
-  getActiveReviewsPaginated,
   getServicesPaginated,
   getUpcomingEventsPaginated,
   getWorksForGalleryPaginated,
@@ -32,7 +32,7 @@ import {
 import Head from "next/head";
 import { useQuery } from "react-query";
 
-export default function Home() {
+export default function HomePage() {
   const hero = useQuery({
     queryKey: ["clientHeroHome"],
     queryFn: () => getHero("home"),

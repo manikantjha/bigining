@@ -9,7 +9,7 @@ type TName =
   | "close"
   | "check-circle";
 
-interface IIconProps extends SVGProps<SVGSVGElement> {
+export interface IIconProps extends SVGProps<SVGSVGElement> {
   name: TName;
   size?: string;
   className?: string;

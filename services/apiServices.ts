@@ -3,7 +3,7 @@ import { IUserCredentials } from "@/types/auth";
 import { ICompany } from "@/types/company";
 import { ISendMessage } from "@/types/contact";
 import { IContactInfo } from "@/types/contactInfo";
-import { IFAQs } from "@/types/faqs";
+import { IFaq } from "@/types/faqs";
 import { IFeatures } from "@/types/features";
 import { IFigures } from "@/types/figures";
 import { IHero } from "@/types/hero";
@@ -111,22 +111,29 @@ export const deleteService = async (id: string) => {
 
 //  FAQs --------------------------------------------------!
 
-export const getFAQs = async () => {
-  return await get(`${BASE_URL}/api/faqs`);
+const faqService = createEntityService<IFaq>("faqs");
+
+export async function getFaqsPaginated(currentPage: number, limit: number) {
+  return await faqService.getPaginated(`?page=${currentPage}&limit=${limit}`);
+}
+
+export const getFaq = async (id: string) => {
+  return await faqService.get(`/${id}`);
 };
 
-export const getFAQ = async (id: string) => {
-  return await get(`${BASE_URL}/api/faqs/${id}`);
-};
+export async function addFaq(data: IFaq) {
+  return await faqService.post(data);
+}
 
-export const addUpdateFAQ = async (data: IFAQs) => {
-  const token = localStorage.getItem("token");
-  try {
-    return await post(`${BASE_URL}/api/faqs`, data, token);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
-};
+export async function updateFaq(data: IFaq) {
+  if (!data._id) return;
+  return await faqService.update(data._id, data);
+}
+
+export async function deleteFaq(data: IFaq) {
+  if (!data._id) return;
+  return await faqService.remove(data._id, data);
+}
 
 //  Contact Info --------------------------------------------------!
 

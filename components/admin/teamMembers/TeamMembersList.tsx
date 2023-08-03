@@ -2,7 +2,7 @@ import { deleteTeamMember } from "@/services/apiServices";
 import { ITeamMember } from "@/types/teamMember";
 import { truncateText } from "@/utils/utils";
 import { UseQueryResult } from "react-query";
-import DataList from "../common/DataList";
+import DataList from "../common/dataList/DataList";
 
 interface ITeamMembersListProps {
   teamMembers: UseQueryResult<any, unknown>;

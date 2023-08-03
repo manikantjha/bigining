@@ -18,7 +18,7 @@ import {
 import Head from "next/head";
 import { useQuery } from "react-query";
 
-export default function About() {
+export default function AboutPage() {
   const hero = useQuery("aboutHero", () => getHero("about"));
   const figures = useQuery("figures", () => getFigures());
   const companies = useQuery("clientCompaniesHome", () =>

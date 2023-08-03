@@ -130,7 +130,6 @@ export default function WorkForm(props: IWorkFormProps) {
                   name={`images.${index}`}
                   render={({ field: { onChange, onBlur, value, ref } }) => (
                     <ImageUploaderNew
-                      id={`images.${index}`}
                       label={`Image ${index + 1}`}
                       index={index}
                       onRemove={remove}

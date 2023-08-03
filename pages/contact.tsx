@@ -2,7 +2,7 @@ import ContactMain from "@/components/contact/ContactMain";
 import Layout from "@/layout/Layout";
 import Head from "next/head";
 
-export default function Contact() {
+export default function ContactPage() {
   return (
     <>
       <Head>

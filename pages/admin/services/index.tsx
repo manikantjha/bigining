@@ -7,7 +7,7 @@ import { getServicesPaginated } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function ServicesListPage() {
+export default function ServicesListAdminPage() {
   const router = useRouter();
   const { page = 1 } = router.query;
   const limit = 10;

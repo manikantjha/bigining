@@ -8,7 +8,7 @@ import AdminLayout from "@/layout/admin/AdminLayout";
 import { getHero } from "@/services/apiServices";
 import { useQuery } from "react-query";
 
-export default function Heroes() {
+export default function HeroesAdminPage() {
   const homeHero = useQuery("homeHero", () => getHero("home"));
   const aboutHero = useQuery("aboutHero", () => getHero("about"));
   const serviceHero = useQuery("serviceHero", () => getHero("service"));

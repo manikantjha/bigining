@@ -7,7 +7,7 @@ import { IReview } from "@/types/review";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "react-query";
 
-export default function ManageReviews() {
+export default function ManageReviewsAdminPage() {
   const router = useRouter();
   const { page = 1 } = router.query;
   const limit = 10;

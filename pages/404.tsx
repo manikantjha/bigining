@@ -4,7 +4,7 @@ import LinkBtn from "@/components/common/LinkBtn";
 import Title from "@/components/common/Title";
 import Layout from "@/layout/Layout";
 
-export default function PageNotFound() {
+export default function NotFoundPage() {
   return (
     <Layout>
       <ContainerWrapper containerClassName="bg-bgLight">

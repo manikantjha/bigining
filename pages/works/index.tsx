@@ -10,7 +10,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function Works() {
+export default function WorksPage() {
   const router = useRouter();
   const { page = 1 } = router.query;
   const limit = 10;

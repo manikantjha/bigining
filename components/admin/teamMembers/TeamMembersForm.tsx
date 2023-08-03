@@ -33,6 +33,7 @@ export default function TeamMembersForm(props: ITeamMembersFormProps) {
     control,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm<TForm>({
     resolver: yupResolver(teamMemberSchema),
     defaultValues,
@@ -120,8 +121,9 @@ export default function TeamMembersForm(props: ITeamMembersFormProps) {
                     <ImageUploaderNew
                       label="Member Image"
                       onChange={onChange}
-                      id={`teamMembersImage`}
                       image={value}
+                      folderName="teamMembers"
+                      fileName={getValues("name")}
                     />
                   )}
                 />

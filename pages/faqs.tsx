@@ -2,12 +2,12 @@ import RenderAppropriateComponent from "@/components/admin/common/RenderAppropri
 import Error from "@/components/common/Error";
 import FAQsRow from "@/components/faqs/FAQsRow";
 import Layout from "@/layout/Layout";
-import { getFAQs } from "@/services/apiServices";
+import { getFaqsPaginated } from "@/services/apiServices";
 import Head from "next/head";
 import { useQuery } from "react-query";
 
-export default function FAQs() {
-  const faqs = useQuery("faqs", () => getFAQs());
+export default function FAQsPage() {
+  const faqs = useQuery("faqs", () => getFaqsPaginated(1, 10));
   return (
     <>
       <Head>

@@ -6,7 +6,7 @@ import { getTeamMember } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function TeamMembersFormPage() {
+export default function TeamMembersFormAdminPage() {
   const router = useRouter();
   const { id } = router.query;
 

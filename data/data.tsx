@@ -15,68 +15,20 @@ export const lstNavBarMenu = [
   { id: 8, name: "Contact", path: "/contact" },
 ];
 
-// Home Page
-export const lstTestimonials = [
-  {
-    id: 1,
-    client: {
-      imgSrc: "/assets/avatar_male.svg",
-      name: "John Doe",
-      designation: "Owner at XYZ",
-    },
-    title: "Lorem ipsum dolor sit amet.",
-    testimonial:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, nihil.",
-  },
-  {
-    id: 2,
-    client: {
-      imgSrc: "/assets/avatar_female.svg",
-      name: "John Doe",
-      designation: "Owner at XYZ",
-    },
-    title: "Lorem ipsum dolor sit amet.",
-    testimonial:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, nihil.",
-  },
-  {
-    id: 3,
-    client: {
-      imgSrc: "/assets/avatar_female.svg",
-      name: "John Doe",
-      designation: "Owner at XYZ",
-    },
-    title: "Lorem ipsum dolor sit amet.",
-    testimonial:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, nihil.",
-  },
-  {
-    id: 4,
-    client: {
-      imgSrc: "/assets/avatar_male.svg",
-      name: "John Doe",
-      designation: "Owner at XYZ",
-    },
-    title: "Lorem ipsum dolor sit amet.",
-    testimonial:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, nihil.",
-  },
-];
-
 // About Page
 export const objHowItStartedInfo = {
   description: (
     <>
       <p className="text-lg">
-        Bigining is about Biginning of Big Inning , it’s about inning which you
+        {`Bigining is about Biginning of Big Inning , it’s about inning which you
         have imagine to start & end it with endless memories with our Expertise
         of Creativity, Management & Network . Bigining will help you To execute
         your Event or Requirements related to Celebrity , Product Launch, PR ,
-        Wedding , promotions & many More.
+        Wedding , promotions & many More.`}
       </p>
       <br />
       <p className="text-lg font-medium">
-        &quot;Let’s Play BiG Inning with Bigining&quot;
+        &quot;{`Let’s Play BiG Inning with Bigining`}&quot;
       </p>
     </>
   ),

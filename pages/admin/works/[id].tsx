@@ -6,7 +6,7 @@ import { getWork } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function WorkFormPage() {
+export default function WorkFormAdminPage() {
   const router = useRouter();
   const { id } = router.query;
 

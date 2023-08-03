@@ -5,7 +5,7 @@ import AdminLayout from "@/layout/admin/AdminLayout";
 import { getContactInfos } from "@/services/apiServices";
 import { useQuery } from "react-query";
 
-export default function ContactInfo() {
+export default function ContactInfoAdminPage() {
   const contactInfos = useQuery("contactInfos", () => getContactInfos());
   return (
     <AdminLayout>

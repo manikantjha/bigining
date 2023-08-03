@@ -1,15 +1,15 @@
 import CommonButton from "@/components/admin/common/CommonButton";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
 import Error from "@/components/common/Error";
-import WorkDetailComponent from "@/components/works/WorkDetailComponent";
 import RowWrapper from "@/components/common/RowWrapper";
+import WorkDetailComponent from "@/components/works/WorkDetailComponent";
 import Layout from "@/layout/Layout";
 import { getWork } from "@/services/apiServices";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
-export default function WorkDetail() {
+export default function WorkDetailPage() {
   const router = useRouter();
   const { id } = router.query;
 

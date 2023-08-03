@@ -1,26 +1,12 @@
 import ArtistsForm from "@/components/admin/artists/ArtistsForm";
 import FormSectionTitle from "@/components/admin/common/FormSectionTitle";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
+import useEntityData from "@/customHooks/useEntityData";
 import AdminLayout from "@/layout/admin/AdminLayout";
 import { getArtist } from "@/services/apiServices";
-import { useRouter } from "next/router";
-import { useQuery } from "react-query";
 
-export default function ArtistFormPage() {
-  const router = useRouter();
-  const { id } = router.query;
-
-  const caseOfAdd = id === "add" ? true : false;
-
-  const artist = useQuery({
-    queryKey: ["artist", id],
-    queryFn: () => {
-      if (caseOfAdd) {
-        return Promise.resolve(undefined);
-      }
-      return getArtist(id as string);
-    },
-  });
+export default function ArtistFormAdminPage() {
+  const { data, caseOfAdd } = useEntityData("artist", getArtist);
 
   return (
     <AdminLayout>
@@ -29,10 +15,10 @@ export default function ArtistFormPage() {
         hasBackButton
       />
       <RenderAppropriateComponent
-        queryResult={artist}
+        queryResult={data}
         containerSize="h-[400px] w-full"
       >
-        <ArtistsForm artist={artist} caseOfAdd={caseOfAdd} />
+        <ArtistsForm artist={data} caseOfAdd={caseOfAdd} />
       </RenderAppropriateComponent>
     </AdminLayout>
   );

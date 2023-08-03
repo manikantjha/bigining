@@ -107,10 +107,9 @@ export default function CompaniesForm(props: ICompaniesFormProps) {
                     <ImageUploaderNew
                       label="Company Logo"
                       onChange={onChange}
-                      id={`companyLogo`}
+                      image={value}
                       folderName="companies"
                       fileName={getValues("name")}
-                      image={value}
                     />
                   )}
                 />
