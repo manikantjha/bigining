@@ -1,4 +1,4 @@
-import { getContactInfos, getServicesList } from "@/services/apiServices";
+import { getContactInfo, getServicesList } from "@/services/apiServices";
 import { IRowTheme } from "@/types/row";
 import { useQuery } from "react-query";
 import RenderAppropriateComponent from "../admin/common/RenderAppropriateComponent";
@@ -13,7 +13,7 @@ interface IContactMain extends IRowTheme {
 }
 
 export default function ContactMain(props: IContactMain) {
-  const contactInfos = useQuery("contactInfos", () => getContactInfos());
+  const contactInfos = useQuery("contactInfos", () => getContactInfo());
   const lstServices = useQuery("lstServices", () => getServicesList());
   return (
     <RowWrapper

@@ -1,5 +1,5 @@
 import { contactInfoSchema } from "@/schemas/contactInfoSchema";
-import { addUpdateContactInfo } from "@/services/apiServices";
+import { createUpdateContactInfo } from "@/services/apiServices";
 import { IContactInfo } from "@/types/contactInfo";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -20,7 +20,7 @@ interface IContactInfoFormProps {
 export default function ContactInfoForm(props: IContactInfoFormProps) {
   console.log(props.contactInfos);
   const defaultValues = props?.contactInfos?.data
-    ? { ...props?.contactInfos?.data[0] }
+    ? { ...props?.contactInfos?.data }
     : {};
 
   const {
@@ -32,27 +32,17 @@ export default function ContactInfoForm(props: IContactInfoFormProps) {
     defaultValues,
   });
 
-  const addUpdateContactInfosMutation = useMutation(addUpdateContactInfo, {
-    onSuccess: () => {},
+  const addUpdateContactInfosMutation = useMutation({
+    mutationFn: createUpdateContactInfo,
   });
 
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
   const onSubmit = (data: IContactInfo) => {
     const _id = props.contactInfos?.data
-      ? props.contactInfos?.data[0]._id
+      ? props.contactInfos?.data._id
       : undefined;
-    addUpdateContactInfosMutation.mutate(
-      { ...data, _id },
-      {
-        onSuccess: () => {
-          notify("Submitted succesfully!", { type: "success" });
-        },
-        onError: () => {
-          notify("Failed to submit!", { type: "error" });
-        },
-      }
-    );
+    addUpdateContactInfosMutation.mutate({ ...data, _id });
   };
 
   return (

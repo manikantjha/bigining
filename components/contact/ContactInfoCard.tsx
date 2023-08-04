@@ -7,7 +7,7 @@ interface IContactInfoCardProps {
 
 export default function ContactInfoCard(props: IContactInfoCardProps) {
   const contactInfo = props.contactInfos?.data
-    ? props.contactInfos?.data[0]
+    ? props.contactInfos?.data
     : undefined;
 
   if (!contactInfo) return null;

@@ -137,22 +137,15 @@ export async function deleteFaq(data: IFaq) {
 
 //  Contact Info --------------------------------------------------!
 
-export const getContactInfos = async () => {
-  return await get(`${BASE_URL}/api/contactInfos`);
-};
+const contactInfoService = createEntityService<IContactInfo>("contactInfos");
 
-export const getContactInfo = async (id: string) => {
-  return await get(`${BASE_URL}/api/contactInfos/${id}`);
-};
+export async function getContactInfo() {
+  return await contactInfoService.get();
+}
 
-export const addUpdateContactInfo = async (data: IContactInfo) => {
-  const token = localStorage.getItem("token");
-  try {
-    return await post(`${BASE_URL}/api/contactInfos`, data, token);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
-};
+export async function createUpdateContactInfo(data: IContactInfo) {
+  return await contactInfoService.post(data);
+}
 
 //  Team Members --------------------------------------------------!
 

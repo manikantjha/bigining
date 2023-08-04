@@ -91,6 +91,19 @@ export const createGenericController = ({
     }
   };
 
+  const getSingle = async (req: NextApiRequest, res: NextApiResponse) => {
+    try {
+      const item = await Model.findOne();
+      if (!item) {
+        return sendError(res, 404, `${Model.modelName} not found!`);
+      }
+      sendResponse(res, 200, item);
+    } catch (error) {
+      console.error(`Error getting ${Model.modelName.toLowerCase()}:`, error);
+      sendError(res, 500, "Internal server error!");
+    }
+  };
+
   const create = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       // Validate the request body
@@ -198,6 +211,35 @@ export const createGenericController = ({
     }
   };
 
+  const createOrUpdate = async (req: NextApiRequest, res: NextApiResponse) => {
+    try {
+      const existingItems = await Model.find();
+
+      if (existingItems.length === 0) {
+        return create(req, res);
+      }
+
+      if (existingItems.length === 1) {
+        if (existingItems[0]._id.toString() === req.body._id) {
+          req.query.id = req.body._id;
+          return update(req, res);
+        } else {
+          await Model.deleteMany({ _id: { $ne: req.body._id } });
+          return create(req, res);
+        }
+      }
+
+      await Model.deleteMany({ _id: { $ne: req.body._id } });
+      return create(req, res);
+    } catch (error) {
+      console.error(
+        `Error creating/updating ${Model.modelName.toLowerCase()}:`,
+        error
+      );
+      sendError(res, 500, "Internal server error!");
+    }
+  };
+
   const remove = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { id } = req.query;
@@ -235,8 +277,10 @@ export const createGenericController = ({
     getPaginated,
     getAll,
     getById,
+    getSingle,
     create,
     update,
+    createOrUpdate,
     remove,
   };
 };

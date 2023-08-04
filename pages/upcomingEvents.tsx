@@ -23,7 +23,7 @@ export default function UpcomingEventsPage() {
     <>
       <Head>
         <title>Upcoming Events</title>
-        <meta name="description" content="Upcoming Events Bigining" />
+        <meta name="description" content="Bigining upcoming events page" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

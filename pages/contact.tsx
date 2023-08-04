@@ -7,7 +7,7 @@ export default function ContactPage() {
     <>
       <Head>
         <title>Contact</title>
-        <meta name="description" content="Contact RJ Inerior" />
+        <meta name="description" content="Bigining contact page" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
