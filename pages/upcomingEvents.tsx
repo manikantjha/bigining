@@ -19,8 +19,6 @@ export default function UpcomingEventsPage() {
     queryFn: () => getUpcomingEventsPaginated(parseInt(page as string), limit),
   });
 
-  console.log(upcomingEvents);
-
   return (
     <>
       <Head>
@@ -44,7 +42,7 @@ export default function UpcomingEventsPage() {
             <UpcomingEvents upcomingEvents={upcomingEvents} theme="light" />
             <Pagination
               currentPage={upcomingEvents.data?.currentPage}
-              totalItems={upcomingEvents.data?.totalUpcomingEvents}
+              totalItems={upcomingEvents.data?.totalItems}
               itemsPerPage={limit}
               containerClassName="mt-[80px]"
               baseHref="/upcomingEvents"

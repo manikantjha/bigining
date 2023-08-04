@@ -29,21 +29,21 @@ export default function ArtistsForm(props: IArtistsFormProps) {
         image: {},
       };
 
-  const {
-    onSubmit,
-    control,
-    errors,
-    getValues,
-    handleSubmit,
-    isLoading,
-    register,
-  } = useFormLogic<TForm>({
+  const { onSubmit, methods, isLoading } = useFormLogic<TForm>({
     defaultValues,
     schema: artistSchema,
     mutationFn: props.caseOfAdd ? addArtist : updateArtist,
     entity: "artist",
     entityPlural: "artists",
   });
+
+  const {
+    control,
+    formState: { errors },
+    getValues,
+    handleSubmit,
+    register,
+  } = methods;
 
   return (
     <FormSectionContainer>

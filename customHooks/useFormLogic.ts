@@ -28,13 +28,7 @@ const useFormLogic = <TForm extends FieldValues>({
   const queryClient = useQueryClient();
   const { page = 1 } = router.query;
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-    getValues,
-  } = useForm<TForm>({
+  const methods = useForm<TForm>({
     resolver: yupResolver(schema),
     defaultValues,
   });
@@ -57,11 +51,7 @@ const useFormLogic = <TForm extends FieldValues>({
   };
 
   return {
-    register,
-    handleSubmit,
-    control,
-    errors,
-    getValues,
+    methods,
     onSubmit,
     isLoading: mutation.isLoading,
   };

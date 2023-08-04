@@ -1,35 +1,24 @@
 import FormSectionTitle from "@/components/admin/common/FormSectionTitle";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
 import FaqsForm from "@/components/admin/faqs/FaqsForm";
+import useEntityData from "@/customHooks/useEntityData";
 import AdminLayout from "@/layout/admin/AdminLayout";
 import { getFaq } from "@/services/apiServices";
-import { useRouter } from "next/router";
-import { useQuery } from "react-query";
 
 export default function FaqsFormAdminPage() {
-  const router = useRouter();
-  const { id } = router.query;
-
-  const caseOfAdd = id === "add" ? true : false;
-
-  const faq = useQuery({
-    queryKey: ["artist", id],
-    queryFn: () => {
-      if (caseOfAdd) {
-        return Promise.resolve(undefined);
-      }
-      return getFaq(id as string);
-    },
-  });
+  const { data, caseOfAdd } = useEntityData("faq", getFaq);
 
   return (
     <AdminLayout>
-      <FormSectionTitle title="FAQs" hasBackButton />
+      <FormSectionTitle
+        title={caseOfAdd ? "Add FAQ" : "Edit FAQ"}
+        hasBackButton
+      />
       <RenderAppropriateComponent
-        queryResult={faq}
+        queryResult={data}
         containerSize="h-[400px] w-full"
       >
-        <FaqsForm faq={faq} caseOfAdd={caseOfAdd} />
+        <FaqsForm faq={data} caseOfAdd={caseOfAdd} />
       </RenderAppropriateComponent>
     </AdminLayout>
   );

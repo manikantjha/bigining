@@ -20,7 +20,7 @@ export function initFirebaseAdminApp() {
 
     return app;
   } catch (error) {
-    console.log("Firebase initialization error: ", error);
+    console.log("Firebase admin initialization error: ", error);
   }
 }
 

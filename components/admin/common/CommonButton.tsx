@@ -114,7 +114,8 @@ const getGrayClass = (variant?: "outlined" | "text" | "filled") => {
   }
 };
 
-interface CommonButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ICommonButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "outlined" | "text" | "filled";
   icon?: ReactNode;
   iconPosition?: "left" | "right";
@@ -133,7 +134,7 @@ const CommonButton = ({
   color = "primary",
   className,
   ...rest
-}: CommonButtonProps) => {
+}: ICommonButtonProps) => {
   return (
     <button
       className={`flex items-center justify-center ${getColorClass(

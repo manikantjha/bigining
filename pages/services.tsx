@@ -8,6 +8,7 @@ import ContactMain from "@/components/contact/ContactMain";
 import ServicesRow from "@/components/home/servicesRow/ServicesRow";
 import HeroSkeleton from "@/components/skeletons/HeroSkeleton";
 import ServicesRowSkeleton from "@/components/skeletons/ServicesRowSkeleton";
+import usePagination from "@/customHooks/usePagination";
 import Layout from "@/layout/Layout";
 import { getHero, getServicesPaginated } from "@/services/apiServices";
 import Head from "next/head";
@@ -78,7 +79,7 @@ export default function ServicesPage() {
               <ServicesRow services={services} />
               <Pagination
                 currentPage={services.data?.currentPage}
-                totalItems={services.data?.totalServices}
+                totalItems={services.data?.totalItems}
                 itemsPerPage={limit}
                 containerClassName="mt-[80px]"
                 baseHref="/services"

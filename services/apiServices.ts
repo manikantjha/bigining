@@ -1,3 +1,4 @@
+import createEntityService from "@/HOFs/servicesHOF";
 import { IArtist } from "@/types/artist";
 import { IUserCredentials } from "@/types/auth";
 import { ICompany } from "@/types/company";
@@ -7,14 +8,13 @@ import { IFaq } from "@/types/faqs";
 import { IFeatures } from "@/types/features";
 import { IFigures } from "@/types/figures";
 import { IHero } from "@/types/hero";
+import { IReview } from "@/types/review";
 import { IService } from "@/types/service";
 import { ITeamMember } from "@/types/teamMember";
 import { IUpcomingEvent } from "@/types/upcomingEvent";
 import { IWork } from "@/types/work";
 import Router from "next/router";
 import { get, post, remove } from "./fetchServices";
-import { IReview } from "@/types/review";
-import createEntityService from "@/HOFs/servicesHOF";
 
 const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
 // const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;

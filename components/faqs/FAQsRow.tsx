@@ -2,6 +2,7 @@ import { useState } from "react";
 import { UseQueryResult } from "react-query";
 import RowWrapper from "../common/RowWrapper";
 import Accordion from "../common/accordion/Accordion";
+import { IFaq } from "@/types/faqs";
 
 interface IFAQsRowProps {
   faqs: UseQueryResult<any, unknown>;
@@ -15,14 +16,14 @@ export default function FAQsRow(props: IFAQsRowProps) {
       containerWrapperClassName="min-h-[calc(100vh-76px)]"
     >
       <div>
-        {props.faqs?.data?.faqs
-          ? props.faqs?.data?.faqs[0]?.faqs.map((item: any, index: number) => (
+        {props.faqs?.data?.items
+          ? props.faqs?.data?.items.map((item: IFaq, index: number) => (
               <Accordion
                 key={index}
-                objAccordion={item}
+                objAccordion={{ ...item, _id: item._id || index.toString() }}
                 expanded={expanded}
                 setExpanded={setExpanded}
-                listLength={props.faqs?.data?.faqs[0]?.faqs?.length}
+                listLength={props.faqs?.data?.items?.length}
                 index={index}
               />
             ))

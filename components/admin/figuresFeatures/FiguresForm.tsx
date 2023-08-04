@@ -1,32 +1,18 @@
+import { figureSchema } from "@/schemas/figureSchema";
 import { addUpdateFigure } from "@/services/apiServices";
+import { IFigures } from "@/types/figures";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { UseQueryResult, useMutation } from "react-query";
 import { ToastOptions, toast } from "react-toastify";
-import * as yup from "yup";
 import FormSectionContainer from "../common/FormSectionContainer";
 import FormSectionWrapper from "../common/FormSectionWrapper";
 import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
-import { IFigures } from "@/types/figures";
 
 interface IFiguresFormProps {
   figures: UseQueryResult<any, unknown>;
 }
-
-const schema = yup
-  .object({
-    figures: yup.array().of(
-      yup.object({
-        figure: yup
-          .number()
-          .positive("Must be greater than 0")
-          .required("Figure is required"),
-        description: yup.string().required("Description is required"),
-      })
-    ),
-  })
-  .required();
 
 export default function FiguresForm(props: IFiguresFormProps) {
   const {
@@ -34,7 +20,7 @@ export default function FiguresForm(props: IFiguresFormProps) {
     handleSubmit,
     formState: { errors },
   } = useForm<IFigures>({
-    resolver: yupResolver(schema as any),
+    resolver: yupResolver(figureSchema as any),
     defaultValues: {
       figures: props?.figures?.data?.figures
         ? props?.figures?.data?.figures[0]?.figures

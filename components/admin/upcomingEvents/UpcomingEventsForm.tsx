@@ -1,17 +1,14 @@
-import { GetIcon } from "@/components/common/icons/icons";
+import useFormLogic from "@/customHooks/useFormLogic";
 import { upcomingEventSchema } from "@/schemas/upcomingEventSchema";
 import { addUpcomingEvent, updateUpcomingEvent } from "@/services/apiServices";
-import { IUpcomingEvent } from "@/types/upcomingEvent";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Controller, useForm } from "react-hook-form";
-import { UseQueryResult, useMutation, useQueryClient } from "react-query";
+import { Controller } from "react-hook-form";
+import { UseQueryResult } from "react-query";
 import * as yup from "yup";
-import CommonButton from "../common/CommonButton";
 import FormSectionContainer from "../common/FormSectionContainer";
+import SubmitButton from "../common/form/SubmitButton";
 import ImageUploaderNew from "../common/imageUploaderNew/ImageUploaderNew";
 
 type TForm = yup.InferType<typeof upcomingEventSchema>;
@@ -22,61 +19,28 @@ interface IUpcomingEventsFormProps {
 }
 
 export default function UpcomingEventsForm(props: IUpcomingEventsFormProps) {
-  const router = useRouter();
-  const queryClient = useQueryClient();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const { page = 1 } = router.query;
-
-  const objUpcomingEvent = props.caseOfAdd ? {} : props.upcomingEvent?.data;
 
   const defaultValues = props.upcomingEvent?.data
     ? props.upcomingEvent?.data
     : {};
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-    getValues,
-  } = useForm<TForm>({
-    resolver: yupResolver<TForm>(upcomingEventSchema),
+  const { onSubmit, isLoading, methods } = useFormLogic<TForm>({
     defaultValues,
+    schema: upcomingEventSchema,
+    mutationFn: props.caseOfAdd ? addUpcomingEvent : updateUpcomingEvent,
+    entity: "upcomingEvent",
+    entityPlural: "upcomingEvents",
   });
 
-  const addUpcomingEventMutation = useMutation({
-    mutationFn: addUpcomingEvent,
-    onSuccess: (data) => {
-      queryClient.setQueryData(["upcomingEvent", data._id], data);
-      queryClient.invalidateQueries(["upcomingEvents"]);
-      router.replace(`/admin/upcomingEvents?page=${page}`);
-    },
-  });
-
-  const updateUpcomingEventMutation = useMutation({
-    mutationFn: updateUpcomingEvent,
-    onSuccess: (data) => {
-      queryClient.setQueryData(["upcomingEvent", data._id], data);
-      queryClient.invalidateQueries(["upcomingEvents", page]);
-      router.replace(`/admin/upcomingEvents?page=${page}`);
-    },
-  });
-
-  function onSubmit(data: IUpcomingEvent) {
-    try {
-      if (objUpcomingEvent._id) {
-        updateUpcomingEventMutation.mutate({
-          ...data,
-          _id: objUpcomingEvent._id,
-        });
-      } else {
-        addUpcomingEventMutation.mutate(data);
-      }
-    } catch (error) {
-      console.log("Error submitting form: ", error);
-    }
-  }
+  const {
+    control,
+    getValues,
+    formState: { errors },
+    handleSubmit,
+    register,
+  } = methods;
 
   return (
     <FormSectionContainer>
@@ -193,18 +157,7 @@ export default function UpcomingEventsForm(props: IUpcomingEventsFormProps) {
         </div>
         {/* Submit Button */}
         <div className="flex !mt-8 space-x-4">
-          <CommonButton
-            type="submit"
-            color="accent"
-            loading={
-              props.caseOfAdd
-                ? addUpcomingEventMutation.isLoading
-                : updateUpcomingEventMutation.isLoading
-            }
-            icon={<GetIcon name="send" size="w-5 h-5" />}
-          >
-            Submit
-          </CommonButton>
+          <SubmitButton loading={isLoading} />
         </div>
       </form>
     </FormSectionContainer>

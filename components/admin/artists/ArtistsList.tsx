@@ -1,41 +1,27 @@
-import { deleteArtist } from "@/services/apiServices";
+import { deleteArtist, getArtistsPaginated } from "@/services/apiServices";
 import { IArtist } from "@/types/artist";
-import { UseQueryResult } from "react-query";
 import DataList from "../common/dataList/DataList";
-import ListItem from "../common/dataList/ListItem";
+import RowListItem from "../common/dataList/RowListItem";
 
-interface IArtistsListProps {
-  artists: UseQueryResult<any, unknown>;
-}
+interface IArtistsListProps {}
 
 export default function ArtistsList(props: IArtistsListProps) {
-  const data = props.artists?.data?.items || [];
-
-  const handleRenderListItem = <T extends IArtist>(
-    item: T,
-    onEdit: (item: T) => void,
-    onDelete: (item: T) => void
-  ) => (
-    <div key={(item as any)._id}>
-      <ListItem
-        item={item}
-        title={item.name}
-        description={item.description}
-        imageURL={item?.image?.small?.url || ""}
-        onEdit={onEdit}
-        onDelete={onDelete}
-      />
-    </div>
-  );
-
   return (
     <DataList<IArtist>
-      data={data}
-      entityName="Artist"
-      renderListItem={handleRenderListItem}
-      deleteMutation={deleteArtist}
-      containerClassName="!grid-cols-1"
-      renderAddNewButton={() => <></>}
+      title="Artists"
+      entityPlural="artists"
+      renderListItem={(item, onEdit, onDelete) => (
+        <RowListItem
+          key={item._id}
+          item={item}
+          title={item.name}
+          imageURL={item.image?.medium?.url || ""}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
+      )}
+      deleteEntityFn={deleteArtist}
+      getEntitiesPaginatedFn={getArtistsPaginated}
     />
   );
 }

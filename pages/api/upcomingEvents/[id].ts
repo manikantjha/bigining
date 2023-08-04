@@ -1,32 +1,10 @@
-import {
-  deleteUpcomingEvent,
-  getUpcomingEventById,
-  updateUpcomingEvent,
-} from "@/controllers/upcomingEventControllers";
-import connect from "@/database/connection";
-import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { createHandler } from "@/HOFs/handlersHOF";
+import upcomingEventControllers from "@/controllers/upcomingEventControllers";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  connect().catch(() =>
-    res.status(405).json({ error: "Error in connection!" })
-  );
+const handler = createHandler({
+  getFunction: upcomingEventControllers.getById,
+  postFunction: upcomingEventControllers.update,
+  deleteFunction: upcomingEventControllers.remove,
+});
 
-  switch (req.method) {
-    case "GET":
-      await getUpcomingEventById(req, res);
-      break;
-    case "POST":
-      await jwtMiddleware(req, res, updateUpcomingEvent);
-      break;
-    case "DELETE":
-      await jwtMiddleware(req, res, deleteUpcomingEvent);
-      break;
-    default:
-      res.status(405).end(`Method ${req.method} not allowed!`);
-      break;
-  }
-}
+export default handler;

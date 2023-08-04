@@ -1,26 +1,12 @@
 import FormSectionTitle from "@/components/admin/common/FormSectionTitle";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
 import CompaniesForm from "@/components/admin/companies/CompaniesForm";
+import useEntityData from "@/customHooks/useEntityData";
 import AdminLayout from "@/layout/admin/AdminLayout";
 import { getCompany } from "@/services/apiServices";
-import { useRouter } from "next/router";
-import { useQuery } from "react-query";
 
 export default function CompaniesFormAdminPage() {
-  const router = useRouter();
-  const { id } = router.query;
-
-  const caseOfAdd = id === "add" ? true : false;
-
-  const company = useQuery({
-    queryKey: ["company", id],
-    queryFn: () => {
-      if (caseOfAdd) {
-        return Promise.resolve(undefined);
-      }
-      return getCompany(id as string);
-    },
-  });
+  const { data, caseOfAdd } = useEntityData("company", getCompany);
 
   return (
     <AdminLayout>
@@ -29,10 +15,10 @@ export default function CompaniesFormAdminPage() {
         hasBackButton
       />
       <RenderAppropriateComponent
-        queryResult={company}
+        queryResult={data}
         containerSize="h-[400px] w-full"
       >
-        <CompaniesForm company={company} caseOfAdd={caseOfAdd} />
+        <CompaniesForm company={data} caseOfAdd={caseOfAdd} />
       </RenderAppropriateComponent>
     </AdminLayout>
   );

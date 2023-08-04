@@ -1,28 +1,17 @@
+import { featureSchema } from "@/schemas/featureSchema";
 import { addUpdateFeature } from "@/services/apiServices";
+import { IFeatures } from "@/types/features";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { UseQueryResult, useMutation } from "react-query";
 import { ToastOptions, toast } from "react-toastify";
-import * as yup from "yup";
 import FormSectionContainer from "../common/FormSectionContainer";
 import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
-import { IFeatures } from "@/types/features";
 
 interface IFeaturesFormProps {
   features: UseQueryResult<any, unknown>;
 }
-
-const schema = yup
-  .object({
-    features: yup.array().of(
-      yup.object({
-        title: yup.string().required("Title is required"),
-        description: yup.string().required("Description is required"),
-      })
-    ),
-  })
-  .required();
 
 export default function FeaturesForm(props: IFeaturesFormProps) {
   const {
@@ -30,7 +19,7 @@ export default function FeaturesForm(props: IFeaturesFormProps) {
     handleSubmit,
     formState: { errors },
   } = useForm<IFeatures>({
-    resolver: yupResolver(schema as any),
+    resolver: yupResolver(featureSchema as any),
     defaultValues: {
       features: props?.features?.data?.features
         ? props?.features?.data?.features[0]?.features

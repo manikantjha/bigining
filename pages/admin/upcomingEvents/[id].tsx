@@ -1,40 +1,24 @@
 import FormSectionTitle from "@/components/admin/common/FormSectionTitle";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
 import UpcomingEventsForm from "@/components/admin/upcomingEvents/UpcomingEventsForm";
+import useEntityData from "@/customHooks/useEntityData";
 import AdminLayout from "@/layout/admin/AdminLayout";
 import { getUpcomingEvent } from "@/services/apiServices";
-import { useRouter } from "next/router";
-import { useQuery } from "react-query";
 
 export default function UpcomingEventsFormAdminPage() {
-  const router = useRouter();
-  const { id } = router.query;
-
-  const caseOfAdd = id === "add" ? true : false;
-
-  const upcomingEvent = useQuery({
-    queryKey: ["upcomingEvent", id],
-    queryFn: () => {
-      if (caseOfAdd) {
-        return Promise.resolve(undefined);
-      }
-      return getUpcomingEvent(id as string);
-    },
-  });
+  const { data, caseOfAdd } = useEntityData("upcomingEvent", getUpcomingEvent);
 
   return (
     <AdminLayout>
       <FormSectionTitle
         title={caseOfAdd ? "Add An Upcoming Event" : "Edit Upcoming Event"}
+        hasBackButton
       />
       <RenderAppropriateComponent
-        queryResult={upcomingEvent}
+        queryResult={data}
         containerSize="h-[400px] w-full"
       >
-        <UpcomingEventsForm
-          upcomingEvent={upcomingEvent}
-          caseOfAdd={caseOfAdd}
-        />
+        <UpcomingEventsForm upcomingEvent={data} caseOfAdd={caseOfAdd} />
       </RenderAppropriateComponent>
     </AdminLayout>
   );

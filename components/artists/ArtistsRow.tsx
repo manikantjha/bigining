@@ -10,9 +10,9 @@ interface IArtistsRowProps extends IRowTheme {
 
 export default function ArtistsRow(props: IArtistsRowProps) {
   if (
-    !props.artists?.data?.artists ||
+    !props.artists?.data?.items ||
     !Array.isArray(props.artists?.data?.items) ||
-    !props.artists?.data?.artists?.length
+    !props.artists?.data?.items?.length
   ) {
     return <NoData />;
   }

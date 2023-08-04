@@ -5,6 +5,7 @@ import CommonButton from "./CommonButton";
 interface IFormSectionTitle {
   title: string;
   hasBackButton?: boolean;
+  titleClassName?: string;
 }
 
 export default function FormSectionTitle(props: IFormSectionTitle) {
@@ -20,7 +21,9 @@ export default function FormSectionTitle(props: IFormSectionTitle) {
           icon={<GetIcon name="back" />}
         />
       )}
-      <h2 className="text-2xl font-bold mb-6">{props.title}</h2>
+      <h2 className={`text-2xl font-bold mb-6 ${props.titleClassName}`}>
+        {props.title}
+      </h2>
     </div>
   );
 }

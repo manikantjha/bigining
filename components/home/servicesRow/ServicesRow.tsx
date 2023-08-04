@@ -11,7 +11,7 @@ interface IServicesRow extends IRowTheme {
 }
 
 export default function ServicesRow(props: IServicesRow) {
-  const services: IService[] = props.services?.data?.services || [];
+  const services: IService[] = props.services?.data?.items || [];
   if (!services.length) return null;
 
   return (

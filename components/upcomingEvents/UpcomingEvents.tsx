@@ -15,10 +15,11 @@ export default function UpcomingEvents({
   rowWrapperClassName,
   theme,
 }: IUpcomingEventsProps) {
-  if (!upcomingEvents?.data?.upcomingEvents?.length) {
+  console.log(upcomingEvents);
+  if (!upcomingEvents?.data?.items?.length) {
     return <NoData />;
   }
-  const data = upcomingEvents?.data?.upcomingEvents || [];
+  const data = upcomingEvents?.data?.items || [];
 
   return (
     <RowWrapper

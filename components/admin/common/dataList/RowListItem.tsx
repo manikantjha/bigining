@@ -3,7 +3,7 @@ import React from "react";
 import CommonButton from "../CommonButton";
 import { GetIcon } from "@/components/common/icons/icons";
 
-interface IListItemProps<T> {
+interface IRowListItemProps<T> {
   item: T;
   title: string;
   description?: string;
@@ -12,20 +12,20 @@ interface IListItemProps<T> {
   onDelete: (item: T) => void;
 }
 
-export default function ListItem<T>({
+export default function RowListItem<T>({
   item,
   title,
   description,
   imageURL,
   onEdit,
   onDelete,
-}: IListItemProps<T>) {
+}: IRowListItemProps<T>) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] items-center gap-4 border border-gray-200 rounded-md overflow-hidden">
-      <div className="p-4 grid grid-cols-[auto_1fr] gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-2 items-center border border-gray-200 rounded-md overflow-hidden">
+      <div className="p-3 lg:p-4 grid grid-cols-[auto_1fr] gap-4 items-center">
         {/* Image */}
         {imageURL && (
-          <div className="w-[75px] h-[75px] overflow-hidden border-2 rounded-full border-gray-300">
+          <div className="w-[50px] h-[50px] lg:w-[65px] lg:h-[65px] overflow-hidden border-2 border-gray-300 rounded-full ">
             <img
               src={imageURL}
               alt={title}
@@ -34,7 +34,7 @@ export default function ListItem<T>({
           </div>
         )}
         {/* Title & Description */}
-        <div className="place-self-start self-center">
+        <div className="grid grid-rows-[auto_1fr]">
           <h3 className="text-lg font-semibold line-clamp-1">{title}</h3>
           {description && (
             <p className="text-gray-500 line-clamp-2">
@@ -43,8 +43,8 @@ export default function ListItem<T>({
           )}
         </div>
       </div>
-      {/* Action Buttons */}
-      <div className={`p-4 hidden space-x-2 justify-self-end lg:flex`}>
+      {/* Action Buttons Desktop */}
+      <div className={`p-3 lg:p-4 hidden space-x-2 justify-end lg:flex`}>
         <CommonButton
           onClick={() => onEdit(item)}
           color="primary"
@@ -64,7 +64,8 @@ export default function ListItem<T>({
           Delete
         </CommonButton>
       </div>
-      <div className="p-4 flex justify-end space-x-4 bg-slate-50 lg:hidden">
+      {/* Action Buttons Mobile */}
+      <div className="p-3 lg:p-4 flex justify-end space-x-4 lg:hidden bg-gray-100">
         <CommonButton
           onClick={() => onEdit(item)}
           color="primary"

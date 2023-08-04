@@ -1,17 +1,21 @@
-import ContactInfos from "@/models/contactInfo";
+import ContactInfo from "@/models/contactInfo";
+import { contactInfoSchema } from "@/schemas/contactInfoSchema";
+import { sendError, sendResponse } from "@/utils/server";
+import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ObjectId } from "mongodb";
+import { ValidationError } from "yup";
 
 export async function getContactInfos(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    const contactInfos = await ContactInfos.find({});
-    if (!contactInfos) return res.status(404).json({ error: "No data found!" });
-    return res.status(200).json({ contactInfos });
+    const contactInfos = await ContactInfo.find({});
+    if (!contactInfos) return sendError(res, 404, "No data found!");
+    sendResponse(res, 200, contactInfos);
   } catch (error) {
-    res.status(404).json({ error });
+    console.log("Error getting contactInfos: ", error);
+    sendError(res, 500, "Internal server error!");
   }
 }
 
@@ -20,16 +24,17 @@ export async function getContactInfo(
   res: NextApiResponse
 ) {
   try {
-    const data = req.query;
-    if (!data || !data.id) {
-      return res.status(404).json({ error: "Contact info ID not provided!" });
+    const { id } = req.query;
+
+    if (!mongoose.Types.ObjectId.isValid(id as string)) {
+      return sendError(res, 400, "Invalid ID!");
     }
-    const { id }: { id?: string } = data;
-    const contactInfos = await ContactInfos.findById(new ObjectId(id));
-    if (!contactInfos) return res.status(404).json({ error: "No data found!" });
-    return res.status(200).json({ contactInfos });
+    const contactInfos = await ContactInfo.findById(id);
+    if (!contactInfos) return sendError(res, 404, "contactInfo not found!");
+    sendResponse(res, 200, contactInfos);
   } catch (error) {
-    res.status(404).json({ error });
+    console.log("Error getting contactInfo: ", error);
+    sendError(res, 500, "Internal server error!");
   }
 }
 
@@ -39,17 +44,28 @@ export async function addUpdateContactInfo(
 ) {
   try {
     const { _id, ...data } = req.body;
-    if (!data) {
-      return res.status(404).json({ error: "Form data not provided!" });
+
+    try {
+      await contactInfoSchema.validate(data);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return sendError(res, 400, error.message);
+      }
+      return sendError(res, 400, "Bad request!");
     }
+
     if (_id) {
-      const response = await ContactInfos.findByIdAndUpdate(_id, data);
-      return res.status(200).json({ response });
+      if (!mongoose.Types.ObjectId.isValid(_id as string)) {
+        return sendError(res, 400, "Invalid ID!");
+      }
+      const response = await ContactInfo.findByIdAndUpdate(_id, data);
+      return sendResponse(res, 200, response);
     } else {
-      const response = await ContactInfos.create(data);
-      return res.status(200).json({ response });
+      const response = await ContactInfo.create(data);
+      return sendResponse(res, 200, response);
     }
   } catch (error) {
-    res.status(500).json({ error });
+    console.log("Error adding/updating contactInfo: ", error);
+    sendError(res, 500, "Internal server error!");
   }
 }
