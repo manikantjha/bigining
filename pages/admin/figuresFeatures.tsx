@@ -7,8 +7,15 @@ import { getFeatures, getFigures } from "@/services/apiServices";
 import { useQuery } from "react-query";
 
 export default function FiguresFeaturesAdminPage() {
-  const figures = useQuery("figures", () => getFigures());
-  const features = useQuery("features", () => getFeatures());
+  const figures = useQuery({
+    queryKey: "figures",
+    queryFn: getFigures,
+  });
+
+  const features = useQuery({
+    queryKey: "features",
+    queryFn: getFeatures,
+  });
 
   return (
     <AdminLayout>

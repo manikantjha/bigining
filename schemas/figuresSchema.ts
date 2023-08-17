@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const figureSchema = yup
+export const figuresSchema = yup
   .object({
     figures: yup.array().of(
       yup.object({

@@ -1,25 +1,9 @@
-import { addUpdateFigure, getFigures } from "@/controllers/figureControllers";
-import connect from "@/database/connection";
-import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { createHandler } from "@/HOFs/handlersHOF";
+import figuresControllers from "@/controllers/figuresControllers";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  connect().catch(() =>
-    res.status(405).json({ error: "Error in connection!" })
-  );
+const handler = createHandler({
+  getFunction: figuresControllers.getSingle,
+  postFunction: figuresControllers.createOrUpdate,
+});
 
-  switch (req.method) {
-    case "GET":
-      await getFigures(req, res);
-      break;
-    case "POST":
-      await jwtMiddleware(req, res, addUpdateFigure);
-      break;
-    default:
-      res.status(405).end(`Method ${req.method} not allowed!`);
-      break;
-  }
-}
+export default handler;

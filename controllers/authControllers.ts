@@ -11,12 +11,15 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export async function signup(req: NextApiRequest, res: NextApiResponse) {
   try {
+    //  Validate req.body
     const data = req.body;
 
     if (!data) {
       return res.status(404).json({ error: "Form data not provided!" });
     }
 
+    // Then I need to check for max amount of users allowed to signup, if its reached then throw an error
+    // It's not reached then check if the email is within the allowed emails
     const users = await Users.find();
 
     if (users.length > 0) {

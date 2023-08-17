@@ -1,54 +1,35 @@
-import { figureSchema } from "@/schemas/figureSchema";
-import { addUpdateFigure } from "@/services/apiServices";
+import { figuresSchema } from "@/schemas/figuresSchema";
+import { createUpdateFigures } from "@/services/apiServices";
 import { IFigures } from "@/types/figures";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { UseQueryResult, useMutation } from "react-query";
-import { ToastOptions, toast } from "react-toastify";
 import FormSectionContainer from "../common/FormSectionContainer";
 import FormSectionWrapper from "../common/FormSectionWrapper";
-import SubmitButton from "../common/SubmitButton";
-import Toast from "../common/Toast";
+import SubmitButton from "../common/form/SubmitButton";
+import TextInput from "../common/form/TextInput";
 
 interface IFiguresFormProps {
   figures: UseQueryResult<any, unknown>;
 }
 
 export default function FiguresForm(props: IFiguresFormProps) {
+  const defaultValues = props.figures?.data ? props.figures?.data : {};
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IFigures>({
-    resolver: yupResolver(figureSchema as any),
-    defaultValues: {
-      figures: props?.figures?.data?.figures
-        ? props?.figures?.data?.figures[0]?.figures
-        : [],
-    },
+    resolver: yupResolver(figuresSchema as any),
+    defaultValues,
   });
 
-  const notify = (text: string, options: ToastOptions) => toast(text, options);
-
-  const addUpdateFiguresMutation = useMutation(addUpdateFigure, {
-    onSuccess: () => {},
-  });
+  const addUpdateMutation = useMutation({ mutationFn: createUpdateFigures });
 
   const onSubmit = (data: IFigures) => {
-    const _id = props?.figures?.data?.figures
-      ? props?.figures?.data?.figures[0]?._id
-      : undefined;
-    addUpdateFiguresMutation.mutate(
-      { ...data, _id },
-      {
-        onSuccess: () => {
-          notify("Submitted succesfully!", { type: "success" });
-        },
-        onError: () => {
-          notify("Failed to submit!", { type: "error" });
-        },
-      }
-    );
+    const _id = props?.figures?.data ? props?.figures?.data?._id : undefined;
+    addUpdateMutation.mutate({ ...data, _id });
   };
 
   return (
@@ -57,54 +38,32 @@ export default function FiguresForm(props: IFiguresFormProps) {
         <FormSectionContainer>
           {[...Array(4)].map((item, index) => (
             <div className="grid gap-6 mb-4 md:grid-cols-2" key={index}>
-              <div>
-                <label
-                  htmlFor={`figure${index}`}
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  Figure
-                </label>
-                <input
-                  id={`figure${index}`}
-                  type="text"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-                  placeholder="Figure"
-                  {...register(`figures.${index}.figure`)}
-                />
-                {errors.figures && errors.figures[index]?.figure && (
-                  <p className="text-red-700 mt-2 text-sm">
-                    * {errors.figures[index]?.figure?.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label
-                  htmlFor={`figure_${index}_description`}
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Description
-                </label>
-                <input
-                  id={`figure_${index}_description`}
-                  type="text"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-                  placeholder="Description"
-                  {...register(`figures.${index}.description`)}
-                />
-                {errors.figures && errors.figures[index]?.description && (
-                  <p className="text-red-700 mt-2 text-sm">
-                    * {errors.figures[index]?.description?.message}
-                  </p>
-                )}
-              </div>
+              <TextInput
+                label={`Figure ${index + 1}`}
+                name={`figures.${index}.figure`}
+                register={register}
+                error={
+                  (errors.figures && errors.figures[index]?.figure) || undefined
+                }
+                placeholder="Figure"
+              />
+              <TextInput
+                label={`Description ${index + 1}`}
+                name={`figures.${index}.description`}
+                register={register}
+                error={
+                  (errors.figures && errors.figures[index]?.description) ||
+                  undefined
+                }
+                placeholder="Figure Description"
+              />
             </div>
           ))}
           <div className="w-full flex items-center space-x-4 mt-8">
-            <SubmitButton isLoading={addUpdateFiguresMutation.isLoading} />
+            <SubmitButton loading={addUpdateMutation.isLoading} />
           </div>
         </FormSectionContainer>
       </form>
-      <Toast />
     </FormSectionWrapper>
   );
 }

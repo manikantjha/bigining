@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const featureSchema = yup
+export const featuresSchema = yup
   .object({
     features: yup.array().of(
       yup.object({

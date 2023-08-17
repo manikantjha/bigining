@@ -17,7 +17,7 @@ type Entity =
   | "companies"
   | "faqs"
   | "features"
-  | "figrues"
+  | "figures"
   | "teamMembers"
   | "upcomingEvents"
   | "heroes"

@@ -7,8 +7,8 @@ import { ToastOptions, toast } from "react-toastify";
 import * as yup from "yup";
 import FormSectionContainer from "../common/FormSectionContainer";
 import ImageUploader from "../common/ImageUploader";
-import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
+import SubmitButton from "../common/form/SubmitButton";
 
 export interface IHeroFormProps {
   hero: UseQueryResult<any, unknown>;
@@ -155,7 +155,7 @@ export default function HeroForm(props: IHeroFormProps) {
             </label>
           </div>
           <div>
-            <SubmitButton isLoading={addUpdateHeroMutation.isLoading} />
+            <SubmitButton loading={addUpdateHeroMutation.isLoading} />
           </div>
         </FormSectionContainer>
       </form>

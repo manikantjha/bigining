@@ -20,7 +20,7 @@ import { useQuery } from "react-query";
 
 export default function AboutPage() {
   const hero = useQuery("aboutHero", () => getHero("about"));
-  const figures = useQuery("figures", () => getFigures());
+  const figures = useQuery("clientFiguresAbout", () => getFigures());
   const companies = useQuery("clientCompaniesHome", () =>
     getCompaniesPaginated(0, 20)
   );

@@ -4,7 +4,6 @@ import { IContactInfo } from "@/types/contactInfo";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { UseQueryResult, useMutation } from "react-query";
-import { ToastOptions, toast } from "react-toastify";
 import * as yup from "yup";
 import FormSectionContainer from "../common/FormSectionContainer";
 import SubmitButton from "../common/form/SubmitButton";
@@ -18,7 +17,6 @@ interface IContactInfoFormProps {
 }
 
 export default function ContactInfoForm(props: IContactInfoFormProps) {
-  console.log(props.contactInfos);
   const defaultValues = props?.contactInfos?.data
     ? { ...props?.contactInfos?.data }
     : {};
@@ -32,17 +30,15 @@ export default function ContactInfoForm(props: IContactInfoFormProps) {
     defaultValues,
   });
 
-  const addUpdateContactInfosMutation = useMutation({
+  const addUpdateMutation = useMutation({
     mutationFn: createUpdateContactInfo,
   });
-
-  const notify = (text: string, options: ToastOptions) => toast(text, options);
 
   const onSubmit = (data: IContactInfo) => {
     const _id = props.contactInfos?.data
       ? props.contactInfos?.data._id
       : undefined;
-    addUpdateContactInfosMutation.mutate({ ...data, _id });
+    addUpdateMutation.mutate({ ...data, _id });
   };
 
   return (
@@ -98,7 +94,7 @@ export default function ContactInfoForm(props: IContactInfoFormProps) {
           />
         </div>
         <div className="w-full mt-8">
-          <SubmitButton loading={addUpdateContactInfosMutation.isLoading} />
+          <SubmitButton loading={addUpdateMutation.isLoading} />
         </div>
       </form>
     </FormSectionContainer>

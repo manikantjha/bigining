@@ -6,10 +6,10 @@ import { ToastOptions, toast } from "react-toastify";
 import * as yup from "yup";
 import FormSectionContainer from "../common/FormSectionContainer";
 import ImageUploader from "../common/ImageUploader";
-import SubmitButton from "../common/SubmitButton";
 import Toast from "../common/Toast";
 import { IHeroFormProps } from "./HomeHeroForm";
 import { IHero } from "@/types/hero";
+import SubmitButton from "../common/form/SubmitButton";
 
 const schema = yup
   .object({
@@ -130,7 +130,7 @@ export default function AboutHeroForm(props: IHeroFormProps) {
             </label>
           </div>
           <div>
-            <SubmitButton isLoading={addUpdateHeroMutation.isLoading} />
+            <SubmitButton loading={addUpdateHeroMutation.isLoading} />
           </div>
         </FormSectionContainer>
       </form>

@@ -39,41 +39,27 @@ export const addUpdateHero = async (data: IHero) => {
 
 //  Figures --------------------------------------------------!
 
-export const getFigures = async () => {
-  return await get(`${BASE_URL}/api/figures`);
-};
+const figruesService = createEntityService<IFigures>("figures");
 
-export const getFigure = async (id: string) => {
-  return await get(`${BASE_URL}/api/figures/${id}`);
-};
+export async function getFigures() {
+  return await figruesService.get();
+}
 
-export const addUpdateFigure = async (data: IFigures) => {
-  const token = localStorage.getItem("token");
-  try {
-    return await post(`${BASE_URL}/api/figures`, data, token);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
-};
+export async function createUpdateFigures(data: IFigures) {
+  return await figruesService.post(data);
+}
 
 //  Features --------------------------------------------------!
 
-export const getFeatures = async () => {
-  return await get(`${BASE_URL}/api/features`);
-};
+const featuresService = createEntityService<IFeatures>("features");
 
-export const getFeature = async (id: string) => {
-  return await get(`${BASE_URL}/api/features/${id}`);
-};
+export async function getFeatures() {
+  return await featuresService.get();
+}
 
-export const addUpdateFeature = async (data: IFeatures) => {
-  const token = localStorage.getItem("token");
-  try {
-    return await post(`${BASE_URL}/api/features`, data, token);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
-};
+export async function createUpdateFeatures(data: IFeatures) {
+  return await featuresService.post(data);
+}
 
 //  Services --------------------------------------------------!
 
