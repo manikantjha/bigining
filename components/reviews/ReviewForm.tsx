@@ -31,13 +31,13 @@ const ReviewForm = (props: IReviewFormProps) => {
   });
 
   const reviewMutation = useMutation({
-    mutationFn: addReview,
-    onSuccess(data, variables, context) {
+    mutationFn: (data: IReview) => addReview(data, ""),
+    onSuccess() {
       setIsSuccess(true);
       setIsOpen(true);
       reset();
     },
-    onError(error, variables, context) {
+    onError() {
       setIsSuccess(false);
       setIsOpen(true);
       reset();

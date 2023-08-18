@@ -4,10 +4,10 @@ import { IUserCredentials } from "@/types/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { ToastOptions, toast } from "react-toastify";
 import Toast from "../admin/common/Toast";
 import TextInput from "../admin/common/form/TextInput";
 import Logo from "../common/Logo";
-import { ToastOptions, toast } from "react-toastify";
 
 export default function Login() {
   const {
