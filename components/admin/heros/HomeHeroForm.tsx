@@ -1,10 +1,13 @@
+import { useAuth } from "@/contexts/AuthContext";
+import { heroSchema } from "@/schemas/heroSchema";
 import { addUpdateHero } from "@/services/apiServices";
+import { IAuthContext } from "@/types/auth";
 import { IHero } from "@/types/hero";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { User } from "firebase/auth";
 import { Controller, useForm } from "react-hook-form";
 import { UseQueryResult, useMutation } from "react-query";
 import { ToastOptions, toast } from "react-toastify";
-import * as yup from "yup";
 import FormSectionContainer from "../common/FormSectionContainer";
 import ImageUploader from "../common/ImageUploader";
 import Toast from "../common/Toast";
@@ -14,17 +17,9 @@ export interface IHeroFormProps {
   hero: UseQueryResult<any, unknown>;
 }
 
-const schema = yup
-  .object({
-    title: yup.string().required("Title is required!"),
-    description: yup.string(),
-    imageURL: yup.string().required("Image is required!"),
-    hasContactButton: yup.boolean(),
-    isVideo: yup.boolean(),
-  })
-  .required();
-
 export default function HeroForm(props: IHeroFormProps) {
+  const { user } = useAuth() as IAuthContext<User>;
+
   const {
     register,
     handleSubmit,
@@ -33,7 +28,7 @@ export default function HeroForm(props: IHeroFormProps) {
     getValues,
     watch,
   } = useForm<IHero>({
-    resolver: yupResolver(schema as any),
+    resolver: yupResolver(heroSchema as any),
     defaultValues: props.hero.data ? { ...props.hero.data.hero } : {},
   });
 
@@ -41,8 +36,9 @@ export default function HeroForm(props: IHeroFormProps) {
 
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
-  const addUpdateHeroMutation = useMutation(addUpdateHero, {
-    onSuccess: () => {},
+  const addUpdateHeroMutation = useMutation({
+    mutationFn: async (data: IHero) =>
+      addUpdateHero(data, await user.getIdToken()),
   });
 
   function onSubmit(data: IHero) {

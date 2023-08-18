@@ -10,6 +10,7 @@ function initFirebaseApp() {
     const firebaseConfig = JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG);
 
     const app = initializeApp(firebaseConfig);
+
     return app;
   } catch (error) {
     console.log("Firebase initialization error: ", error);

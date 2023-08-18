@@ -1,4 +1,4 @@
-import { getServicesPaginated } from "@/services/apiServices";
+import { deleteService, getServicesPaginated } from "@/services/apiServices";
 import { IService } from "@/types/service";
 import DataList from "../../common/dataList/DataList";
 import RowListItem from "../../common/dataList/RowListItem";
@@ -20,7 +20,7 @@ export default function ServicesList(props: IServicesListProps) {
           onDelete={onDelete}
         />
       )}
-      deleteEntityFn={(id) => Promise.resolve(undefined)}
+      deleteEntityFn={deleteService}
       getEntitiesPaginatedFn={getServicesPaginated}
     />
   );

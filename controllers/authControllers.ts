@@ -1,108 +1,52 @@
 import Users from "@/models/user";
-import { auth } from "@/services/firebaseServices";
-import { getEnvVariable } from "@/utils/server";
-import { signJWT } from "@/utils/token";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+import { signUpSchema } from "@/schemas/signUpSchema";
+import { app } from "@/services/firebaseAdminServices";
+import { sendError, sendResponse } from "@/utils/server";
+import { getAuth } from "firebase-admin/auth";
 import { NextApiRequest, NextApiResponse } from "next";
+import { ValidationError } from "yup";
 
-export async function signup(req: NextApiRequest, res: NextApiResponse) {
+export async function signUp(req: NextApiRequest, res: NextApiResponse) {
   try {
-    //  Validate req.body
     const data = req.body;
 
-    if (!data) {
-      return res.status(404).json({ error: "Form data not provided!" });
+    try {
+      await signUpSchema.validate(data);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return sendError(res, 400, error.message);
+      }
+      return sendError(res, 400, "Bad request!");
     }
 
-    // Then I need to check for max amount of users allowed to signup, if its reached then throw an error
-    // It's not reached then check if the email is within the allowed emails
-    const users = await Users.find();
+    const emails = process.env.SIGNUP_EMAILS;
 
-    if (users.length > 0) {
-      throw new Error("Max users limit reached!");
-    }
+    if (!emails) sendError(res, 500, "Internal server error!");
 
-    const response = await createUserWithEmailAndPassword(
-      auth,
-      data.email,
-      data.password
-    );
+    const aryValidEmails = emails?.split(",");
 
-    if (!response || (response && !response.user)) {
-      throw new Error("Something went wrong! User not created!");
-    }
+    if (!aryValidEmails?.includes(data.email))
+      sendError(res, 401, "Email not supported!");
 
+    const user = await getAuth(app).createUser({
+      email: data.email,
+      emailVerified: false,
+      password: data.password,
+      displayName: data.displayName,
+      disabled: false,
+    });
+
+    // Store the user in the database.
     await Users.create({
-      uid: response.user.uid,
-      name: "",
-      email: response.user.email,
+      uid: user.uid,
+      name: user.displayName,
+      email: user.email,
     });
 
-    const token = await signJWT(
-      {
-        uid: response.user.uid,
-        displayName: response.user.displayName,
-        email: response.user.email,
-      },
-      { expiresIn: "7d" }
-    );
-
-    return res.status(200).json({ token });
-  } catch (error: any) {
-    return res.status(500).json({
-      error: error?.message ? error?.message : "Something went wrong!",
-    });
-  }
-}
-
-export async function signin(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    const data = req.body;
-
-    if (!data) {
-      return res.status(404).json({ error: "Form data not provided!" });
-    }
-
-    const email = getEnvVariable("ADMIN_EMAIL");
-
-    if (email != data.email) {
-      throw new Error("Unauthorized email address!");
-    }
-
-    const response = await signInWithEmailAndPassword(
-      auth,
-      data.email,
-      data.password
-    );
-
-    const token = await signJWT(
-      {
-        uid: response.user.uid,
-        displayName: response.user.displayName,
-        email: response.user.email,
-      },
-      { expiresIn: "7d" }
-    );
-
-    return res.status(200).json({ token });
-  } catch (error: any) {
-    return res.status(500).json({
-      error: error?.message ? error?.message : "Something went wrong!",
-    });
-  }
-}
-
-export async function signout(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    const response = await signOut(auth);
-    return res.status(200).json({ response });
-  } catch (error: any) {
-    return res.status(500).json({
-      error: error?.message ? error?.message : "Something went wrong!",
-    });
+    const token = await getAuth().createCustomToken(user.uid);
+    sendResponse(res, 200, { token, user });
+  } catch (error) {
+    console.log(error);
+    sendError(res, 500, "Internal server error!");
   }
 }

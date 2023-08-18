@@ -1,9 +1,10 @@
+import { useAddUpdate } from "@/customHooks/useAddUpdate";
 import { contactInfoSchema } from "@/schemas/contactInfoSchema";
 import { createUpdateContactInfo } from "@/services/apiServices";
 import { IContactInfo } from "@/types/contactInfo";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { UseQueryResult, useMutation } from "react-query";
+import { UseQueryResult } from "react-query";
 import * as yup from "yup";
 import FormSectionContainer from "../common/FormSectionContainer";
 import SubmitButton from "../common/form/SubmitButton";
@@ -30,9 +31,7 @@ export default function ContactInfoForm(props: IContactInfoFormProps) {
     defaultValues,
   });
 
-  const addUpdateMutation = useMutation({
-    mutationFn: createUpdateContactInfo,
-  });
+  const addUpdateMutation = useAddUpdate(createUpdateContactInfo);
 
   const onSubmit = (data: IContactInfo) => {
     const _id = props.contactInfos?.data

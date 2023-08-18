@@ -1,4 +1,4 @@
-import { verifyJWT } from "@/utils/token";
+import { getAuth } from "firebase-admin/auth";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export async function jwtMiddleware(
@@ -15,7 +15,7 @@ export async function jwtMiddleware(
       return res.status(401).json({ error: "Authorization failed!" });
     }
     const token = req.headers.authorization.substring(7);
-    await verifyJWT(token);
+    await getAuth().verifyIdToken(token);
     return handler(req, res);
   } catch (error) {
     return res.status(401).json({ error: "Authorization failed!" });

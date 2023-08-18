@@ -8,9 +8,9 @@ import * as yup from "yup";
 import CommonButton from "../common/CommonButton";
 import FormSectionContainer from "../common/FormSectionContainer";
 import SubmitButton from "../common/form/SubmitButton";
-import ImageUploaderNew from "../common/imageUploaderNew/ImageUploaderNew";
-import TextInput from "../common/form/TextInput";
 import TextArea from "../common/form/TextArea";
+import TextInput from "../common/form/TextInput";
+import ImageUploaderNew from "../common/imageUploaderNew/ImageUploaderNew";
 
 type TForm = yup.InferType<typeof workSchema>;
 

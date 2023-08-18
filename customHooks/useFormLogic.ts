@@ -1,4 +1,7 @@
+import { useAuth } from "@/contexts/AuthContext";
+import { IAuthContext } from "@/types/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { User } from "firebase/auth";
 import { useRouter } from "next/router";
 import {
   DeepPartial,
@@ -12,9 +15,10 @@ import * as yup from "yup";
 interface IFormLogicProps<TForm extends yup.Maybe<yup.AnyObject>> {
   defaultValues: DeepPartial<TForm>;
   schema: yup.ObjectSchema<TForm>;
-  mutationFn: (data: TForm) => Promise<any>;
+  mutationFn: (data: TForm, token: string) => Promise<any>;
   entity: string;
   entityPlural: string;
+  isPublic?: boolean;
 }
 
 const useFormLogic = <TForm extends FieldValues>({
@@ -23,10 +27,12 @@ const useFormLogic = <TForm extends FieldValues>({
   mutationFn,
   entity,
   entityPlural,
+  isPublic,
 }: IFormLogicProps<TForm>) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { page = 1 } = router.query;
+  const { user } = useAuth() as IAuthContext<User>;
 
   const methods = useForm<TForm>({
     resolver: yupResolver(schema),
@@ -34,7 +40,10 @@ const useFormLogic = <TForm extends FieldValues>({
   });
 
   const mutation = useMutation({
-    mutationFn: mutationFn,
+    mutationFn: async (data: TForm) => {
+      const token = isPublic ? "" : await user.getIdToken();
+      return mutationFn(data, token);
+    },
     onSuccess: (data) => {
       queryClient.setQueryData([entity, data._id], data);
       queryClient.invalidateQueries([entityPlural, page]);

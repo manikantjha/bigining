@@ -1,29 +1,38 @@
 import { GetIcon } from "@/components/common/icons/icons";
-import { updateReview } from "@/services/apiServices";
+import { useAuth } from "@/contexts/AuthContext";
+import { deleteReview, updateReview } from "@/services/apiServices";
+import { IAuthContext } from "@/types/auth";
 import { IReview } from "@/types/review";
+import { User } from "firebase/auth";
 import { useRouter } from "next/router";
 import React from "react";
-import {
-  UseMutateFunction,
-  UseQueryResult,
-  useMutation,
-  useQueryClient,
-} from "react-query";
+import { UseQueryResult, useMutation, useQueryClient } from "react-query";
 import CommonButton from "../common/CommonButton";
 import ReviewListItem from "./ReviewListItem";
 
 interface ReviewListProps {
   reviews: UseQueryResult<any, unknown>;
-  handleDelete: UseMutateFunction<any, unknown, any, unknown>;
 }
 
-const ReviewList: React.FC<ReviewListProps> = ({ reviews, handleDelete }) => {
+const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
   const router = useRouter();
+  const { user } = useAuth() as IAuthContext<User>;
   const queryClient = useQueryClient();
   const { page = 1 } = router.query;
 
+  const useDeleteReview = () => {
+    const mutate = useMutation({
+      mutationFn: async (data: IReview) =>
+        deleteReview(data, await user.getIdToken()),
+    });
+    return mutate;
+  };
+
+  const { mutate, isLoading } = useDeleteReview();
+
   const updateReveiwMutation = useMutation({
-    mutationFn: updateReview,
+    mutationFn: async (data: IReview) =>
+      updateReview(data, await user.getIdToken()),
     onSuccess: (data) => {
       queryClient.invalidateQueries("manageReviews");
       router.replace(`/admin/manageReviews?page=${page}`);
@@ -62,7 +71,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, handleDelete }) => {
               color="red"
               icon={<GetIcon name="delete" size="h-5 w-5" />}
               onClick={() => {
-                handleDelete(review, {
+                mutate(review, {
                   onSuccess: async () => await reviews.refetch(),
                 });
               }}

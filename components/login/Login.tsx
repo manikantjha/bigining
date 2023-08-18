@@ -1,53 +1,26 @@
-import { signin } from "@/services/apiServices";
+import { useAuth } from "@/contexts/AuthContext";
+import { signInSchema } from "@/schemas/signInSchema";
 import { IUserCredentials } from "@/types/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-import { ToastOptions, toast } from "react-toastify";
-import * as yup from "yup";
 import Toast from "../admin/common/Toast";
 import Logo from "../common/Logo";
-
-const schema = yup
-  .object({
-    email: yup.string().required("Email is required"),
-    password: yup
-      .string()
-      .min(6, "Password must be atleast 6 characters")
-      .required("Password is required"),
-  })
-  .required();
 
 export default function Login() {
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
   } = useForm<IUserCredentials>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(signInSchema),
   });
-  const router = useRouter();
 
-  const signinMutation = useMutation(signin);
-  const notify = (text: string, options: ToastOptions) => toast(text, options);
+  const { logIn } = useAuth();
 
   const onSubmit = async (data: IUserCredentials) => {
     try {
-      const response = await signinMutation.mutateAsync({
-        email: data.email,
-        password: data.password,
-      });
-      if (response.token) {
-        localStorage.setItem("token", response.token);
-        notify("Logged in successfully!", { type: "success" });
-        router.push("/admin");
-      }
-      if (response.error) {
-        notify(response.error, { type: "error" });
-      }
+      await logIn(data.email, data.password);
     } catch (error) {
       console.log(error);
     }

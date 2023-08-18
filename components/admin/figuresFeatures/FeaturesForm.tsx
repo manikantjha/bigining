@@ -1,9 +1,10 @@
+import { useAddUpdate } from "@/customHooks/useAddUpdate";
 import { featuresSchema } from "@/schemas/featuresSchema";
 import { createUpdateFeatures } from "@/services/apiServices";
 import { IFeatures } from "@/types/features";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { UseQueryResult, useMutation } from "react-query";
+import { UseQueryResult } from "react-query";
 import FormSectionContainer from "../common/FormSectionContainer";
 import SubmitButton from "../common/form/SubmitButton";
 import TextInput from "../common/form/TextInput";
@@ -14,6 +15,7 @@ interface IFeaturesFormProps {
 
 export default function FeaturesForm(props: IFeaturesFormProps) {
   const defaultValues = props.features?.data ? props.features?.data : {};
+
   const {
     register,
     handleSubmit,
@@ -23,7 +25,7 @@ export default function FeaturesForm(props: IFeaturesFormProps) {
     defaultValues,
   });
 
-  const addUpdateMutation = useMutation({ mutationFn: createUpdateFeatures });
+  const addUpdateMutation = useAddUpdate(createUpdateFeatures);
 
   const onSubmit = (data: IFeatures) => {
     const _id = props.features?.data ? props.features?.data?._id : undefined;

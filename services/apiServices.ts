@@ -13,7 +13,6 @@ import { IService } from "@/types/service";
 import { ITeamMember } from "@/types/teamMember";
 import { IUpcomingEvent } from "@/types/upcomingEvent";
 import { IWork } from "@/types/work";
-import Router from "next/router";
 import { get, post, remove } from "./fetchServices";
 
 const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
@@ -28,8 +27,7 @@ export const getHero = async (pageId: string) => {
   return await get(`${BASE_URL}/api/heroes/${pageId}`);
 };
 
-export const addUpdateHero = async (data: IHero) => {
-  const token = localStorage.getItem("token");
+export const addUpdateHero = async (data: IHero, token: string) => {
   try {
     return await post(`${BASE_URL}/api/heroes`, data, token);
   } catch (error) {
@@ -45,8 +43,8 @@ export async function getFigures() {
   return await figruesService.get();
 }
 
-export async function createUpdateFigures(data: IFigures) {
-  return await figruesService.post(data);
+export async function createUpdateFigures(data: IFigures, token: string) {
+  return await figruesService.post(data, token);
 }
 
 //  Features --------------------------------------------------!
@@ -57,8 +55,8 @@ export async function getFeatures() {
   return await featuresService.get();
 }
 
-export async function createUpdateFeatures(data: IFeatures) {
-  return await featuresService.post(data);
+export async function createUpdateFeatures(data: IFeatures, token: string) {
+  return await featuresService.post(data, token);
 }
 
 //  Services --------------------------------------------------!
@@ -80,19 +78,16 @@ export const getService = async (id: string) => {
   return await get(`${BASE_URL}/api/services/${id}`);
 };
 
-export const addService = async (data: IService) => {
-  const token = localStorage.getItem("token");
+export const addService = async (data: IService, token: string) => {
   return await post(`${BASE_URL}/api/services/`, data, token);
 };
 
-export const updateService = async (data: IService) => {
-  const token = localStorage.getItem("token");
+export const updateService = async (data: IService, token: string) => {
   return await post(`${BASE_URL}/api/services/${data._id}`, data, token);
 };
 
-export const deleteService = async (id: string) => {
-  const token = localStorage.getItem("token");
-  return await remove(`${BASE_URL}/api/services/${id}`, {}, token);
+export const deleteService = async (data: IService, token: string) => {
+  return await remove(`${BASE_URL}/api/services/${data._id}`, {}, token);
 };
 
 //  FAQs --------------------------------------------------!
@@ -107,18 +102,18 @@ export const getFaq = async (id: string) => {
   return await faqService.get(`/${id}`);
 };
 
-export async function addFaq(data: IFaq) {
-  return await faqService.post(data);
+export async function addFaq(data: IFaq, token: string) {
+  return await faqService.post(data, token);
 }
 
-export async function updateFaq(data: IFaq) {
+export async function updateFaq(data: IFaq, token: string) {
   if (!data._id) return;
-  return await faqService.update(data._id, data);
+  return await faqService.update(data._id, data, token);
 }
 
-export async function deleteFaq(data: IFaq) {
+export async function deleteFaq(data: IFaq, token: string) {
   if (!data._id) return;
-  return await faqService.remove(data._id, data);
+  return await faqService.remove(data._id, data, token);
 }
 
 //  Contact Info --------------------------------------------------!
@@ -129,8 +124,11 @@ export async function getContactInfo() {
   return await contactInfoService.get();
 }
 
-export async function createUpdateContactInfo(data: IContactInfo) {
-  return await contactInfoService.post(data);
+export async function createUpdateContactInfo(
+  data: IContactInfo,
+  token: string
+) {
+  return await contactInfoService.post(data, token);
 }
 
 //  Team Members --------------------------------------------------!
@@ -150,18 +148,18 @@ export const getTeamMember = async (id: string) => {
   return await teamMemberService.get(`/${id}`);
 };
 
-export const addTeamMember = async (data: ITeamMember) => {
-  return await teamMemberService.post(data);
+export const addTeamMember = async (data: ITeamMember, token: string) => {
+  return await teamMemberService.post(data, token);
 };
 
-export const updateTeamMember = async (data: ITeamMember) => {
+export const updateTeamMember = async (data: ITeamMember, token: string) => {
   if (!data._id) return;
-  return await teamMemberService.update(data._id, data);
+  return await teamMemberService.update(data._id, data, token);
 };
 
-export const deleteTeamMember = async (data: ITeamMember) => {
+export const deleteTeamMember = async (data: ITeamMember, token: string) => {
   if (!data._id) return;
-  return await teamMemberService.remove(data._id, data);
+  return await teamMemberService.remove(data._id, data, token);
 };
 
 //  Works --------------------------------------------------!
@@ -184,8 +182,7 @@ export const getWork = async (id: string) => {
   return await get(`${BASE_URL}/api/works/${id}`);
 };
 
-export const addWork = async (data: IWork) => {
-  const token = localStorage.getItem("token");
+export const addWork = async (data: IWork, token: string) => {
   try {
     return await post(`${BASE_URL}/api/works`, data, token);
   } catch (error) {
@@ -193,8 +190,7 @@ export const addWork = async (data: IWork) => {
   }
 };
 
-export const updateWork = async (data: IWork) => {
-  const token = localStorage.getItem("token");
+export const updateWork = async (data: IWork, token: string) => {
   try {
     return await post(`${BASE_URL}/api/works/${data._id}`, data, token);
   } catch (error) {
@@ -202,8 +198,7 @@ export const updateWork = async (data: IWork) => {
   }
 };
 
-export const deleteWork = async (data: IWork) => {
-  const token = localStorage.getItem("token");
+export const deleteWork = async (data: IWork, token: string) => {
   try {
     return await remove(`${BASE_URL}/api/works/${data._id}`, data, token);
   } catch (error) {
@@ -213,27 +208,9 @@ export const deleteWork = async (data: IWork) => {
 
 //  Auth --------------------------------------------------!
 
-export const signup = async (data: IUserCredentials) => {
+export const signUp = async (data: IUserCredentials) => {
   try {
     return await post(`${BASE_URL}/api/signup`, data);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
-};
-
-export const signin = async (data: IUserCredentials) => {
-  try {
-    return await post(`${BASE_URL}/api/signin`, data);
-  } catch (error) {
-    console.log("Error: ", error);
-  }
-};
-
-export const signout = async () => {
-  localStorage.removeItem("token");
-  try {
-    await get(`${BASE_URL}/api/signout`);
-    Router.push("/login");
   } catch (error) {
     console.log("Error: ", error);
   }
@@ -260,18 +237,19 @@ export async function getReviewsPaginated(currentPage: number, limit: number) {
   return await reviewService.get(`?page=${currentPage}&limit=${limit}`);
 }
 
-export async function addReview(data: IReview) {
-  return await reviewService.post(data, true);
+export async function addReview(data: IReview, token: string) {
+  return await reviewService.post(data, token, true);
 }
 
-export async function updateReview(data: IReview) {
+export async function updateReview(data: IReview, token: string) {
   if (!data._id) return;
-  return await reviewService.update(data._id, data);
+  return await reviewService.update(data._id, data, token);
 }
 
-export async function deleteReview(data: IReview) {
+export async function deleteReview(data: IReview, token: string) {
+  console.log("data", data);
   if (!data._id) return;
-  return await reviewService.remove(data._id, data);
+  return await reviewService.remove(data._id, data, token);
 }
 
 //  Companies --------------------------------------------------!
@@ -289,18 +267,15 @@ export const getCompany = async (id: string) => {
   return await get(`${BASE_URL}/api/companies/${id}`);
 };
 
-export const addCompany = async (data: ICompany) => {
-  const token = localStorage.getItem("token");
+export const addCompany = async (data: ICompany, token: string) => {
   return await post(`${BASE_URL}/api/companies`, data, token);
 };
 
-export const updateCompany = async (data: ICompany) => {
-  const token = localStorage.getItem("token");
+export const updateCompany = async (data: ICompany, token: string) => {
   return await post(`${BASE_URL}/api/companies/${data._id}`, data, token);
 };
 
-export const deleteCompany = async (data: ICompany) => {
-  const token = localStorage.getItem("token");
+export const deleteCompany = async (data: ICompany, token: string) => {
   return await remove(`${BASE_URL}/api/companies/${data._id}`, data, token);
 };
 
@@ -319,18 +294,15 @@ export const getArtist = async (id: string) => {
   return await get(`${BASE_URL}/api/artists/${id}`);
 };
 
-export const addArtist = async (data: IArtist) => {
-  const token = localStorage.getItem("token");
+export const addArtist = async (data: IArtist, token: string) => {
   return await post(`${BASE_URL}/api/artists`, data, token);
 };
 
-export const updateArtist = async (data: IArtist) => {
-  const token = localStorage.getItem("token");
+export const updateArtist = async (data: IArtist, token: string) => {
   return await post(`${BASE_URL}/api/artists/${data._id}`, data, token);
 };
 
-export const deleteArtist = async (data: IArtist) => {
-  const token = localStorage.getItem("token");
+export const deleteArtist = async (data: IArtist, token: string) => {
   return await remove(`${BASE_URL}/api/artists/${data._id}`, data, token);
 };
 
@@ -349,18 +321,21 @@ export const getUpcomingEvent = async (id: string) => {
   return await get(`${BASE_URL}/api/upcomingEvents/${id}`);
 };
 
-export const addUpcomingEvent = async (data: IUpcomingEvent) => {
-  const token = localStorage.getItem("token");
+export const addUpcomingEvent = async (data: IUpcomingEvent, token: string) => {
   return await post(`${BASE_URL}/api/upcomingEvents`, data, token);
 };
 
-export const updateUpcomingEvent = async (data: IUpcomingEvent) => {
-  const token = localStorage.getItem("token");
+export const updateUpcomingEvent = async (
+  data: IUpcomingEvent,
+  token: string
+) => {
   return await post(`${BASE_URL}/api/upcomingEvents/${data._id}`, data, token);
 };
 
-export const deleteUpcomingEvent = async (data: IUpcomingEvent) => {
-  const token = localStorage.getItem("token");
+export const deleteUpcomingEvent = async (
+  data: IUpcomingEvent,
+  token: string
+) => {
   return await remove(
     `${BASE_URL}/api/upcomingEvents/${data._id}`,
     data,

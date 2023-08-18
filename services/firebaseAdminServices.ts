@@ -1,5 +1,4 @@
 import * as admin from "firebase-admin/app";
-import { getStorage } from "firebase-admin/storage";
 
 export function initFirebaseAdminApp() {
   try {
@@ -24,18 +23,6 @@ export function initFirebaseAdminApp() {
   }
 }
 
-// export const app = initFirebaseAdminApp();
+export const app = initFirebaseAdminApp();
 
 // export const storage = getStorage();
-
-// import { initializeApp, getApps, cert } from 'firebase-admin/app';
-
-// const firebaseAdminConfig = {
-//     credential: cert(process.env.FIREBASE_SECRET_KEY)
-// }
-
-// export function customInitApp() {
-//     if (getApps().length <= 0) {
-//         initializeApp(firebaseAdminConfig);
-//     }
-// }

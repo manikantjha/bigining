@@ -5,9 +5,9 @@ import { Controller } from "react-hook-form";
 import { UseQueryResult } from "react-query";
 import * as yup from "yup";
 import FormSectionContainer from "../common/FormSectionContainer";
+import SubmitButton from "../common/form/SubmitButton";
 import TextInput from "../common/form/TextInput";
 import ImageUploaderNew from "../common/imageUploaderNew/ImageUploaderNew";
-import SubmitButton from "../common/form/SubmitButton";
 
 type TForm = yup.InferType<typeof companySchema>;
 

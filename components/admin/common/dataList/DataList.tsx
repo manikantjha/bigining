@@ -2,7 +2,10 @@ import ConfirmDeleteModal from "@/components/common/ConfirmDeleteModal";
 import Error from "@/components/common/Error";
 import Loading from "@/components/common/Loading";
 import { GetIcon } from "@/components/common/icons/icons";
+import { useAuth } from "@/contexts/AuthContext";
 import usePagination from "@/customHooks/usePagination";
+import { IAuthContext } from "@/types/auth";
+import { User } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
@@ -18,7 +21,7 @@ interface IListProps<T> {
     onDelete: (item: T) => void
   ) => JSX.Element;
   getEntitiesPaginatedFn: (currentPage: number, limit: number) => Promise<any>;
-  deleteEntityFn: (data: T) => Promise<any>;
+  deleteEntityFn: (data: T, token: string) => Promise<any>;
   layoutType?: "grid" | "row";
   containerClassName?: string;
 }
@@ -36,6 +39,7 @@ function DataList<T>({
   const [isOpen, setIsOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<T | null>(null);
   const queryClient = useQueryClient();
+  const { user } = useAuth() as IAuthContext<User>;
 
   const { data, PaginationComponent } = usePagination(
     entityPlural,
@@ -45,7 +49,8 @@ function DataList<T>({
   const { page = 1 } = router.query;
 
   const deleteItemMutation = useMutation({
-    mutationFn: deleteEntityFn,
+    mutationFn: async (data: T) =>
+      deleteEntityFn(data, await user.getIdToken()),
     onSuccess: () => {
       queryClient.invalidateQueries([entityPlural]);
     },

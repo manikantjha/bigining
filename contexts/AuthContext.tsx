@@ -1,3 +1,13 @@
+import { auth } from "@/services/firebaseServices";
+import { IAuthContext } from "@/types/auth";
+import {
+  User,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+import { useRouter } from "next/router";
 import {
   ReactNode,
   createContext,
@@ -5,31 +15,64 @@ import {
   useEffect,
   useState,
 } from "react";
-const AuthContext = createContext<any>({});
+
+const AuthContext = createContext<IAuthContext<User | null>>(
+  {} as IAuthContext<User | null>
+);
 
 export function useAuth() {
   return useContext(AuthContext);
 }
 
 export function AuthContextProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(auth.currentUser);
+  const [loading, setLoading] = useState(!auth.currentUser);
+  const router = useRouter();
+
+  const clear = () => {
+    setUser(null);
+    setLoading(true);
+  };
+
+  const logIn = async (email: string, password: string) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      router.push("/admin");
+    } catch (error) {
+      console.log("Error: ", error);
+    }
+  };
+
+  const logUp = (email: string, password: string) => {
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const logOut = async () => {
+    await signOut(auth).then(clear);
+    setLoading(false);
+  };
+
+  const handleAuthStateChange = async (authState: User | null) => {
+    setLoading(true);
+
+    if (!authState) {
+      setUser(null);
+
+      setLoading(false);
+      return;
+    }
+    setUser(authState);
+
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    // I should probably check here if it's a valid token before proceeding further.
-    // I can't verify JWT here as I don't have access to env variables here.
-    if (token) {
-      setUser(token);
-    } else {
-      localStorage.removeItem("token");
-      setUser(null);
-    }
-    setLoading(false);
-  }, []);
+    const unsubscribe = onAuthStateChanged(auth, handleAuthStateChange);
+    return () => unsubscribe();
+  }, [loading]);
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading, logIn, logOut, logUp }}>
       {children}
     </AuthContext.Provider>
   );

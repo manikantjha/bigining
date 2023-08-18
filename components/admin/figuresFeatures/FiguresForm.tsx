@@ -1,9 +1,10 @@
+import { useAddUpdate } from "@/customHooks/useAddUpdate";
 import { figuresSchema } from "@/schemas/figuresSchema";
 import { createUpdateFigures } from "@/services/apiServices";
 import { IFigures } from "@/types/figures";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { UseQueryResult, useMutation } from "react-query";
+import { UseQueryResult } from "react-query";
 import FormSectionContainer from "../common/FormSectionContainer";
 import FormSectionWrapper from "../common/FormSectionWrapper";
 import SubmitButton from "../common/form/SubmitButton";
@@ -25,7 +26,7 @@ export default function FiguresForm(props: IFiguresFormProps) {
     defaultValues,
   });
 
-  const addUpdateMutation = useMutation({ mutationFn: createUpdateFigures });
+  const addUpdateMutation = useAddUpdate(createUpdateFigures);
 
   const onSubmit = (data: IFigures) => {
     const _id = props?.figures?.data ? props?.figures?.data?._id : undefined;

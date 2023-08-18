@@ -27,10 +27,6 @@ type Entity =
 function createEntityService<T>(entity: Entity) {
   const url = `${BASE_URL}/api/${entity}`;
 
-  //   async function genericGet<Data>(query: string = ""): Promise<IApiData<Data>> {
-  //     return await get(`${url}${query}`);
-  //   }
-
   async function genericGetPaginated<Data>(
     query: string = ""
   ): Promise<IPaginatedApiResult<Data>> {
@@ -43,28 +39,31 @@ function createEntityService<T>(entity: Entity) {
 
   async function genericPost<Data>(
     data: Data,
+    token: string,
     isPublic?: boolean
   ): Promise<Data> {
-    const token = isPublic ? null : localStorage.getItem("token");
-    return await post(url, data, token);
+    const newToken = isPublic ? null : token;
+    return await post(url, data, newToken);
   }
 
   async function genericUpdate<Data>(
     id: string,
     data: Data,
+    token: string,
     isPublic?: boolean
   ): Promise<Data> {
-    const token = isPublic ? null : localStorage.getItem("token");
-    return await post(`${url}/${id}`, data, token);
+    const newToken = isPublic ? null : token;
+    return await post(`${url}/${id}`, data, newToken);
   }
 
   async function genericDelete<Data>(
     id: string,
     data: Data,
+    token: string,
     isPublic?: boolean
   ): Promise<IDeleteApiResult> {
-    const token = isPublic ? null : localStorage.getItem("token");
-    return await remove(`${url}/${id}`, data, token);
+    const newToken = isPublic ? null : token;
+    return await remove(`${url}/${id}`, data, newToken);
   }
 
   return {

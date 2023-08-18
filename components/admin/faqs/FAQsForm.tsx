@@ -4,9 +4,9 @@ import { addFaq, updateFaq } from "@/services/apiServices";
 import { UseQueryResult } from "react-query";
 import * as yup from "yup";
 import FormSectionContainer from "../common/FormSectionContainer";
+import SubmitButton from "../common/form/SubmitButton";
 import TextArea from "../common/form/TextArea";
 import TextInput from "../common/form/TextInput";
-import SubmitButton from "../common/form/SubmitButton";
 
 type TForm = yup.InferType<typeof faqSchema>;
 

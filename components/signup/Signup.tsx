@@ -1,4 +1,5 @@
-import { signup } from "@/services/apiServices";
+import { signUpSchema } from "@/schemas/signUpSchema";
+import { signUp } from "@/services/apiServices";
 import { ISignupForm, IUserCredentials } from "@/types/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
@@ -6,48 +7,32 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { ToastOptions, toast } from "react-toastify";
-import * as yup from "yup";
 import Toast from "../admin/common/Toast";
 import Logo from "../common/Logo";
-
-const schema = yup
-  .object({
-    email: yup.string().required("Email is required"),
-    password: yup
-      .string()
-      .min(6, "Password must be atleast 6 characters")
-      .required("Password is required"),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref(`password`), undefined], "Passwords don't match")
-      .required("Re-enter your password"),
-  })
-  .required();
 
 export default function Signup() {
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
   } = useForm<ISignupForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(signUpSchema),
   });
+
   const router = useRouter();
 
   const notify = (text: string, options: ToastOptions) => toast(text, options);
 
-  const signupMutation = useMutation(signup);
+  const signUpMutation = useMutation(signUp);
 
   const onSubmit = async (data: IUserCredentials) => {
     try {
-      const response = await signupMutation.mutateAsync({
+      const response = await signUpMutation.mutateAsync({
         email: data.email,
         password: data.password,
       });
       if (response.token) {
         notify("Successfully signed up!", { type: "success" });
-        localStorage.setItem("token", response.token);
         router.push("/admin");
       }
       if (response.error) {

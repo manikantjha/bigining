@@ -65,9 +65,7 @@ export default function ContactForm(props: IContactFormProps) {
 
   if (!props.lstServices?.data) return;
 
-  console.log("props.lstServices", props.lstServices);
-
-  const services = props.lstServices.data.map(
+  const services = props.lstServices?.data?.map(
     (service: { title: string }) => service.title
   );
 
