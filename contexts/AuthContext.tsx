@@ -35,12 +35,8 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
   };
 
   const logIn = async (email: string, password: string) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      router.push("/admin");
-    } catch (error) {
-      console.log("Error: ", error);
-    }
+    await signInWithEmailAndPassword(auth, email, password);
+    router.push("/admin");
   };
 
   const logUp = (email: string, password: string) => {

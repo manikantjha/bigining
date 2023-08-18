@@ -5,7 +5,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import Toast from "../admin/common/Toast";
+import TextInput from "../admin/common/form/TextInput";
 import Logo from "../common/Logo";
+import { ToastOptions, toast } from "react-toastify";
 
 export default function Login() {
   const {
@@ -18,11 +20,15 @@ export default function Login() {
 
   const { logIn } = useAuth();
 
+  const notify = (text: string, options: ToastOptions) => toast(text, options);
+
   const onSubmit = async (data: IUserCredentials) => {
     try {
       await logIn(data.email, data.password);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      const message = error.message || "Something went wrong!";
+      notify(message, { type: "error" });
+      console.log("asdasd", error);
     }
   };
 
@@ -33,60 +39,36 @@ export default function Login() {
           <Logo isVertical />
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-6">
-            <label
-              htmlFor="email"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Your email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-              placeholder="sample@email.com"
-              {...register(`email`)}
+          <div className="grid grid-cols-1 gap-4">
+            <TextInput
+              label="Your Email"
+              name="email"
+              register={register}
+              error={errors.email}
+              placeholder="example@email.com"
             />
-            {errors.email && (
-              <p className="text-red-700 mt-2 text-sm">
-                * {errors.email.message}
-              </p>
-            )}
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Your password
-            </label>
-            <input
+            <TextInput
+              label="Your Password"
+              name="password"
+              register={register}
+              error={errors.password}
               type="password"
-              id="password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-              required
-              {...register(`password`)}
             />
-            {errors.password && (
-              <p className="text-red-700 mt-2 text-sm">
-                * {errors.password.message}
-              </p>
-            )}
-          </div>
-          <button
-            type="submit"
-            className="text-white bg-accentDark hover:bg-accentDark focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center !w-full"
-          >
-            Log In
-          </button>
-          <div className="text-center">
-            <p className="my-2 text-gray-400">or</p>
-            <Link
-              href="/signup"
-              className="hover:underline text-accentDark font-semibold"
-            >
-              Sign Up
-            </Link>
+            <div className="grid grid-cols-1 gap-2">
+              <button
+                type="submit"
+                className="text-white bg-accentDark hover:bg-accentDark focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center !w-full"
+              >
+                Log In
+              </button>
+              <p className="text-gray-400 text-center">or</p>
+              <Link
+                href="/signup"
+                className="hover:underline text-accentDark font-semibold text-center"
+              >
+                Sign Up
+              </Link>
+            </div>
           </div>
         </form>
       </div>

@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { ToastOptions, toast } from "react-toastify";
 import Toast from "../admin/common/Toast";
+import TextInput from "../admin/common/form/TextInput";
 import Logo from "../common/Logo";
 
 export default function Signup() {
@@ -38,7 +39,9 @@ export default function Signup() {
       if (response.error) {
         notify(response.error, { type: "error" });
       }
-    } catch (error) {
+    } catch (error: any) {
+      const message = error.message || "Something went wrong!";
+      notify(message, { type: "error" });
       console.log(error);
     }
   };
@@ -46,86 +49,47 @@ export default function Signup() {
   return (
     <div className="flex items-center justify-center h-[100vh]">
       <div className="w-[500px] mx-auto bg-gray-100 p-6 rounded">
+        <div className="mb-6 mx-auto">
+          <Logo isVertical />
+        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-6 mx-auto">
-            <Logo isVertical />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="email"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Your Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-              placeholder="sample@email.com"
-              {...register(`email`)}
+          <div className="grid grid-cols-1 gap-4">
+            <TextInput
+              label="Your Email"
+              name="email"
+              register={register}
+              error={errors.email}
+              placeholder="example@email.com"
             />
-            {errors.email && (
-              <p className="text-red-700 mt-2 text-sm">
-                * {errors.email.message}
-              </p>
-            )}
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Your Password
-            </label>
-            <input
+            <TextInput
+              label="Your Password"
+              name="password"
+              register={register}
+              error={errors.password}
               type="password"
-              id="password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-              required
-              {...register(`password`)}
             />
-            {errors.password && (
-              <p className="text-red-700 mt-2 text-sm">
-                * {errors.password.message}
-              </p>
-            )}
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Re-enter Your Password
-            </label>
-            <input
+            <TextInput
+              label="Re-enter Your Password"
+              name="confirmPassword"
+              register={register}
+              error={errors.confirmPassword}
               type="password"
-              id="password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
-              required
-              {...register(`confirmPassword`)}
             />
-            {errors.confirmPassword && (
-              <p className="text-red-700 mt-2 text-sm">
-                * {errors.confirmPassword.message}
-              </p>
-            )}
-          </div>
-          <div className="w-full">
-            <button
-              type="submit"
-              className="text-white bg-accentDark hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
-            >
-              Sign Up
-            </button>
-          </div>
-          <div className="text-center">
-            <p className="my-2 text-gray-400">or</p>
-            <Link
-              href="/login"
-              className="hover:underline text-accentDark font-semibold"
-            >
-              Log In
-            </Link>
+            <div className="grid grid-cols-1 gap-2">
+              <button
+                type="submit"
+                className="text-white bg-accentDark hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
+              >
+                Sign Up
+              </button>
+              <p className="text-gray-400 text-center">or</p>
+              <Link
+                href="/login"
+                className="hover:underline text-accentDark font-semibold text-center"
+              >
+                Log In
+              </Link>
+            </div>
           </div>
         </form>
       </div>
