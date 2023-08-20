@@ -102,6 +102,7 @@ const ReviewForm = (props: IReviewFormProps) => {
               </label>
 
               <input
+                id="name"
                 type="text"
                 {...register("name")}
                 className="bg-transparent border-2 border-black text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5 placeholder-gray-400"
@@ -118,6 +119,7 @@ const ReviewForm = (props: IReviewFormProps) => {
                 Email:
               </label>
               <input
+                id="email"
                 type="email"
                 {...register("email")}
                 className="bg-transparent border-2 border-black text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5 placeholder-gray-400"
@@ -133,17 +135,14 @@ const ReviewForm = (props: IReviewFormProps) => {
               >
                 Message:
               </label>
-              <Controller
-                name="message"
-                control={control}
-                render={({ field }) => (
-                  <textarea
-                    {...field}
-                    className="bg-transparent border-2 border-black text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5 placeholder-gray-400"
-                    rows={4}
-                  />
-                )}
+
+              <textarea
+                id="message"
+                className="bg-transparent border-2 border-black text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5 placeholder-gray-400"
+                rows={4}
+                {...register("message")}
               />
+
               {errors.message && (
                 <p className="text-red-500">{errors.message.message}</p>
               )}

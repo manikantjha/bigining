@@ -4,10 +4,12 @@ const ConfirmDeleteModal = ({
   isOpen,
   onClose,
   onConfirm,
+  isLoading,
 }: {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  isLoading: boolean;
 }) => {
   if (!isOpen) return null;
 
@@ -27,7 +29,12 @@ const ConfirmDeleteModal = ({
           <CommonButton onClick={onClose} color="primary">
             Cancel
           </CommonButton>
-          <CommonButton onClick={onConfirm} color="red">
+          <CommonButton
+            onClick={onConfirm}
+            color="red"
+            loading={isLoading}
+            loadingText="Deleting..."
+          >
             Confirm Delete
           </CommonButton>
         </div>

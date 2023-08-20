@@ -1,3 +1,4 @@
+import ConfirmDeleteModal from "@/components/common/ConfirmDeleteModal";
 import { GetIcon } from "@/components/common/icons/icons";
 import { useAuth } from "@/contexts/AuthContext";
 import { deleteReview, updateReview } from "@/services/apiServices";
@@ -5,7 +6,7 @@ import { IAuthContext } from "@/types/auth";
 import { IReview } from "@/types/review";
 import { User } from "firebase/auth";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { UseQueryResult, useMutation, useQueryClient } from "react-query";
 import CommonButton from "../common/CommonButton";
 import ReviewListItem from "./ReviewListItem";
@@ -15,15 +16,32 @@ interface ReviewListProps {
 }
 
 const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<IReview>();
   const router = useRouter();
   const { user } = useAuth() as IAuthContext<User>;
   const queryClient = useQueryClient();
   const { page = 1 } = router.query;
 
+  function handleClose() {
+    setIsOpen(false);
+  }
+
+  function handleConfirm() {
+    if (itemToDelete) {
+      mutate(itemToDelete, {
+        onSuccess: async () => await reviews.refetch(),
+      });
+    }
+  }
+
   const useDeleteReview = () => {
     const mutate = useMutation({
       mutationFn: async (data: IReview) =>
         deleteReview(data, await user.getIdToken()),
+      onSettled: () => {
+        setIsOpen(false);
+      },
     });
     return mutate;
   };
@@ -71,9 +89,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
               color="red"
               icon={<GetIcon name="delete" size="h-5 w-5" />}
               onClick={() => {
-                mutate(review, {
-                  onSuccess: async () => await reviews.refetch(),
-                });
+                setItemToDelete(review);
+                setIsOpen(true);
               }}
             >
               Delete
@@ -81,6 +98,14 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
           </div>
         </div>
       ))}
+      {isOpen && (
+        <ConfirmDeleteModal
+          isOpen={isOpen}
+          onClose={handleClose}
+          onConfirm={handleConfirm}
+          isLoading={isLoading}
+        />
+      )}
     </div>
   );
 };

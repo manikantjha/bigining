@@ -113,6 +113,7 @@ function DataList<T>({
           isOpen={isOpen}
           onClose={handleClose}
           onConfirm={handleConfirm}
+          isLoading={deleteItemMutation.isLoading}
         />
       )}
     </div>

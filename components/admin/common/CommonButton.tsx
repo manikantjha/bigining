@@ -122,6 +122,7 @@ export interface ICommonButtonProps
   loading?: boolean;
   disabled?: boolean;
   color?: "blue" | "green" | "red" | "yellow" | "gray" | "primary" | "accent";
+  loadingText?: string;
 }
 
 const CommonButton = ({
@@ -133,6 +134,7 @@ const CommonButton = ({
   disabled = false,
   color = "primary",
   className,
+  loadingText,
   ...rest
 }: ICommonButtonProps) => {
   return (
@@ -159,7 +161,7 @@ const CommonButton = ({
               containerSize="w-5 h-5"
               color="text-primary"
             />
-            <span>Loading...</span>
+            <span>{loadingText || "Loading..."}</span>
           </div>
         ) : (
           <Loading containerSize="h-5 w-5" size="h-5 w-5" />
