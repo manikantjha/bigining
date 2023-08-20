@@ -55,7 +55,7 @@ export default function AboutPage({
       </Head>
       <Layout>
         <Hero
-          imgSrc={hero?.imageURL}
+          imgSrc={hero?.image.original.url}
           imgAlt="about image"
           title={hero?.title}
           description={hero?.description}
@@ -63,7 +63,11 @@ export default function AboutPage({
           renderButton={() =>
             hero?.hasContactButton ? (
               <div className="mt-12">
-                <LinkBtn href="/contact" text="Get In Touch" />
+                <LinkBtn
+                  href="/contact"
+                  text="Get In Touch"
+                  className="!bg-secondaryDark hover:!bg-secondaryLight text-textLight hover:text-textLight"
+                />
               </div>
             ) : null
           }

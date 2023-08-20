@@ -1,12 +1,12 @@
 import { camelize } from "@/utils/utils";
-import { DeepMap, FieldError } from "react-hook-form";
+import { DeepMap, FieldError, UseFormRegister } from "react-hook-form";
 
 interface ISelectInputProps {
   label: string;
   options: { label: string; value: string }[];
   error?: DeepMap<any, FieldError>;
   name: string;
-  register: any;
+  register: UseFormRegister<any>;
 }
 
 const SelectInput = ({

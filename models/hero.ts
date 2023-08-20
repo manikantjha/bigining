@@ -1,12 +1,12 @@
 import { Schema, model, models } from "mongoose";
+import { imageSchema } from "./image";
 
 const heroSchema = new Schema({
   pageId: String,
   title: String,
   description: String,
-  imageURL: String,
+  image: imageSchema,
   hasContactButton: Boolean,
-  isVideo: Boolean,
 });
 
 const Heroes = models.hero || model("hero", heroSchema);

@@ -98,8 +98,7 @@ export default function HomePage({
       </Head>
       <Layout>
         <Hero
-          isVideo={hero?.isVideo}
-          imgSrc={hero?.imageURL}
+          imgSrc={hero?.image?.original.url}
           imgAlt="home hero"
           hasContent
           renderContent={() => (

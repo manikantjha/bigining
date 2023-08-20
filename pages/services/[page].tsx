@@ -78,7 +78,7 @@ export default function ServicesPage({
       <Layout>
         <main>
           <Hero
-            imgSrc={hero?.imageURL}
+            imgSrc={hero?.image?.original.url}
             imgAlt="service image"
             title={hero?.title}
             description={hero?.description}
@@ -86,7 +86,11 @@ export default function ServicesPage({
             renderButton={() =>
               hero?.hasContactButton ? (
                 <div className="mt-12">
-                  <LinkBtn href="/contact" text="Get In Touch" />
+                  <LinkBtn
+                    href="/contact"
+                    text="Get In Touch"
+                    className="!bg-secondaryDark hover:!bg-secondaryLight text-textLight hover:text-textLight"
+                  />
                 </div>
               ) : null
             }

@@ -1,9 +1,7 @@
 import FormSectionTitle from "@/components/admin/common/FormSectionTitle";
 import FormSectionWrapper from "@/components/admin/common/FormSectionWrapper";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
-import AboutHeroForm from "@/components/admin/heros/AboutHeroForm";
-import HomeHeroForm from "@/components/admin/heros/HomeHeroForm";
-import ServiceHeroForm from "@/components/admin/heros/ServiceHeroForm";
+import CommonHeroForm from "@/components/admin/heros/CommonHeroForm";
 import AdminLayout from "@/layout/admin/AdminLayout";
 import { getHero } from "@/services/apiServices";
 import { useQuery } from "react-query";
@@ -21,7 +19,7 @@ export default function HeroesAdminPage() {
           queryResult={homeHero}
           containerSize="h-[400px] w-full"
         >
-          <HomeHeroForm hero={homeHero} />
+          <CommonHeroForm hero={homeHero} pageId="home" />
         </RenderAppropriateComponent>
       </FormSectionWrapper>
       <FormSectionWrapper>
@@ -30,7 +28,7 @@ export default function HeroesAdminPage() {
           queryResult={aboutHero}
           containerSize="h-[400px] w-full"
         >
-          <AboutHeroForm hero={aboutHero} />
+          <CommonHeroForm hero={aboutHero} pageId="about" />
         </RenderAppropriateComponent>
       </FormSectionWrapper>
       <FormSectionWrapper>
@@ -39,7 +37,7 @@ export default function HeroesAdminPage() {
           queryResult={serviceHero}
           containerSize="h-[400px] w-full"
         >
-          <ServiceHeroForm hero={serviceHero} />
+          <CommonHeroForm hero={serviceHero} pageId="service" />
         </RenderAppropriateComponent>
       </FormSectionWrapper>
     </AdminLayout>

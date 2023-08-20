@@ -1,13 +1,13 @@
 import { camelize } from "@/utils/utils";
 import { HTMLInputTypeAttribute } from "react";
-import { DeepMap, FieldError } from "react-hook-form";
+import { DeepMap, FieldError, UseFormRegister } from "react-hook-form";
 
 interface ITextInputProps {
   label: string;
   placeholder?: string;
   error?: DeepMap<any, FieldError>;
   name: string;
-  register: any;
+  register: UseFormRegister<any>;
   type?: HTMLInputTypeAttribute;
 }
 

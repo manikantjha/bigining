@@ -16,7 +16,6 @@ interface IImageUploader {
   imageURL?: string;
   onChange: any;
   index?: number;
-  isVideo?: boolean;
 }
 
 export default function ImageUploader(props: IImageUploader) {
@@ -129,18 +128,11 @@ export default function ImageUploader(props: IImageUploader) {
                     </svg>
                   </button>
                 </div>
-                {props.isVideo ? (
-                  <video
-                    src={downloadURL}
-                    className="object-cover h-full w-auto mx-auto"
-                  />
-                ) : (
-                  <img
-                    src={downloadURL}
-                    alt={downloadURL}
-                    className="object-cover h-full w-auto mx-auto"
-                  />
-                )}
+                <img
+                  src={downloadURL}
+                  alt={downloadURL}
+                  className="object-cover h-full w-auto mx-auto"
+                />
               </div>
             ) : (
               <>
