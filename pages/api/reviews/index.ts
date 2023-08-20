@@ -1,9 +1,9 @@
 import { createHandler } from "@/HOFs/handlersHOF";
-import reviewControllers from "@/controllers/reveiwConrollers";
+import reviewControllers, { addReview } from "@/controllers/reveiwConrollers";
 
 const handler = createHandler({
   getFunction: reviewControllers.getPaginated,
-  postFunction: reviewControllers.create,
+  postFunction: addReview,
   isProtected: { get: false, post: false, delete: true },
 });
 
