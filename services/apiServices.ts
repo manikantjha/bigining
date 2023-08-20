@@ -135,12 +135,16 @@ export async function createUpdateContactInfo(
 
 const teamMemberService = createEntityService<ITeamMember>("teamMembers");
 
+export const getAllTeamMembers = async () => {
+  return await teamMemberService.getPaginated();
+};
+
 export const getTeamMembersPaginated = async (
   currentPage: number,
   limit: number
 ) => {
   return await teamMemberService.getPaginated(
-    `?page=${currentPage}&limit=${limit}`
+    `/paginated?page=${currentPage}&limit=${limit}`
   );
 };
 
@@ -254,12 +258,16 @@ export async function deleteReview(data: IReview, token: string) {
 
 //  Companies --------------------------------------------------!
 
-export const getCompaniesPaginated = async (
+export const getAllCompanies = async () => {
+  return await get(`${BASE_URL}/api/companies`);
+};
+
+export const getAllCompaniesPaginated = async (
   currentPage: number,
   limit: number
 ) => {
   return await get(
-    `${BASE_URL}/api/companies?page=${currentPage}&limit=${limit}`
+    `${BASE_URL}/api/companies/paginated?page=${currentPage}&limit=${limit}`
   );
 };
 

@@ -1,4 +1,7 @@
-import { deleteCompany, getCompaniesPaginated } from "@/services/apiServices";
+import {
+  deleteCompany,
+  getAllCompaniesPaginated,
+} from "@/services/apiServices";
 import { ICompany } from "@/types/company";
 import DataList from "../common/dataList/DataList";
 import RowListItem from "../common/dataList/RowListItem";
@@ -21,7 +24,7 @@ export default function CompaniesList(props: ICompaniesListProps) {
         />
       )}
       deleteEntityFn={deleteCompany}
-      getEntitiesPaginatedFn={getCompaniesPaginated}
+      getEntitiesPaginatedFn={getAllCompaniesPaginated}
     />
   );
 }

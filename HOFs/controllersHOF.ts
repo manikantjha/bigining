@@ -24,17 +24,19 @@ interface GenericControllerProps {
   Model: ModelType;
   schema: ObjectSchema<AnyObject>;
   imageKey?: "image" | "images";
+  revalidate?: () => void;
 }
 
 export const createGenericController = ({
   Model,
   schema,
   imageKey,
+  revalidate,
 }: GenericControllerProps) => {
   const getAll = async (
     req: NextApiRequest,
     res: NextApiResponse,
-    filter: FilterQuery<any>
+    filter: FilterQuery<any> = {}
   ) => {
     try {
       const items = await Model.find(filter);
@@ -133,6 +135,10 @@ export const createGenericController = ({
 
       await newItem.save();
 
+      if (revalidate) {
+        revalidate();
+      }
+
       sendResponse(res, 201, newItem);
     } catch (error) {
       console.error(`Error adding ${Model.modelName.toLowerCase()}:`, error);
@@ -204,6 +210,10 @@ export const createGenericController = ({
 
       await existingItem.save();
 
+      if (revalidate) {
+        revalidate();
+      }
+
       sendResponse(res, 200, existingItem);
     } catch (error) {
       console.error(`Error updating ${Model.modelName.toLowerCase()}:`, error);
@@ -230,6 +240,11 @@ export const createGenericController = ({
       }
 
       await Model.deleteMany({ _id: { $ne: req.body._id } });
+
+      if (revalidate) {
+        revalidate();
+      }
+
       return create(req, res);
     } catch (error) {
       console.error(
@@ -262,6 +277,10 @@ export const createGenericController = ({
             deleteImageFromFirebase(existingImage);
           });
         }
+      }
+
+      if (revalidate) {
+        revalidate();
       }
 
       sendResponse(res, 200, {

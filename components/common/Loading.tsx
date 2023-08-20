@@ -6,6 +6,7 @@ export interface ILoadingProps {
   className?: string;
   style?: CSSProperties;
   containerSize?: string;
+  containerClassName?: string;
 }
 
 const Loading = ({
@@ -14,9 +15,12 @@ const Loading = ({
   className = "",
   style,
   containerSize = "h-[calc(100vh-160px)] w-full",
+  containerClassName = "",
 }: ILoadingProps) => {
   return (
-    <div className={`${containerSize} flex justify-center items-center`}>
+    <div
+      className={`${containerSize} flex justify-center items-center ${containerClassName}`}
+    >
       <div
         className={`flex justify-center items-center ${size} ${color} animate-spin`}
         style={style}
@@ -25,7 +29,7 @@ const Loading = ({
           aria-hidden="true"
           className={`w-full h-full ${className}`}
           viewBox="0 0 100 101"
-          fill="none"
+          fill="lightGray"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path

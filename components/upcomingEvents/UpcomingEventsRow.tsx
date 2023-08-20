@@ -1,13 +1,12 @@
 import { IRowTheme } from "@/types/row";
 import { IUpcomingEvent } from "@/types/upcomingEvent";
-import { UseQueryResult } from "react-query";
 import Slider, { CustomArrowProps, Settings } from "react-slick";
 import LinkBtn from "../common/LinkBtn";
 import RowWrapper from "../common/RowWrapper";
 import UpcomingEventCard from "./UpcomingEventCard";
 
 interface IUpcomingEventsRowProps extends IRowTheme {
-  upcomingEvents?: UseQueryResult<any, unknown>;
+  upcomingEvents: IUpcomingEvent[];
   rowWrapperClassName?: string;
 }
 
@@ -68,9 +67,9 @@ export default function UpcomingEventsRow({
   rowWrapperClassName = "",
   theme = "light",
 }: IUpcomingEventsRowProps) {
-  if (!upcomingEvents?.data?.upcomingEvents?.length) return null;
+  if (!upcomingEvents?.length) return null;
 
-  const data = upcomingEvents?.data?.upcomingEvents || [];
+  const data = upcomingEvents || [];
 
   const settings: Settings = {
     dots: false,

@@ -8,6 +8,26 @@ const workControllers = createGenericController({
   Model: Work,
   schema: workSchema,
   imageKey: "images",
+  revalidate: async () => {
+    await fetch(
+      `${process.env.NEXT_PUBLIC_DEV_BASE_PATH}/api/revalidate?secret=${
+        process.env.NEXT_PUBLIC_REVALIDATION_TOKEN
+      }&path=${"/"}`
+    );
+    const limit = 10;
+    const totalItems = await Work.count();
+    const totalPages = Math.ceil(totalItems / limit);
+
+    for (let i = 0; i < totalPages; i++) {
+      await fetch(
+        `${process.env.NEXT_PUBLIC_DEV_BASE_PATH}/api/revalidate?secret=${
+          process.env.NEXT_PUBLIC_REVALIDATION_TOKEN
+        }&path=${"/works"}/${i + 1}`
+      );
+    }
+
+    // To-Do: Also revalidate work details page
+  },
 });
 
 export default workControllers;

@@ -7,10 +7,10 @@ export const companyName = "Bigining";
 export const lstNavBarMenu = [
   { id: 1, name: "Home", path: "/" },
   { id: 2, name: "About", path: "/about" },
-  { id: 3, name: "Services", path: "/services?page=1" },
-  { id: 4, name: "Upcoming Events", path: "/upcomingEvents?page=1" },
-  { id: 5, name: "Artists", path: "/artists?page=1" },
-  { id: 6, name: "Work", path: "/works?page=1" },
+  { id: 3, name: "Services", path: "/services/1" },
+  { id: 4, name: "Upcoming Events", path: "/upcomingEvents/1" },
+  { id: 5, name: "Artists", path: "/artists/1" },
+  { id: 6, name: "Work", path: "/works/1" },
   { id: 7, name: "FAQs", path: "/faqs" },
   { id: 8, name: "Contact", path: "/contact" },
 ];

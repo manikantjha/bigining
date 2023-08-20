@@ -3,11 +3,10 @@ import LinkBtn from "@/components/common/LinkBtn";
 import RowWrapper from "@/components/common/RowWrapper";
 import { IRowTheme } from "@/types/row";
 import { IWork } from "@/types/work";
-import { UseQueryResult } from "react-query";
 import Slider, { CustomArrowProps } from "react-slick";
 
 interface IWorkGalleryProps extends IRowTheme {
-  works?: UseQueryResult<any, unknown>;
+  works: IWork[];
 }
 
 function SampleNextArrow(props: CustomArrowProps) {
@@ -63,7 +62,8 @@ function SamplePrevArrow(props: CustomArrowProps) {
 }
 
 export default function RecentWorkRow(props: IWorkGalleryProps) {
-  const works: IWork[] = props?.works?.data?.works || [];
+  const works: IWork[] = props.works || [];
+
   const worksImages = works.map((work) => work.images[0].original);
 
   if (!worksImages.length) return null;

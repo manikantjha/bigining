@@ -1,17 +1,17 @@
 import LinkBtn from "@/components/common/LinkBtn";
 import { IRowTheme } from "@/types/row";
 import { IService } from "@/types/service";
-import { UseQueryResult } from "react-query";
 import ServiceCard from "./ServiceCard";
 
 interface IServicesRow extends IRowTheme {
   containerClassName?: string;
   showButton?: boolean;
-  services?: UseQueryResult<any, unknown>;
+  services: IService[];
 }
 
 export default function ServicesRow(props: IServicesRow) {
-  const services: IService[] = props.services?.data?.items || [];
+  const services: IService[] = props.services || [];
+
   if (!services.length) return null;
 
   return (

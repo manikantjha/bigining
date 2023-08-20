@@ -37,6 +37,17 @@ export async function addUpdateHero(req: NextApiRequest, res: NextApiResponse) {
     if (_id) {
       // Update Case
       const response = await Heroes.findByIdAndUpdate(_id, data);
+      let path = "";
+      if (data.pageId === "home") {
+        path = "/";
+      } else if (data.pageId === "about") {
+        path = "/about";
+      } else if (data.pageId === "/services") {
+        path = "/services";
+      }
+      await fetch(
+        `${process.env.NEXT_PUBLIC_DEV_BASE_PATH}/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATION_TOKEN}&path=${path}`
+      );
       return res.status(200).json({ response });
     } else {
       // Add Case

@@ -1,13 +1,11 @@
 import RowWrapper from "@/components/common/RowWrapper";
-import { IRowTheme } from "@/types/row";
-import React from "react";
-import { UseQueryResult } from "react-query";
-import CompanyCard from "./CompanyCard";
-import Slider, { CustomArrowProps } from "react-slick";
 import { ICompany } from "@/types/company";
+import { IRowTheme } from "@/types/row";
+import Slider, { CustomArrowProps } from "react-slick";
+import CompanyCard from "./CompanyCard";
 
 interface ICompaniesRowProps extends IRowTheme {
-  companies: UseQueryResult<any, unknown>;
+  companies: ICompany[];
 }
 
 function SampleNextArrow(props: CustomArrowProps) {
@@ -63,8 +61,9 @@ function SamplePrevArrow(props: CustomArrowProps) {
 }
 
 export default function CompaniesRow(props: ICompaniesRowProps) {
-  if (!props?.companies?.data?.companies?.length) return;
-  const companies = props?.companies?.data?.companies;
+  const companies = props.companies || [];
+
+  if (!props?.companies.length) return null;
 
   const settings = {
     dots: false,
