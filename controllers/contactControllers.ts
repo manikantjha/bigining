@@ -18,10 +18,6 @@ function generateEmailContent(data: any) {
     return (str += `${CONTACT_MESSAGE_FIELDS[key]}: \n${value}\n\n`);
   }, "");
 
-  // const htmlData = Object.entries(data).reduce((str, [key, value]) => {
-  //   return (str += `<tr style="border: solid 1px gray;"><td style="font-weight:bold; border: solid 1px #BDBDBD; padding: 4px 6px;">${CONTACT_MESSAGE_FIELDS[key]}</td><td style="border: solid 1px #BDBDBD; padding: 4px 6px;">${value}</td>`);
-  // }, "");
-
   return {
     text: stringData,
     html: `<!DOCTYPE html>

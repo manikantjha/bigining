@@ -1,10 +1,6 @@
-import { useAuth } from "@/contexts/AuthContext";
 import useFormLogic from "@/customHooks/useFormLogic";
 import { upcomingEventSchema } from "@/schemas/upcomingEventSchema";
 import { addUpcomingEvent, updateUpcomingEvent } from "@/services/apiServices";
-import { IAuthContext } from "@/types/auth";
-import { IUpcomingEvent } from "@/types/upcomingEvent";
-import { User } from "firebase/auth";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

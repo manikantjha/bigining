@@ -1,6 +1,6 @@
+import { GetIcon } from "@/components/common/icons/icons";
 import { useState } from "react";
 import CommonButton from "../../common/CommonButton";
-import { GetIcon } from "@/components/common/icons/icons";
 
 interface IListItemProps {
   list?: string[];

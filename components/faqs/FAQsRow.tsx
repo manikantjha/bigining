@@ -1,8 +1,8 @@
+import { IFaq } from "@/types/faqs";
 import { useState } from "react";
 import { UseQueryResult } from "react-query";
 import RowWrapper from "../common/RowWrapper";
 import Accordion from "../common/accordion/Accordion";
-import { IFaq } from "@/types/faqs";
 
 interface IFAQsRowProps {
   faqs: UseQueryResult<any, unknown>;

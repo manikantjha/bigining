@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { IArtist } from "@/types/artist";
 import { IRowTheme } from "@/types/row";
 import Card from "../common/Card";

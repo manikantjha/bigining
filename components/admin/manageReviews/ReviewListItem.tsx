@@ -1,5 +1,4 @@
 import { IReview } from "@/types/review";
-import React from "react";
 
 interface IReviewListItemProps {
   review: IReview;
