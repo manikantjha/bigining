@@ -20,19 +20,19 @@ type GetImageKeyTypeByType<T extends ImageKeyType> = ImageKeyTypeMap[T];
 
 type ModelType = mongoose.Model<mongoose.Document>;
 
-interface GenericControllerProps {
+interface GenericControllerProps<T> {
   Model: ModelType;
   schema: ObjectSchema<AnyObject>;
   imageKey?: "image" | "images";
-  revalidate?: () => void;
+  revalidate: (data?: T) => void;
 }
 
-export const createGenericController = ({
+export const createGenericController = <T>({
   Model,
   schema,
   imageKey,
   revalidate,
-}: GenericControllerProps) => {
+}: GenericControllerProps<T>) => {
   const getAll = async (
     req: NextApiRequest,
     res: NextApiResponse,
@@ -133,10 +133,10 @@ export const createGenericController = ({
         newItem = new Model(req.body);
       }
 
-      await newItem.save();
+      const response = await newItem.save();
 
       if (revalidate) {
-        revalidate();
+        revalidate(response as any);
       }
 
       sendResponse(res, 201, newItem);
@@ -211,7 +211,7 @@ export const createGenericController = ({
       await existingItem.save();
 
       if (revalidate) {
-        revalidate();
+        revalidate(req.body);
       }
 
       sendResponse(res, 200, existingItem);
@@ -226,26 +226,40 @@ export const createGenericController = ({
       const existingItems = await Model.find();
 
       if (existingItems.length === 0) {
-        return create(req, res);
+        const response = await create(req, res);
+        if (revalidate) {
+          revalidate();
+        }
+        return sendResponse(res, 200, response);
       }
 
       if (existingItems.length === 1) {
         if (existingItems[0]._id.toString() === req.body._id) {
           req.query.id = req.body._id;
-          return update(req, res);
+          const response = await update(req, res);
+          if (revalidate) {
+            revalidate();
+          }
+          return sendResponse(res, 200, response);
         } else {
           await Model.deleteMany({ _id: { $ne: req.body._id } });
-          return create(req, res);
+          const response = await create(req, res);
+          if (revalidate) {
+            revalidate();
+          }
+          return sendResponse(res, 200, response);
         }
       }
 
       await Model.deleteMany({ _id: { $ne: req.body._id } });
 
+      const response = await create(req, res);
+
       if (revalidate) {
         revalidate();
       }
 
-      return create(req, res);
+      sendResponse(res, 200, response);
     } catch (error) {
       console.error(
         `Error creating/updating ${Model.modelName.toLowerCase()}:`,

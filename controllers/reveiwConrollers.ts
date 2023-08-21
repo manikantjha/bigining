@@ -1,7 +1,7 @@
 import { createGenericController } from "@/HOFs/controllersHOF";
 import Review from "@/models/review";
 import { reviewSchema } from "@/schemas/reviewSchema";
-import { sendError, sendResponse } from "@/utils/server";
+import { revalidatePath, sendError, sendResponse } from "@/utils/server";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ValidationError } from "yup";
 
@@ -9,11 +9,7 @@ const reviewControllers = createGenericController({
   Model: Review,
   schema: reviewSchema,
   revalidate: async () => {
-    await fetch(
-      `${process.env.NEXT_PUBLIC_DEV_BASE_PATH}/api/revalidate?secret=${
-        process.env.NEXT_PUBLIC_REVALIDATION_TOKEN
-      }&path=${"/"}`
-    );
+    revalidatePath("/");
   },
 });
 

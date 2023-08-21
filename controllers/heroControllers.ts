@@ -1,4 +1,5 @@
 import Heroes from "@/models/hero";
+import { revalidatePath } from "@/utils/server";
 import { NextApiRequest, NextApiResponse } from "next";
 
 // Get All Heroes
@@ -45,9 +46,9 @@ export async function addUpdateHero(req: NextApiRequest, res: NextApiResponse) {
       } else if (data.pageId === "/services") {
         path = "/services";
       }
-      await fetch(
-        `${process.env.NEXT_PUBLIC_DEV_BASE_PATH}/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATION_TOKEN}&path=${path}`
-      );
+
+      revalidatePath(path);
+
       return res.status(200).json({ response });
     } else {
       // Add Case

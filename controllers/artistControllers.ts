@@ -1,5 +1,7 @@
 import Artist from "@/models/artist";
 import { artistSchema } from "@/schemas/artistSchema";
+
+import { revalidatePath } from "@/utils/server";
 import { createGenericController } from "../HOFs/controllersHOF";
 
 const artistControllers = createGenericController({
@@ -12,11 +14,7 @@ const artistControllers = createGenericController({
     const totalPages = Math.ceil(totalItems / limit);
 
     for (let i = 0; i < totalPages; i++) {
-      await fetch(
-        `${process.env.NEXT_PUBLIC_DEV_BASE_PATH}/api/revalidate?secret=${
-          process.env.NEXT_PUBLIC_REVALIDATION_TOKEN
-        }&path=${"/artists"}/${i + 1}`
-      );
+      revalidatePath(`/artists/${i + 1}`);
     }
   },
 });
