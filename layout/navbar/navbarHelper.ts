@@ -1,6 +1,11 @@
 export function checkIsActive(pathName: string, routerPathName: string) {
-  if (routerPathName.includes(pathName.split("/")[1])) {
+  const pageName = pathName.split("/")[1];
+  const pattern = new RegExp(`^\/${pageName}(\/.*)?$`);
+  const result = pattern.test(routerPathName);
+
+  if (result) {
     return true;
   }
+
   return false;
 }
