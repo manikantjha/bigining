@@ -1,5 +1,5 @@
 import connect from "@/database/connection";
-import Heroes from "@/models/hero";
+import Hero from "@/models/hero";
 import { FilterQuery, Model, ProjectionType } from "mongoose";
 
 export async function getAll(
@@ -78,7 +78,7 @@ export async function getHero(pageId: string) {
   try {
     await connect();
     if (!pageId) throw new Error("Page ID not provided!");
-    const hero = await Heroes.findOne({ pageId });
+    const hero = await Hero.findOne({ pageId });
     if (!hero) throw new Error("No data found!");
     return JSON.stringify(hero);
   } catch (error) {

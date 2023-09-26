@@ -226,40 +226,38 @@ export const createGenericController = <T>({
       const existingItems = await Model.find();
 
       if (existingItems.length === 0) {
-        const response = await create(req, res);
+        await create(req, res);
         if (revalidate) {
           revalidate();
         }
-        return sendResponse(res, 200, response);
+        return;
       }
 
       if (existingItems.length === 1) {
         if (existingItems[0]._id.toString() === req.body._id) {
           req.query.id = req.body._id;
-          const response = await update(req, res);
+          await update(req, res);
           if (revalidate) {
             revalidate();
           }
-          return sendResponse(res, 200, response);
+          return;
         } else {
           await Model.deleteMany({ _id: { $ne: req.body._id } });
-          const response = await create(req, res);
+          await create(req, res);
           if (revalidate) {
             revalidate();
           }
-          return sendResponse(res, 200, response);
+          return;
         }
       }
 
       await Model.deleteMany({ _id: { $ne: req.body._id } });
 
-      const response = await create(req, res);
+      await create(req, res);
 
       if (revalidate) {
         revalidate();
       }
-
-      sendResponse(res, 200, response);
     } catch (error) {
       console.error(
         `Error creating/updating ${Model.modelName.toLowerCase()}:`,

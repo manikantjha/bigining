@@ -14,7 +14,7 @@ import UpcomingEventsRow from "@/components/upcomingEvents/UpcomingEventsRow";
 import Layout from "@/layout/Layout";
 import { getHero, getPaginated, getSingle } from "@/lib/common";
 import Company from "@/models/company";
-import Features from "@/models/feature";
+import Features from "@/models/features";
 import Figures from "@/models/figures";
 import Review from "@/models/review";
 import Service from "@/models/service";

@@ -28,7 +28,7 @@ export default function Login() {
     } catch (error: any) {
       const message = error.message || "Something went wrong!";
       notify(message, { type: "error" });
-      console.log("asdasd", error);
+      console.log("Error: ", error);
     }
   };
 

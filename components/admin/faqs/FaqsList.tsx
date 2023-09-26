@@ -1,5 +1,5 @@
 import { deleteFaq, getFaqsPaginated } from "@/services/apiServices";
-import { IFaq } from "@/types/faqs";
+import { IFaq } from "@/types/faq";
 import DataList from "../common/dataList/DataList";
 import RowListItem from "../common/dataList/RowListItem";
 

@@ -1,5 +1,5 @@
 export function checkIsActive(pathName: string, routerPathName: string) {
-  if (pathName === routerPathName) {
+  if (routerPathName.includes(pathName.split("/")[1])) {
     return true;
   }
   return false;

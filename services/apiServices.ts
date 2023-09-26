@@ -4,7 +4,7 @@ import { IUserCredentials } from "@/types/auth";
 import { ICompany } from "@/types/company";
 import { ISendMessage } from "@/types/contact";
 import { IContactInfo } from "@/types/contactInfo";
-import { IFaq } from "@/types/faqs";
+import { IFaq } from "@/types/faq";
 import { IFeatures } from "@/types/features";
 import { IFigures } from "@/types/figures";
 import { IHero } from "@/types/hero";

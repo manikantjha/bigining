@@ -12,7 +12,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 
-const limit = 1;
+const limit = 10;
 
 export async function getStaticProps({ params }: GetStaticPropsContext) {
   const { page = 1 } = params as ParsedUrlQuery;

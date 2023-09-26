@@ -1,5 +1,5 @@
 import { createHandler } from "@/HOFs/handlersHOF";
-import featuresControllers from "@/controllers/featureControllers";
+import featuresControllers from "@/controllers/featuresControllers";
 
 const handler = createHandler({
   getFunction: featuresControllers.getSingle,

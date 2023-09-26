@@ -9,6 +9,6 @@ const heroSchema = new Schema({
   hasContactButton: Boolean,
 });
 
-const Heroes = models.hero || model("hero", heroSchema);
+const Hero = models.hero || model("hero", heroSchema);
 
-export default Heroes;
+export default Hero;

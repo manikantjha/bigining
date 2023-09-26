@@ -40,11 +40,7 @@ export const addReview = async (req: NextApiRequest, res: NextApiResponse) => {
 
     await newItem.save();
 
-    await fetch(
-      `${process.env.NEXT_PUBLIC_DEV_BASE_PATH}/api/revalidate?secret=${
-        process.env.NEXT_PUBLIC_REVALIDATION_TOKEN
-      }&path=${"/"}`
-    );
+    revalidatePath("/");
 
     sendResponse(res, 201, newItem);
   } catch (error) {

@@ -1,4 +1,4 @@
-import { IFaq } from "@/types/faqs";
+import { IFaq } from "@/types/faq";
 import { useState } from "react";
 import NoData from "../common/NoData";
 import RowWrapper from "../common/RowWrapper";

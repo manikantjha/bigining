@@ -2,7 +2,7 @@ import FAQsRow from "@/components/faqs/FAQsRow";
 import Layout from "@/layout/Layout";
 import { getAll } from "@/lib/common";
 import Faq from "@/models/faq";
-import { IFaq } from "@/types/faqs";
+import { IFaq } from "@/types/faq";
 import Head from "next/head";
 
 export async function getStaticProps() {

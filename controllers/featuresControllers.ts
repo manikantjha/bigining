@@ -1,4 +1,4 @@
-import Features from "@/models/feature";
+import Features from "@/models/features";
 import { featuresSchema } from "@/schemas/featuresSchema";
 import { revalidatePath } from "@/utils/server";
 import { createGenericController } from "../HOFs/controllersHOF";
