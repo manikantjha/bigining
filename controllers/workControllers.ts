@@ -16,7 +16,7 @@ const workControllers = createGenericController<IWork>({
     const totalItems = await Work.count();
     const totalPages = Math.ceil(totalItems / limit);
 
-    for (let i = 0; i < totalPages; i++) {
+    for (let i = 0; i <= totalPages; i++) {
       revalidatePath(`/works/${i + 1}`);
     }
 

@@ -20,11 +20,11 @@ type GetImageKeyTypeByType<T extends ImageKeyType> = ImageKeyTypeMap[T];
 
 type ModelType = mongoose.Model<mongoose.Document>;
 
-interface GenericControllerProps<T> {
+interface IGenericControllerProps<T> {
   Model: ModelType;
   schema: ObjectSchema<AnyObject>;
   imageKey?: "image" | "images";
-  revalidate: (data?: T) => void;
+  revalidate: (data?: T) => Promise<void>;
 }
 
 export const createGenericController = <T>({
@@ -32,7 +32,7 @@ export const createGenericController = <T>({
   schema,
   imageKey,
   revalidate,
-}: GenericControllerProps<T>) => {
+}: IGenericControllerProps<T>) => {
   const getAll = async (
     req: NextApiRequest,
     res: NextApiResponse,
@@ -208,7 +208,8 @@ export const createGenericController = <T>({
 
       existingItem.set(req.body);
 
-      await existingItem.save();
+      await Model.findByIdAndUpdate(id, req.body);
+      // await existingItem.save(); // This caused error on immediate re-updatation.
 
       if (revalidate) {
         revalidate(req.body);
@@ -227,9 +228,6 @@ export const createGenericController = <T>({
 
       if (existingItems.length === 0) {
         await create(req, res);
-        if (revalidate) {
-          revalidate();
-        }
         return;
       }
 
@@ -237,16 +235,10 @@ export const createGenericController = <T>({
         if (existingItems[0]._id.toString() === req.body._id) {
           req.query.id = req.body._id;
           await update(req, res);
-          if (revalidate) {
-            revalidate();
-          }
           return;
         } else {
           await Model.deleteMany({ _id: { $ne: req.body._id } });
           await create(req, res);
-          if (revalidate) {
-            revalidate();
-          }
           return;
         }
       }

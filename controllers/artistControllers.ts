@@ -13,7 +13,7 @@ const artistControllers = createGenericController({
     const totalItems = await Artist.count();
     const totalPages = Math.ceil(totalItems / limit);
 
-    for (let i = 0; i < totalPages; i++) {
+    for (let i = 0; i <= totalPages; i++) {
       revalidatePath(`/artists/${i + 1}`);
     }
   },

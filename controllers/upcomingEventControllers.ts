@@ -14,7 +14,7 @@ const upcomingEventControllers = createGenericController({
     const totalItems = await UpcomingEvent.count();
     const totalPages = Math.ceil(totalItems / limit);
 
-    for (let i = 0; i < totalPages; i++) {
+    for (let i = 0; i <= totalPages; i++) {
       revalidatePath(`/upcomingEvents/${i + 1}`);
     }
   },

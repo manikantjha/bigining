@@ -1,4 +1,5 @@
 import Hero from "@/models/hero";
+import Service from "@/models/service";
 import { revalidatePath } from "@/utils/server";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -38,16 +39,20 @@ export async function addUpdateHero(req: NextApiRequest, res: NextApiResponse) {
     if (_id) {
       // Update Case
       const response = await Hero.findByIdAndUpdate(_id, data);
-      let path = "";
-      if (data.pageId === "home") {
-        path = "/";
-      } else if (data.pageId === "about") {
-        path = "/about";
-      } else if (data.pageId === "/services") {
-        path = "/services";
-      }
 
-      revalidatePath(path);
+      if (data.pageId === "home") {
+        revalidatePath("/");
+      } else if (data.pageId === "about") {
+        revalidatePath("/about");
+      } else if (data.pageId === "service") {
+        const limit = 10;
+        const totalItems = await Service.count();
+        const totalPages = Math.ceil(totalItems / limit);
+
+        for (let i = 0; i < totalPages; i++) {
+          revalidatePath(`/services/${i + 1}`);
+        }
+      }
 
       return res.status(200).json({ response });
     } else {
