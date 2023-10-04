@@ -52,8 +52,12 @@ export async function getStaticProps() {
       true
     )
   );
-  const features = JSON.parse(await getSingle(Features));
-  const figures = JSON.parse(await getSingle(Figures));
+  const features = JSON.parse(
+    JSON.stringify((await getSingle(Features)) || null)
+  );
+  const figures = JSON.parse(
+    JSON.stringify((await getSingle(Figures)) || null)
+  );
 
   return {
     props: {

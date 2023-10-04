@@ -15,8 +15,7 @@ import { IUpcomingEvent } from "@/types/upcomingEvent";
 import { IWork } from "@/types/work";
 import { get, post, remove } from "./fetchServices";
 
-const BASE_URL = process.env.NEXT_PUBLIC_DEV_BASE_PATH;
-// const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_PATH;
 
 //  Heroes --------------------------------------------------!
 export const getHeroes = async () => {
