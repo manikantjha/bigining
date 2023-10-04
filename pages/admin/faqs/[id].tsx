@@ -1,6 +1,6 @@
 import FormSectionTitle from "@/components/admin/common/FormSectionTitle";
 import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
-import FaqsForm from "@/components/admin/faqs/FaqsForm";
+import FaqsForm from "@/components/admin/faqs/FAQsForm";
 import useEntityData from "@/customHooks/useEntityData";
 import AdminLayout from "@/layout/admin/AdminLayout";
 import { getFaq } from "@/services/apiServices";
