@@ -138,6 +138,6 @@ export const deleteImageFromFirebase = async (image: IImage) => {
 export const revalidatePath = async (path: string) => {
   console.log("Revalidating Path: ", path);
   await fetch(
-    `${process.env.NEXT_PUBLIC_DEV_BASE_PATH}/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATION_TOKEN}&path=${path}`
+    `${process.env.NEXT_PUBLIC_BASE_PATH}/api/revalidate?secret=${process.env.NEXT_PUBLIC_REVALIDATION_TOKEN}&path=${path}`
   );
 };
