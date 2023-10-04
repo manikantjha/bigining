@@ -17,12 +17,7 @@ export default function RenderAppropriateComponent(
     if (props.loadingComponent) {
       return <>{props.loadingComponent}</>;
     }
-    return (
-      <Loading
-        loaderContainerHeightWidth={props.loaderContainerHeightWidth}
-        loaderHeightWidth={props.loaderHeightWidth}
-      />
-    );
+    return <Loading containerSize={props.containerSize} size={props.size} />;
   }
   if (props.queryResult.isError) {
     if (props.errorComponent) {
@@ -31,7 +26,7 @@ export default function RenderAppropriateComponent(
     return (
       <Error
         errorText={props.errorText}
-        errorContainerClassName={props.errorContainerClassName}
+        containerClassName={props.containerClassName}
       />
     );
   }

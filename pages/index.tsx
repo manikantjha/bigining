@@ -1,7 +1,7 @@
-import RenderAppropriateComponent from "@/components/admin/common/RenderAppropriateComponent";
 import Hero from "@/components/common/Hero";
 import LinkBtn from "@/components/common/LinkBtn";
 import Logo from "@/components/common/Logo";
+import RowWrapper from "@/components/common/RowWrapper";
 import ContactMain from "@/components/contact/ContactMain";
 import CompaniesRow from "@/components/home/companiesRow/CompaniesRow";
 import FeaturesRow from "@/components/home/featuresRow/FeaturesRow";
@@ -9,149 +9,136 @@ import FiguresRow from "@/components/home/figuresRow/FiguresRow";
 import RecentWorkRow from "@/components/home/recentWorkRow/RecentWorkRow";
 import ServicesRow from "@/components/home/servicesRow/ServicesRow";
 import TestimonialsRow from "@/components/home/testimonialsRow/TestimonialsRow";
-import CompaniesRowSkeleton from "@/components/skeletons/CompaniesRowSkeleton";
-import FeaturesRowSkeleton from "@/components/skeletons/FeaturesRowSkeleton";
-import FiguresRowSkeleton from "@/components/skeletons/FiguresRowSkeleton";
-import HeroSkeleton from "@/components/skeletons/HeroSkeleton";
-import RecentWorkRowSkeleton from "@/components/skeletons/RecentWorkRowSkeleton";
-import ServicesRowSkeleton from "@/components/skeletons/ServicesRowSkeleton";
+import ReviewForm from "@/components/reviews/ReviewForm";
 import UpcomingEventsRow from "@/components/upcomingEvents/UpcomingEventsRow";
 import Layout from "@/layout/Layout";
-import {
-  getCompanies,
-  getFeatures,
-  getFigures,
-  getHero,
-  getReviews,
-  getServices,
-  getUpcomingEvents,
-  getWorks,
-} from "@/services/apiServices";
-import { useQuery } from "react-query";
+import { getHero, getPaginated, getSingle } from "@/lib/common";
+import Company from "@/models/company";
+import Features from "@/models/features";
+import Figures from "@/models/figures";
+import Review from "@/models/review";
+import Service from "@/models/service";
+import UpcomingEvent from "@/models/upcomingEvent";
+import Work from "@/models/work";
+import { ICompany } from "@/types/company";
+import { IFeature } from "@/types/features";
+import { IFigure } from "@/types/figures";
+import { IHero } from "@/types/hero";
+import { IReview } from "@/types/review";
+import { IService } from "@/types/service";
+import { IUpcomingEvent } from "@/types/upcomingEvent";
+import { IWork } from "@/types/work";
 import Head from "next/head";
-import ReviewForm from "@/components/reviews/ReviewForm";
 
-export default function Home() {
-  const hero = useQuery("homeHero", () => getHero("home"));
-  const companies = useQuery("companies", () => getCompanies());
-  const features = useQuery("features", () => getFeatures());
-  const figures = useQuery("figures", () => getFigures());
-  const services = useQuery("services", () => getServices());
-  const works = useQuery("recentWorks", () => getWorks());
-  const upcomingEvents = useQuery("upcomingEvents", () => getUpcomingEvents());
-  const reviews = useQuery("reviews", () => getReviews());
+export async function getStaticProps() {
+  const hero = JSON.parse(await getHero("home"));
+  const upcomingEvents = JSON.parse(await getPaginated(1, 6, UpcomingEvent));
+  const companies = JSON.parse(await getPaginated(1, 6, Company));
+  const services = JSON.parse(await getPaginated(1, 3, Service));
+  const reviews = JSON.parse(
+    await getPaginated(1, 4, Review, { isActive: true })
+  );
+  const works = JSON.parse(
+    await getPaginated(
+      1,
+      6,
+      Work,
+      {},
+      {
+        _id: 1,
+        name: 1,
+        images: { $slice: 1 },
+      },
+      true
+    )
+  );
+  const features = JSON.parse(await getSingle(Features));
+  const figures = JSON.parse(await getSingle(Figures));
 
+  return {
+    props: {
+      hero: hero,
+      upcomingEvents: upcomingEvents.items,
+      companies: companies.items,
+      services: services.items,
+      reviews: reviews.items,
+      works: works.items,
+      features: features.features,
+      figures: figures.figures,
+    },
+  };
+}
+
+export default function HomePage({
+  hero,
+  companies,
+  features,
+  figures,
+  services,
+  works,
+  reviews,
+  upcomingEvents,
+}: {
+  hero: IHero;
+  companies: ICompany[];
+  features: IFeature[];
+  figures: IFigure[];
+  services: IService[];
+  works: IWork[];
+  reviews: IReview[];
+  upcomingEvents: IUpcomingEvent[];
+}) {
   return (
     <>
       <Head>
         <title>Bigining</title>
-        <meta name="description" content="Bigining Home" />
+        <meta name="description" content="Bigining home page" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <RenderAppropriateComponent
-          queryResult={hero}
-          loadingComponent={<HeroSkeleton />}
-          errorContainerClassName="h-[70vh] bg-gray-200 w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load image :("
-        >
-          <Hero
-            isVideo={hero?.data?.hero?.isVideo}
-            imgSrc={hero?.data?.hero?.imageURL}
-            imgAlt="home hero"
-            hasContent
-            renderContent={() => (
-              <>
-                <div className="absolute top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.65)]" />
-                <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 text-center w-full">
-                  <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 md:space-y-6 space-y-6 flex flex-col items-center justify-center !w-full px-8">
-                    <Logo
-                      imageClassName="h-[80px] md:h-[125px] lg:h-[150px] !w-fit"
-                      containerClassName="!w-fit"
-                      isWhite
-                    />
-                    <p className="text-textLight text-xl md:text-3xl lg-text !w-full">
-                      {hero?.data?.hero?.description}
-                    </p>
-                  </div>
+        <Hero
+          imgSrc={hero?.image?.original.url}
+          imgAlt="home hero"
+          hasContent
+          renderContent={() => (
+            <>
+              <div className="absolute top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.75)]" />
+              <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 text-center w-full">
+                <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 md:space-y-6 space-y-6 flex flex-col items-center justify-center !w-full px-8">
+                  <Logo
+                    imageClassName="h-[80px] md:h-[125px] lg:h-[150px] !w-fit"
+                    containerClassName="!w-fit"
+                    isWhite
+                  />
+                  <p className="text-textLight text-xl md:text-3xl lg-text !w-full">
+                    {hero?.description}
+                  </p>
                 </div>
-              </>
-            )}
-            renderButton={() =>
-              hero?.data?.hero?.hasContactButton ? (
-                <div className="mt-12">
-                  <LinkBtn href="/contact" text="Get In Touch" />
-                </div>
-              ) : null
-            }
-          />
-        </RenderAppropriateComponent>
-        <RenderAppropriateComponent
-          queryResult={upcomingEvents}
-          loadingComponent={<FeaturesRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load upcoming events :("
-        >
-          <UpcomingEventsRow
-            upcomingEvents={upcomingEvents}
-            theme="dark"
-            rowWrapperClassName="bg-gradient-to-tl from-primaryDark via-primaryLight to-secondaryDark text-textLight"
-          />
-        </RenderAppropriateComponent>
-        <RenderAppropriateComponent
-          queryResult={works}
-          loadingComponent={<RecentWorkRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-100 w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load works :("
-        >
-          <RecentWorkRow works={works} theme="light" />
-        </RenderAppropriateComponent>
-        <RenderAppropriateComponent
-          queryResult={features}
-          loadingComponent={<FeaturesRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load features :("
-        >
-          <FeaturesRow features={features} theme="dark" />
-        </RenderAppropriateComponent>
-        <RenderAppropriateComponent
-          queryResult={services}
-          loadingComponent={<ServicesRowSkeleton />}
-          errorContainerClassName="h-[500px] w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load services :("
-        >
-          <ServicesRow
-            showButton
-            services={services}
-            isHomePage
-            theme="light"
-          />
-        </RenderAppropriateComponent>
-        <RenderAppropriateComponent
-          queryResult={figures}
-          loadingComponent={<FiguresRowSkeleton />}
-          errorContainerClassName="h-[300px] w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load figures :("
-        >
-          <FiguresRow figures={figures} theme="dark" />
-        </RenderAppropriateComponent>
-        <RenderAppropriateComponent
-          queryResult={companies}
-          loadingComponent={<CompaniesRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load companies :("
-        >
-          <CompaniesRow companies={companies} theme="light" />
-        </RenderAppropriateComponent>
-        <RenderAppropriateComponent
-          queryResult={reviews}
-          loadingComponent={<FeaturesRowSkeleton />}
-          errorContainerClassName="h-[500px] bg-gray-50 w-full overflow-hidden flex justify-center items-center"
-          errorText="Failed to load reviews :("
-        >
-          <TestimonialsRow theme="dark" reviews={reviews} />
-        </RenderAppropriateComponent>
+              </div>
+            </>
+          )}
+          renderButton={() =>
+            hero?.hasContactButton ? (
+              <div className="mt-12">
+                <LinkBtn href="/contact" text="Get In Touch" />
+              </div>
+            ) : null
+          }
+        />
+        <UpcomingEventsRow
+          upcomingEvents={upcomingEvents}
+          theme="dark"
+          rowWrapperClassName="bg-gradient-to-tl from-primaryDark via-primaryLight to-secondaryDark text-textLight"
+        />
+        <RecentWorkRow works={works} theme="light" />
+        <FeaturesRow features={features} theme="dark" />
+        <RowWrapper title="Our Services" theme="light">
+          <ServicesRow showButton services={services} theme="light" />
+        </RowWrapper>
+        <FiguresRow figures={figures} theme="dark" />
+        <CompaniesRow companies={companies} theme="light" />
+        <TestimonialsRow theme="dark" reviews={reviews} />
         <ContactMain
           theme="light"
           containerClassName="border-t-2 border-secondaryDark"

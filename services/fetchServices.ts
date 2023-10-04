@@ -1,5 +1,3 @@
-import { signout } from "./apiServices";
-
 function getHeaders(token?: string | null) {
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set("Content-Type", "application/json");
@@ -16,11 +14,6 @@ export async function get(url: string, token?: string | null) {
     headers: getHeaders(token),
   };
   const response = await fetch(url, options);
-  if (!response.ok) {
-    if ([401, 403].includes(response.status)) {
-      return await signout();
-    }
-  }
   return await response.json();
 }
 
@@ -31,11 +24,6 @@ export async function post<T>(url: string, data: T, token?: string | null) {
     body: JSON.stringify(data),
   };
   const response = await fetch(url, options);
-  if (!response.ok) {
-    if ([401, 403].includes(response.status)) {
-      return await signout();
-    }
-  }
   return await response.json();
 }
 
@@ -47,10 +35,5 @@ export async function remove<T>(url: string, data?: T, token?: string | null) {
   };
 
   const response = await fetch(url, options);
-  if (!response.ok) {
-    if ([401, 403].includes(response.status)) {
-      return await signout();
-    }
-  }
   return await response.json();
 }

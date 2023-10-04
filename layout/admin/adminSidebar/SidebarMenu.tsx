@@ -1,5 +1,5 @@
-import { lstAdminNavBarMenu } from "@/data/adminData";
-import { signout } from "@/services/apiServices";
+import { lstAdminNavBarMenu } from "@/data/dataAdmin";
+import { useAuth } from "@/contexts/AuthContext";
 import SidebarMenuItem from "./SidebarMenuItem";
 
 interface ISidebarMenuProps {
@@ -7,6 +7,7 @@ interface ISidebarMenuProps {
 }
 
 export default function SidebarMenu(props: ISidebarMenuProps) {
+  const { logOut } = useAuth();
   return (
     <aside
       id="default-sidebar"
@@ -25,7 +26,7 @@ export default function SidebarMenu(props: ISidebarMenuProps) {
 
           <li
             onClick={async () => {
-              await signout();
+              await logOut();
             }}
             className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
           >

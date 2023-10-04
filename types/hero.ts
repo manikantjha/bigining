@@ -1,9 +1,10 @@
+import { IImage } from "./image";
+
 export interface IHero {
   _id?: string;
-  pageId: string;
+  pageId: "home" | "about" | "service";
   title: string;
   description?: string;
-  imageURL: string;
+  image: IImage;
   hasContactButton?: boolean;
-  isVideo?: boolean;
 }

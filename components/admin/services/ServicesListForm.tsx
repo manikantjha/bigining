@@ -1,8 +1,6 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
 
-interface IServicesListForm {
-  parentIndex: number;
-}
+interface IServicesListForm {}
 
 export default function ServicesListForm(props: IServicesListForm) {
   const {
@@ -14,15 +12,13 @@ export default function ServicesListForm(props: IServicesListForm) {
 
   const { fields, remove, append } = useFieldArray({
     control,
-    name: `services[${props.parentIndex}].list`,
+    name: `list`,
   });
 
   return (
     <div>
       {fields.map((item, index) => {
-        const fieldState = getFieldState(
-          `services[${props.parentIndex}].list[${index}]`
-        );
+        const fieldState = getFieldState(`list[${index}]`);
         return (
           <>
             <div key={item.id} className="mb-4">
@@ -38,7 +34,7 @@ export default function ServicesListForm(props: IServicesListForm) {
                   type="text"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5"
                   placeholder="Service List Item"
-                  {...register(`services[${props.parentIndex}].list[${index}]`)}
+                  {...register(`list[${index}]`)}
                 />
                 <button
                   type="button"
@@ -61,12 +57,12 @@ export default function ServicesListForm(props: IServicesListForm) {
                   </svg>
                 </button>
               </div>
+              {fieldState.error && (
+                <p className="text-red-700 mt-2 text-sm">
+                  * {fieldState.error.message}
+                </p>
+              )}
             </div>
-            {fieldState.error && (
-              <p className="text-red-700 mt-2 text-sm">
-                * {fieldState.error.message}
-              </p>
-            )}
           </>
         );
       })}

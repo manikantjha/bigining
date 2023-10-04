@@ -1,31 +1,18 @@
+import { reviewSchema } from "@/schemas/reviewSchema";
+import { addReview } from "@/services/apiServices";
+import { IReview } from "@/types/review";
 import { IRowTheme } from "@/types/row";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, useForm } from "react-hook-form";
-import * as yup from "yup";
-import RowWrapper from "../common/RowWrapper";
-import Card from "../common/Card";
-import { sendReviewForm } from "@/services/apiServices";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
+import { InferType } from "yup";
+import Card from "../common/Card";
 import Modal from "../common/Modal";
+import RowWrapper from "../common/RowWrapper";
 import ContactModalContent from "../contact/ContactModalContent";
 
-const schema = yup.object({
-  email: yup
-    .string()
-    .required("Email is required")
-    .email("Invalid email address"),
-  rating: yup.number().required("Rating is required").min(1).max(5),
-  name: yup.string().required("Name is required"),
-  message: yup.string().required("Message is required"),
-});
-
-type ReviewFormData = {
-  email: string;
-  name: string;
-  rating: number;
-  message: string;
-};
+type TForm = InferType<typeof reviewSchema>;
 
 interface IReviewFormProps extends IRowTheme {}
 
@@ -39,17 +26,18 @@ const ReviewForm = (props: IReviewFormProps) => {
     formState: { errors },
     reset,
     register,
-  } = useForm<ReviewFormData>({
-    resolver: yupResolver(schema),
+  } = useForm<TForm>({
+    resolver: yupResolver<TForm>(reviewSchema),
   });
 
-  const reviewMutation = useMutation(sendReviewForm, {
-    onSuccess(data, variables, context) {
+  const reviewMutation = useMutation({
+    mutationFn: (data: IReview) => addReview(data, ""),
+    onSuccess() {
       setIsSuccess(true);
       setIsOpen(true);
       reset();
     },
-    onError(error, variables, context) {
+    onError() {
       setIsSuccess(false);
       setIsOpen(true);
       reset();
@@ -60,14 +48,13 @@ const ReviewForm = (props: IReviewFormProps) => {
     setIsOpen(false);
   }
 
-  const onSubmit = (data: ReviewFormData) => {
-    reviewMutation.mutate(data);
+  const onSubmit = (data: IReview) => {
+    reviewMutation.mutate({ ...data, isActive: false });
   };
 
   return (
     <RowWrapper
       title="Add A Review"
-      // description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis, error?"
       theme={props.theme}
       containerWrapperClassName="border-t-4 border-secondaryDark bg-primaryLighter"
     >
@@ -115,6 +102,7 @@ const ReviewForm = (props: IReviewFormProps) => {
               </label>
 
               <input
+                id="name"
                 type="text"
                 {...register("name")}
                 className="bg-transparent border-2 border-black text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5 placeholder-gray-400"
@@ -131,6 +119,7 @@ const ReviewForm = (props: IReviewFormProps) => {
                 Email:
               </label>
               <input
+                id="email"
                 type="email"
                 {...register("email")}
                 className="bg-transparent border-2 border-black text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5 placeholder-gray-400"
@@ -146,17 +135,14 @@ const ReviewForm = (props: IReviewFormProps) => {
               >
                 Message:
               </label>
-              <Controller
-                name="message"
-                control={control}
-                render={({ field }) => (
-                  <textarea
-                    {...field}
-                    className="bg-transparent border-2 border-black text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5 placeholder-gray-400"
-                    rows={4}
-                  />
-                )}
+
+              <textarea
+                id="message"
+                className="bg-transparent border-2 border-black text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block w-full p-2.5 placeholder-gray-400"
+                rows={4}
+                {...register("message")}
               />
+
               {errors.message && (
                 <p className="text-red-500">{errors.message.message}</p>
               )}

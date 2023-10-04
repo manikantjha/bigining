@@ -1,4 +1,4 @@
-import { initializeApp, getApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
@@ -10,6 +10,7 @@ function initFirebaseApp() {
     const firebaseConfig = JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG);
 
     const app = initializeApp(firebaseConfig);
+
     return app;
   } catch (error) {
     console.log("Firebase initialization error: ", error);

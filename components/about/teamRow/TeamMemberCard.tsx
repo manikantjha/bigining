@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import Card from "@/components/common/Card";
+import { IImage } from "@/types/image";
 import { IRowTheme } from "@/types/row";
 
 interface ITeamMemberCard extends IRowTheme {
   objTeamMember: {
-    imageURL: string;
+    image: IImage;
     name: string;
     description: string;
   };
@@ -15,7 +16,7 @@ export default function TeamMemberCard(props: ITeamMemberCard) {
     <Card theme={props.theme} className="flex flex-col items-center p-8">
       <div className="w-[75px] h-[75px] md:w-[150px] md:h-[150px] overflow-hidden rounded-full border border-black">
         <img
-          src={props.objTeamMember.imageURL}
+          src={props.objTeamMember.image.medium.url}
           alt={props.objTeamMember.name}
           className="h-full w-full object-cover"
         />

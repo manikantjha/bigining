@@ -7,60 +7,12 @@ export const companyName = "Bigining";
 export const lstNavBarMenu = [
   { id: 1, name: "Home", path: "/" },
   { id: 2, name: "About", path: "/about" },
-  { id: 3, name: "Services", path: "/services" },
-  { id: 8, name: "Upcoming Events", path: "/upcomingEvents" },
-  { id: 7, name: "Artists", path: "/artists" },
-  { id: 4, name: "Work", path: "/work" },
-  { id: 5, name: "FAQs", path: "/faqs" },
-  { id: 6, name: "Contact", path: "/contact" },
-];
-
-// Home Page
-export const lstTestimonials = [
-  {
-    id: 1,
-    client: {
-      imgSrc: "/assets/avatar_male.svg",
-      name: "John Doe",
-      designation: "Owner at XYZ",
-    },
-    title: "Lorem ipsum dolor sit amet.",
-    testimonial:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, nihil.",
-  },
-  {
-    id: 2,
-    client: {
-      imgSrc: "/assets/avatar_female.svg",
-      name: "John Doe",
-      designation: "Owner at XYZ",
-    },
-    title: "Lorem ipsum dolor sit amet.",
-    testimonial:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, nihil.",
-  },
-  {
-    id: 3,
-    client: {
-      imgSrc: "/assets/avatar_female.svg",
-      name: "John Doe",
-      designation: "Owner at XYZ",
-    },
-    title: "Lorem ipsum dolor sit amet.",
-    testimonial:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, nihil.",
-  },
-  {
-    id: 4,
-    client: {
-      imgSrc: "/assets/avatar_male.svg",
-      name: "John Doe",
-      designation: "Owner at XYZ",
-    },
-    title: "Lorem ipsum dolor sit amet.",
-    testimonial:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, nihil.",
-  },
+  { id: 3, name: "Services", path: "/services/1" },
+  { id: 4, name: "Upcoming Events", path: "/upcomingEvents/1" },
+  { id: 5, name: "Artists", path: "/artists/1" },
+  { id: 6, name: "Work", path: "/works/1" },
+  { id: 7, name: "FAQs", path: "/faqs" },
+  { id: 8, name: "Contact", path: "/contact" },
 ];
 
 // About Page
@@ -68,15 +20,15 @@ export const objHowItStartedInfo = {
   description: (
     <>
       <p className="text-lg">
-        Bigining is about Biginning of Big Inning , it’s about inning which you
+        {`Bigining is about Biginning of Big Inning , it’s about inning which you
         have imagine to start & end it with endless memories with our Expertise
         of Creativity, Management & Network . Bigining will help you To execute
         your Event or Requirements related to Celebrity , Product Launch, PR ,
-        Wedding , promotions & many More.
+        Wedding , promotions & many More.`}
       </p>
       <br />
       <p className="text-lg font-medium">
-        &quot;Let’s Play BiG Inning with Bigining&quot;
+        &quot;{`Let’s Play BiG Inning with Bigining`}&quot;
       </p>
     </>
   ),

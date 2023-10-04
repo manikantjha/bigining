@@ -9,27 +9,17 @@ interface IHero {
   description?: string;
   renderButton?: () => ReactNode;
   renderContent?: () => ReactNode;
-  isVideo?: boolean;
 }
 
 export default function Hero(props: IHero) {
   return (
-    <div className="h-[75vh] w-full overflow-hidden relative block">
-      {props.isVideo ? (
-        <video
-          autoPlay
-          src={props.imgSrc}
-          style={{ objectFit: "cover", height: "100%", width: "100%" }}
-        />
-      ) : (
-        <img
-          src={props.imgSrc}
-          alt={props.imgAlt}
-          sizes="100vw"
-          className="object-center"
-          style={{ objectFit: "cover", height: "100%", width: "100%" }}
-        />
-      )}
+    <div className="h-[70vh] w-full overflow-hidden relative block">
+      <img
+        src={props.imgSrc}
+        alt={props.imgAlt}
+        sizes="100vw"
+        style={{ objectFit: "cover", height: "100%", width: "100%" }}
+      />
       {props.hasContent &&
         (props.renderContent ? (
           <>{props.renderContent()}</>

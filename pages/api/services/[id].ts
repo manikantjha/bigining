@@ -1,21 +1,10 @@
-import { getService } from "@/controllers/servicesControllers";
-import connect from "@/database/connection";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { createHandler } from "@/HOFs/handlersHOF";
+import serviceControllers from "@/controllers/serviceControllers";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  connect().catch(() =>
-    res.status(405).json({ error: "Error in connection!" })
-  );
+const handler = createHandler({
+  getFunction: serviceControllers.getById,
+  postFunction: serviceControllers.update,
+  deleteFunction: serviceControllers.remove,
+});
 
-  switch (req.method) {
-    case "GET":
-      await getService(req, res);
-      break;
-    default:
-      res.status(405).end(`Method ${req.method} not allowed!`);
-      break;
-  }
-}
+export default handler;

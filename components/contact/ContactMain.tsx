@@ -1,4 +1,4 @@
-import { getContactInfos, getLstServices } from "@/services/apiServices";
+import { getContactInfo, getServicesList } from "@/services/apiServices";
 import { IRowTheme } from "@/types/row";
 import { useQuery } from "react-query";
 import RenderAppropriateComponent from "../admin/common/RenderAppropriateComponent";
@@ -13,8 +13,8 @@ interface IContactMain extends IRowTheme {
 }
 
 export default function ContactMain(props: IContactMain) {
-  const contactInfos = useQuery("contactInfos", () => getContactInfos());
-  const lstServices = useQuery("lstServices", () => getLstServices());
+  const contactInfos = useQuery("contactInfos", () => getContactInfo());
+  const lstServices = useQuery("lstServices", () => getServicesList());
   return (
     <RowWrapper
       theme={props.theme}
@@ -24,12 +24,10 @@ export default function ContactMain(props: IContactMain) {
         <div className="grid grid-rows-[1fr_auto] rounded-xl p-6 border border-black bg-gradient-to-br from-primaryLight via-secondaryLight to-accentLight">
           <RenderAppropriateComponent
             queryResult={contactInfos}
-            loadingComponent={
-              <Loading loaderContainerHeightWidth="h-full w-full" />
-            }
+            loadingComponent={<Loading containerSize="h-full w-full" />}
             errorComponent={
               <Error
-                errorContainerClassName="h-[200px] w-full overflow-hidden flex justify-center items-center"
+                containerClassName="h-[200px] w-full overflow-hidden flex justify-center items-center"
                 errorText="Failed to load contact info :("
               />
             }

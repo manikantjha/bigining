@@ -2,11 +2,11 @@
 import LinkBtn from "@/components/common/LinkBtn";
 import RowWrapper from "@/components/common/RowWrapper";
 import { IRowTheme } from "@/types/row";
-import { UseQueryResult } from "react-query";
+import { IWork } from "@/types/work";
 import Slider, { CustomArrowProps } from "react-slick";
 
 interface IWorkGalleryProps extends IRowTheme {
-  works?: UseQueryResult<any, unknown>;
+  works: IWork[];
 }
 
 function SampleNextArrow(props: CustomArrowProps) {
@@ -62,9 +62,9 @@ function SamplePrevArrow(props: CustomArrowProps) {
 }
 
 export default function RecentWorkRow(props: IWorkGalleryProps) {
-  const works =
-    (props?.works?.data?.works && props?.works?.data?.works[0]?.works) || [];
-  const worksImages = works.map((work: any) => work.imageURL);
+  const works: IWork[] = props.works || [];
+
+  const worksImages = works.map((work) => work.images[0].original);
 
   if (!worksImages.length) return null;
 
@@ -114,19 +114,21 @@ export default function RecentWorkRow(props: IWorkGalleryProps) {
     >
       <div>
         <Slider {...settings}>
-          {worksImages.map((item: string, index: number) => (
-            <div key={index} className="px-2 h-[350px] overflow-hidden">
-              <img
-                className="h-full w-full rounded-lg border-2 border-black object-cover"
-                src={item}
-                alt="interior image"
-              />
+          {worksImages.map((item, index: number) => (
+            <div key={index} className="px-2">
+              <div className="w-full h-[400px] md:h-[400px] overflow-hidden rounded-lg border-2 border-black">
+                <img
+                  className="h-full w-full object-cover"
+                  src={item.url}
+                  alt="interior image"
+                />
+              </div>
             </div>
           ))}
         </Slider>
       </div>
       <div className="mt-12">
-        <LinkBtn href="/work" text="Sell All Work" theme={props.theme} />
+        <LinkBtn href="/works" text="Sell All Work" theme={props.theme} />
       </div>
     </RowWrapper>
   );

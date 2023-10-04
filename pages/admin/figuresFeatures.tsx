@@ -6,23 +6,30 @@ import AdminLayout from "@/layout/admin/AdminLayout";
 import { getFeatures, getFigures } from "@/services/apiServices";
 import { useQuery } from "react-query";
 
-export default function FiguresFeatures() {
-  const figures = useQuery("figures", () => getFigures());
-  const features = useQuery("features", () => getFeatures());
+export default function FiguresFeaturesAdminPage() {
+  const figures = useQuery({
+    queryKey: "figures",
+    queryFn: getFigures,
+  });
+
+  const features = useQuery({
+    queryKey: "features",
+    queryFn: getFeatures,
+  });
 
   return (
     <AdminLayout>
       <FormSectionTitle title="Figures" />
       <RenderAppropriateComponent
         queryResult={figures}
-        loaderContainerHeightWidth="h-[400px] w-full"
+        containerSize="h-[400px] w-full"
       >
         <FiguresForm figures={figures} />
       </RenderAppropriateComponent>
       <FormSectionTitle title="Features" />
       <RenderAppropriateComponent
         queryResult={features}
-        loaderContainerHeightWidth="h-[400px] w-full"
+        containerSize="h-[400px] w-full"
       >
         <FeaturesForm features={features} />
       </RenderAppropriateComponent>

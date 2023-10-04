@@ -1,27 +1,35 @@
-import React from "react";
+import { CSSProperties } from "react";
 
 export interface ILoadingProps {
-  loaderContainerHeightWidth?: string;
-  loaderHeightWidth?: string;
+  size?: string;
+  color?: string;
+  className?: string;
+  style?: CSSProperties;
+  containerSize?: string;
+  containerClassName?: string;
 }
 
-export default function Loading(props: ILoadingProps) {
+const Loading = ({
+  size = "w-10 h-10",
+  color = "text-gray-200",
+  className = "",
+  style,
+  containerSize = "h-[calc(100vh-160px)] w-full",
+  containerClassName = "",
+}: ILoadingProps) => {
   return (
     <div
-      className={`${
-        props.loaderContainerHeightWidth
-          ? props.loaderContainerHeightWidth
-          : "h-[calc(100vh-160px)] w-full"
-      } flex justify-center items-center`}
+      className={`${containerSize} flex justify-center items-center ${containerClassName}`}
     >
-      <div>
+      <div
+        className={`flex justify-center items-center ${size} ${color} animate-spin`}
+        style={style}
+      >
         <svg
           aria-hidden="true"
-          className={`${
-            props.loaderHeightWidth ? props.loaderHeightWidth : "w-10 h-10"
-          } mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-accentDark`}
+          className={`w-full h-full ${className}`}
           viewBox="0 0 100 101"
-          fill="none"
+          fill="lightGray"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -37,4 +45,6 @@ export default function Loading(props: ILoadingProps) {
       </div>
     </div>
   );
-}
+};
+
+export default Loading;

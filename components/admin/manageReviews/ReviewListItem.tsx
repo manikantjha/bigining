@@ -1,8 +1,7 @@
-import React from "react";
-import { IReviewListItem } from "./ReviewsList";
+import { IReview } from "@/types/review";
 
 interface IReviewListItemProps {
-  review: IReviewListItem;
+  review: IReview;
 }
 
 export default function ReviewListItem({ review }: IReviewListItemProps) {

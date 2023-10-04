@@ -1,14 +1,24 @@
 // import "animate.css/animate.min.css";
+import MoveToTopButton from "@/components/common/MoveToTopButton";
 import "@/styles/globals.css";
+import { queryClientStaleTime } from "@/utils/utils";
 import type { AppProps } from "next/app";
+import Head from "next/head";
+import { QueryClient, QueryClientProvider } from "react-query";
+import "react-toastify/dist/ReactToastify.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import "react-toastify/dist/ReactToastify.css";
-import { QueryClientProvider, QueryClient } from "react-query";
-import Head from "next/head";
-import MoveToTopButton from "@/components/common/MoveToTopButton";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false, // default: true
+      refetchOnReconnect: false,
+      retry: 3,
+      staleTime: queryClientStaleTime,
+    },
+  },
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

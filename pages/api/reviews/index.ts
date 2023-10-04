@@ -1,30 +1,10 @@
-import deleteReview, {
-  addReview,
-  getReviews,
-} from "@/controllers/reveiwConrollers";
-import connect from "@/database/connection";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { createHandler } from "@/HOFs/handlersHOF";
+import reviewControllers, { addReview } from "@/controllers/reveiwConrollers";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  connect().catch(() =>
-    res.status(405).json({ error: "Error in connection!" })
-  );
+const handler = createHandler({
+  getFunction: reviewControllers.getPaginated,
+  postFunction: addReview,
+  isProtected: { get: false, post: false, delete: true },
+});
 
-  switch (req.method) {
-    case "GET":
-      await getReviews(req, res);
-      break;
-    case "POST":
-      await addReview(req, res);
-      break;
-    case "DELETE":
-      await deleteReview(req, res);
-      break;
-    default:
-      res.status(405).end(`Method ${req.method} not allowed!`);
-      break;
-  }
-}
+export default handler;

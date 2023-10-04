@@ -1,28 +1,9 @@
-import {
-  addUpdateContactInfo,
-  getContactInfos,
-} from "@/controllers/contactInfoControllers";
-import connect from "@/database/connection";
-import { jwtMiddleware } from "@/middlewares/jwtMiddleware";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { createHandler } from "@/HOFs/handlersHOF";
+import contactInfoControllers from "@/controllers/contactInfoControllers";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  connect().catch(() =>
-    res.status(405).json({ error: "Error in connection!" })
-  );
+const handler = createHandler({
+  getFunction: contactInfoControllers.getSingle,
+  postFunction: contactInfoControllers.createOrUpdate,
+});
 
-  switch (req.method) {
-    case "GET":
-      await getContactInfos(req, res);
-      break;
-    case "POST":
-      await jwtMiddleware(req, res, addUpdateContactInfo);
-      break;
-    default:
-      res.status(405).end(`Method ${req.method} not allowed!`);
-      break;
-  }
-}
+export default handler;

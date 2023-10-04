@@ -1,77 +1,49 @@
-import Reviews from "@/models/reviews";
+import { createGenericController } from "@/HOFs/controllersHOF";
+import Review from "@/models/review";
+import { reviewSchema } from "@/schemas/reviewSchema";
+import { revalidatePath, sendError, sendResponse } from "@/utils/server";
 import { NextApiRequest, NextApiResponse } from "next";
-import { ObjectId } from "mongodb";
-import * as yup from "yup";
+import { ValidationError } from "yup";
 
-// Validation schema using Yup
-const reviewSchema = yup.object({
-  email: yup.string().required().email(),
-  name: yup.string().required(),
-  rating: yup.number().required().min(1).max(5),
-  message: yup.string().required().trim(),
+const reviewControllers = createGenericController({
+  Model: Review,
+  schema: reviewSchema,
+  revalidate: async () => {
+    revalidatePath("/");
+  },
 });
 
-// Add review controller
-export async function addReview(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    // Validate the request data
-    const { email, rating, message, name } = req.body;
-    await reviewSchema.validate({ email, rating, message, name });
+export default reviewControllers;
 
-    // Check if a review with the same email already exists
-    const existingReview = await Reviews.findOne({ email });
-    if (existingReview) {
-      return res
-        .status(400)
-        .json({ error: "A review with this email already exists" });
+export const addReview = async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    try {
+      await reviewSchema.validate(req.body);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        return sendError(res, 400, error.message);
+      }
+      return sendError(res, 400, "Bad request!");
     }
 
-    const reviewCount = await Reviews.countDocuments();
-    if (reviewCount >= 50) {
-      return res.status(400).json({ error: "Review limit (50) reached" });
+    const existingReviews = await Review.find({ email: req.body.email });
+
+    if (existingReviews.length > 0) {
+      return sendError(
+        res,
+        400,
+        "A review with the given email already exists!"
+      );
     }
 
-    // Create and save the review
-    const review = new Reviews({ email, rating, message, name });
-    await review.save();
+    const newItem = new Review(req.body);
 
-    res.status(201).json({ message: "Review added successfully", review });
-  } catch (error: any) {
-    res.status(400).json({ error: error.message });
-  }
-}
+    await newItem.save();
 
-// Get all reviews controller
-export async function getReviews(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    // Fetch all reviews from the database
-    const reviews = await Reviews.find();
+    revalidatePath("/");
 
-    res.status(200).json({ reviews });
+    sendResponse(res, 201, newItem);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    sendError(res, 500, "Internal server error!");
   }
-}
-
-export default async function deleteReview(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  try {
-    // Get the review ID from the request body
-    const { id } = req.body;
-
-    // Find the review by ID and delete it
-    const deletedReview = await Reviews.findByIdAndDelete(new ObjectId(id));
-
-    if (!deletedReview) {
-      return res.status(404).json({ error: "Review not found" });
-    }
-
-    res
-      .status(200)
-      .json({ message: "Review deleted successfully", review: deletedReview });
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
-  }
-}
+};

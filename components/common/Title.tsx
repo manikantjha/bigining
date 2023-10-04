@@ -1,25 +1,28 @@
-interface ITitle {
-  title: string;
+export interface ITitle {
+  title?: string;
   description?: string;
   titleClassName?: string;
   descriptionClassName?: string;
-  containerClassName?: string;
+  titleContainerClassName?: string;
 }
 
-export default function Title(props: ITitle) {
+export default function Title({
+  title = "",
+  description = "",
+  titleClassName = "",
+  descriptionClassName = "",
+  titleContainerClassName = "",
+}: ITitle) {
+  if (!title) return null;
   return (
-    <div className={`text-center mb-16 ${props.containerClassName || ""}`}>
+    <div className={`text-center mb-16 ${titleContainerClassName}`}>
       <h2
-        className={`text-3xl md:text-4xl mb-4 font-display uppercase ${
-          props?.titleClassName || ""
-        }`}
+        className={`text-3xl md:text-4xl mb-4 font-display uppercase ${titleClassName}`}
       >
-        {props.title}
+        {title}
       </h2>
-      {props.description && (
-        <p className={`text-lg ${props?.descriptionClassName || ""}`}>
-          {props.description}
-        </p>
+      {description && (
+        <p className={`text-lg ${descriptionClassName}`}>{description}</p>
       )}
     </div>
   );

@@ -1,21 +1,10 @@
-import { getUpcomingEvent } from "@/controllers/upcomingEventsControllers";
-import connect from "@/database/connection";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { createHandler } from "@/HOFs/handlersHOF";
+import upcomingEventControllers from "@/controllers/upcomingEventControllers";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  connect().catch(() =>
-    res.status(405).json({ error: "Error in connection!" })
-  );
+const handler = createHandler({
+  getFunction: upcomingEventControllers.getById,
+  postFunction: upcomingEventControllers.update,
+  deleteFunction: upcomingEventControllers.remove,
+});
 
-  switch (req.method) {
-    case "GET":
-      await getUpcomingEvent(req, res);
-      break;
-    default:
-      res.status(405).end(`Method ${req.method} not allowed!`);
-      break;
-  }
-}
+export default handler;

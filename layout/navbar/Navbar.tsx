@@ -22,7 +22,7 @@ export default function Navbar() {
                 <NavbarMenuItem
                   key={item.id}
                   objMenuItem={item}
-                  isActive={checkIsActive(item.path, router.pathname)}
+                  isActive={checkIsActive(item.path, router.asPath)}
                   onClick={() => setIsOpen(false)}
                 />
               ))}

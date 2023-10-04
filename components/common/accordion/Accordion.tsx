@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 
 interface IAccordion {
   objAccordion: {
-    id: number;
+    _id: string;
     question: string;
     answer: string;
   };
