@@ -11,25 +11,28 @@ interface IFAQsRowProps {
 export default function FAQsRow(props: IFAQsRowProps) {
   const data = props.faqs || [];
   const [expanded, setExpanded] = useState(1);
-  if (!data.length) return <NoData />;
 
   return (
     <RowWrapper
       title="FAQs"
       containerWrapperClassName="min-h-[calc(100vh-76px)]"
     >
-      <div>
-        {data.map((item: IFaq, index: number) => (
-          <Accordion
-            key={index}
-            objAccordion={{ ...item, _id: item._id || index.toString() }}
-            expanded={expanded}
-            setExpanded={setExpanded}
-            listLength={data?.length}
-            index={index}
-          />
-        ))}
-      </div>
+      {!data.length ? (
+        <NoData />
+      ) : (
+        <div>
+          {data.map((item: IFaq, index: number) => (
+            <Accordion
+              key={index}
+              objAccordion={{ ...item, _id: item._id || index.toString() }}
+              expanded={expanded}
+              setExpanded={setExpanded}
+              listLength={data?.length}
+              index={index}
+            />
+          ))}
+        </div>
+      )}
     </RowWrapper>
   );
 }

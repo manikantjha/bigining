@@ -19,9 +19,10 @@ import Head from "next/head";
 export async function getStaticProps() {
   const hero = JSON.parse(await getHero("about"));
   const companies = JSON.parse(await getPaginated(1, 40, Company));
-  const figures = JSON.parse(
-    JSON.stringify((await getSingle(Figures)) || null)
-  );
+  const figures = JSON.parse(await getSingle(Figures));
+
+  console.log("figures", figures);
+
   const teamMembers = JSON.parse(await getAll(TeamMember));
 
   console.log("teamMembers", teamMembers);
@@ -29,8 +30,8 @@ export async function getStaticProps() {
   return {
     props: {
       hero: hero,
-      companies: companies.items,
-      figures: figures.figures,
+      companies: companies?.items || [],
+      figures: figures?.figures || [],
       teamMembers: teamMembers,
     },
   };
@@ -57,7 +58,7 @@ export default function AboutPage({
       </Head>
       <Layout>
         <Hero
-          imgSrc={hero?.image.original.url}
+          imgSrc={hero?.image?.original?.url}
           imgAlt="about image"
           title={hero?.title}
           description={hero?.description}
