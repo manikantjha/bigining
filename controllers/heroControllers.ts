@@ -41,16 +41,16 @@ export async function addUpdateHero(req: NextApiRequest, res: NextApiResponse) {
       const response = await Hero.findByIdAndUpdate(_id, data);
 
       if (data.pageId === "home") {
-        revalidatePath("/");
+        await revalidatePath("/");
       } else if (data.pageId === "about") {
-        revalidatePath("/about");
+        await revalidatePath("/about");
       } else if (data.pageId === "service") {
         const limit = 10;
         const totalItems = await Service.count();
         const totalPages = Math.ceil(totalItems / limit);
 
         for (let i = 0; i < totalPages; i++) {
-          revalidatePath(`/services/${i + 1}`);
+          await revalidatePath(`/services/${i + 1}`);
         }
       }
 
