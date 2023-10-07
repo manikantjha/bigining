@@ -59,7 +59,7 @@ export async function getStaticProps() {
     props: {
       hero: hero,
       upcomingEvents: upcomingEvents?.items || [],
-      companies: companies?.items || [],
+      companies: companies || [],
       services: services?.items || [],
       reviews: reviews?.items || [],
       works: works?.items || [],

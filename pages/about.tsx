@@ -6,7 +6,7 @@ import LinkBtn from "@/components/common/LinkBtn";
 import CompaniesRow from "@/components/home/companiesRow/CompaniesRow";
 import FiguresRow from "@/components/home/figuresRow/FiguresRow";
 import Layout from "@/layout/Layout";
-import { getAll, getHero, getPaginated, getSingle } from "@/lib/common";
+import { getAll, getHero, getSingle } from "@/lib/common";
 import Company from "@/models/company";
 import Figures from "@/models/figures";
 import TeamMember from "@/models/teamMember";
@@ -21,16 +21,12 @@ export async function getStaticProps() {
   const companies = JSON.parse(await getAll(Company));
   const figures = JSON.parse(await getSingle(Figures));
 
-  console.log("figures", figures);
-
   const teamMembers = JSON.parse(await getAll(TeamMember));
-
-  console.log("teamMembers", teamMembers);
 
   return {
     props: {
       hero: hero,
-      companies: companies?.items || [],
+      companies: companies || [],
       figures: figures?.figures || [],
       teamMembers: teamMembers,
     },
