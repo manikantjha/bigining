@@ -18,7 +18,7 @@ import Head from "next/head";
 
 export async function getStaticProps() {
   const hero = JSON.parse(await getHero("about"));
-  const companies = JSON.parse(await getPaginated(1, 40, Company));
+  const companies = JSON.parse(await getAll(Company));
   const figures = JSON.parse(await getSingle(Figures));
 
   console.log("figures", figures);

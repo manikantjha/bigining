@@ -12,7 +12,7 @@ import TestimonialsRow from "@/components/home/testimonialsRow/TestimonialsRow";
 import ReviewForm from "@/components/reviews/ReviewForm";
 import UpcomingEventsRow from "@/components/upcomingEvents/UpcomingEventsRow";
 import Layout from "@/layout/Layout";
-import { getHero, getPaginated, getSingle } from "@/lib/common";
+import { getAll, getHero, getPaginated, getSingle } from "@/lib/common";
 import Company from "@/models/company";
 import Features from "@/models/features";
 import Figures from "@/models/figures";
@@ -33,7 +33,7 @@ import Head from "next/head";
 export async function getStaticProps() {
   const hero = JSON.parse(await getHero("home"));
   const upcomingEvents = JSON.parse(await getPaginated(1, 6, UpcomingEvent));
-  const companies = JSON.parse(await getPaginated(1, 6, Company));
+  const companies = JSON.parse(await getAll(Company));
   const services = JSON.parse(await getPaginated(1, 3, Service));
   const reviews = JSON.parse(
     await getPaginated(1, 4, Review, { isActive: true })
