@@ -136,7 +136,7 @@ export const createGenericController = <T>({
       const response = await newItem.save();
 
       if (revalidate) {
-        revalidate(response as any);
+        await revalidate(response as any);
       }
 
       sendResponse(res, 201, newItem);
@@ -212,7 +212,7 @@ export const createGenericController = <T>({
       // await existingItem.save(); // This caused error on immediate re-updatation.
 
       if (revalidate) {
-        revalidate(req.body);
+        await revalidate(req.body);
       }
 
       sendResponse(res, 200, existingItem);
@@ -248,7 +248,7 @@ export const createGenericController = <T>({
       await create(req, res);
 
       if (revalidate) {
-        revalidate();
+        await revalidate();
       }
     } catch (error) {
       console.error(
@@ -284,7 +284,7 @@ export const createGenericController = <T>({
       }
 
       if (revalidate) {
-        revalidate();
+        await revalidate();
       }
 
       sendResponse(res, 200, {
