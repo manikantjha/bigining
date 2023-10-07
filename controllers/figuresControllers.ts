@@ -7,8 +7,8 @@ const figuresControllers = createGenericController({
   Model: Figures,
   schema: figuresSchema,
   revalidate: async () => {
-    revalidatePath("/");
-    revalidatePath("/about");
+    await revalidatePath("/");
+    await revalidatePath("/about");
   },
 });
 

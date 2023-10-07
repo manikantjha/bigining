@@ -7,7 +7,7 @@ const featuresControllers = createGenericController({
   Model: Features,
   schema: featuresSchema,
   revalidate: async () => {
-    revalidatePath("/");
+    await revalidatePath("/");
   },
 });
 
