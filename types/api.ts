@@ -4,11 +4,11 @@ export interface IPaginatedApiResult<T> {
   currentPage: number;
 }
 
-// interface IApiData<T> {
-//   success: boolean;
-//   data: T;
-//   message?: string;
-// }
+interface IApiData<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
 
 export interface IResult<T> {
   items: T;
