@@ -9,6 +9,7 @@ import FiguresRow from "@/components/home/figuresRow/FiguresRow";
 import RecentWorkRow from "@/components/home/recentWorkRow/RecentWorkRow";
 import ServicesRow from "@/components/home/servicesRow/ServicesRow";
 import TestimonialsRow from "@/components/home/testimonialsRow/TestimonialsRow";
+import TicketBookingRow from "@/components/home/ticketBookingRow/TicketBookingRow";
 import ReviewForm from "@/components/reviews/ReviewForm";
 import UpcomingEventsRow from "@/components/upcomingEvents/UpcomingEventsRow";
 import Layout from "@/layout/Layout";
@@ -126,6 +127,7 @@ export default function HomePage({
             ) : null
           }
         />
+        <TicketBookingRow />
         <UpcomingEventsRow
           upcomingEvents={upcomingEvents}
           theme="dark"

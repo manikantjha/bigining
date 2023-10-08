@@ -349,3 +349,16 @@ export const deleteUpcomingEvent = async (
     token
   );
 };
+
+//  Checkout --------------------------------------------------!
+
+export const checkout = async (data: any) => {
+  return await post(`${BASE_URL}/api/checkout`, data);
+};
+
+export const paymentVerification = async (data: any) => {
+  return await post(
+    `${process.env.NEXT_PUBLIC_BASE_PATH}/api/paymentVerification`,
+    data
+  );
+};

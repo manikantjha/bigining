@@ -1,6 +1,6 @@
-import contact from "@/controllers/contactControllers";
+import { paymentVerification } from "@/controllers/checkoutControllers";
 import connect from "@/database/connection";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,7 +12,7 @@ export default async function handler(
 
   switch (req.method) {
     case "POST":
-      await contact(req, res);
+      await paymentVerification(req, res);
       break;
     default:
       res.status(405).end(`Method ${req.method} not allowed!`);

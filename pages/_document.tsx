@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-sync-scripts */
 import { Head, Html, Main, NextScript } from "next/document";
 
 export default function Document() {
@@ -12,6 +13,7 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
       </body>
     </Html>
   );

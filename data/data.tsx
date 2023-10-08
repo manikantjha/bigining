@@ -44,3 +44,23 @@ export const objFounderInfo = {
       You know what I have learned in this learning Journey is creativity, Sales , Marketing Management & still learning.`,
   },
 };
+
+// Navratri Tickets
+export const TICKETS = {
+  KHELIA_SEASON_PASS: {
+    name: "KHELIA_SEASON_PASS",
+    price: 2000,
+  },
+  NON_TRADITIONAL_SEASON_PASS: {
+    name: "NON_TRADITIONAL_SEASON_PASS",
+    price: 1000,
+  },
+  DAILY_GOLD_PASS: {
+    name: "DAILY_GOLD_PASS",
+    price: 500,
+  },
+  DAILY_SILVER_PASS: {
+    name: "DAILY_SILVER_PASS",
+    price: 250,
+  },
+};
