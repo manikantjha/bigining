@@ -25,7 +25,7 @@ function generateEmailContent(data: any) {
     html: `<!DOCTYPE html>
     <html>
       <head>
-        <title>Order Confirmed</title>
+        <title>Booking Confirmed</title>
         <style>
           body {
             font-family: Arial, sans-serif;
@@ -58,7 +58,7 @@ function generateEmailContent(data: any) {
       </head>
       <body>
         <div class="container">
-          <div class="title-bar">Order Confirmed</div>
+          <div class="title-bar">Booking Confirmed</div>
           <div class="info">
             <div class="label">Order ID:</div>
             <div>${data.orderId}</div>
@@ -84,13 +84,15 @@ function generateEmailContent(data: any) {
           <div class="info">
             <div class="label">Dates:</div>
             <div>
-              ${data.dates}
+              <ul>
+                ${data.dates.map((date: string) => `<li>${date}</li>`)}
+              </ul>
             </div>
           </div>
           <div class="info">
             <div class="label">Amount Paid:</div>
             <div>
-              ${data.amount}
+              ₹${data.amount}
             </div>
           </div>
         </div>

@@ -1,42 +1,62 @@
 import CommonButton from "@/components/admin/common/CommonButton";
 import SelectInput from "@/components/admin/common/form/SelectInput";
 import TextInput from "@/components/admin/common/form/TextInput";
-import { TICKETS } from "@/data/data";
+import { TICKETS, TTICKETS } from "@/data/data";
 import { navratriTicketSchema } from "@/schemas/navratriTickectSchema";
 import { checkout, paymentVerification } from "@/services/apiServices";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { FormProvider, useForm } from "react-hook-form";
 import * as yup from "yup";
+import PriceBreakDown from "./PriceBreakDown";
 import TicketDatesListForm from "./TicketDatesListForm";
-import { useRouter } from "next/navigation";
 
 type TForm = yup.InferType<typeof navratriTicketSchema>;
 
 function TicketBookingForm() {
   const methods = useForm({ resolver: yupResolver(navratriTicketSchema) });
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     getValues,
+    watch,
   } = methods;
 
+  watch("pass");
+
   const onSubmit = async (data: TForm) => {
+    setLoading(true);
+    let newDates = [];
+    if (
+      data.pass == TICKETS.KHELIA_SEASON_PASS.name ||
+      data.pass == TICKETS.NON_TRADITIONAL_SEASON_PASS.name
+    ) {
+      for (let i = 15; i < 25; i++) {
+        newDates.push(new Date(2023, 9, i).toDateString());
+      }
+      data.dates = newDates;
+    } else {
+      data.dates = data.dates?.map((date) => new Date(date).toDateString());
+    }
+
+    console.log("data", data);
+
     const transformed = {
       ...data,
-      passPrice: (TICKETS as any)[`${data.pass}`].price,
+      passPrice: TICKETS[data.pass as TTICKETS].price,
       amount: Number(
-        (TICKETS as any)[`${data.pass}`].price *
+        TICKETS[data.pass as TTICKETS].price *
           data.numberOfAttendees *
           (data.dates?.length || 0)
       ),
     };
-
     const response = await checkout(transformed);
-
     const options = {
       key: `${process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID}`,
       amount: response.order.amount,
@@ -51,6 +71,7 @@ function TicketBookingForm() {
           _id: response.order._id,
         });
         if (verificationResponse.success) {
+          setLoading(false);
           router.replace(
             `/paymentSuccess?reference=${verificationResponse.order.paymentDetails.razorpay_payment_id}`
           );
@@ -66,9 +87,7 @@ function TicketBookingForm() {
         color: "#4B2D87",
       },
     };
-
     const razor = new (window as any).Razorpay(options);
-
     razor.open();
   };
 
@@ -140,22 +159,15 @@ function TicketBookingForm() {
           error={errors.numberOfAttendees}
           type="number"
         />
-        <div>
-          <TicketDatesListForm />
-        </div>
-        <div className="border border-dashed border-gray-500 rounded-lg p-4">
-          <p>Price Breakdown</p>
-          <p>
-            {getValues("numberOfAttendees")} Attendees x{" "}
-            {getValues("dates")?.length} Days x{" "}
-            {(TICKETS as any)[getValues("pass")]?.price} ={" "}
-            {getValues("numberOfAttendees") *
-              (TICKETS as any)[getValues("pass")]?.price *
-              (getValues("dates")?.length || 0)}
-          </p>
-        </div>
+        {(getValues("pass") == TICKETS.DAILY_GOLD_PASS.name ||
+          getValues("pass") == TICKETS.DAILY_SILVER_PASS.name) && (
+          <div>
+            <TicketDatesListForm />
+          </div>
+        )}
+        <PriceBreakDown />
         <CommonButton className="mt-8 w-full" type="submit">
-          Book Now
+          {loading ? "Please Wait..." : "Book Now"}
         </CommonButton>
       </form>
     </FormProvider>

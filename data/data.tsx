@@ -64,3 +64,5 @@ export const TICKETS = {
     price: 250,
   },
 };
+
+export type TTICKETS = keyof typeof TICKETS;

@@ -9,6 +9,7 @@ function TicketDate(props: ITicketDate) {
   const {
     control,
     formState: { errors },
+    getValues,
   } = useFormContext();
 
   let minDate = new Date(2023, 10, 15);
@@ -18,6 +19,13 @@ function TicketDate(props: ITicketDate) {
   if (today.getDate() > minDate.getDate()) {
     minDate = today;
   }
+
+  const dates = getValues("dates");
+
+  let excludedDates =
+    Array.isArray(dates) && dates.length
+      ? dates.map((date) => new Date(date))
+      : [];
 
   return (
     <Controller
@@ -32,6 +40,7 @@ function TicketDate(props: ITicketDate) {
           dateFormat={"dd/MM/yyyy"}
           minDate={minDate}
           maxDate={maxDate}
+          excludeDates={excludedDates}
         />
       )}
     />
