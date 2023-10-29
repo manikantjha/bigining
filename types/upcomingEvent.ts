@@ -5,7 +5,7 @@ export interface IUpcomingEvent {
   image: IImage;
   name: string;
   description?: string;
-  startDate?: Date;
-  endDate?: Date;
+  startDate?: Date | null;
+  endDate?: Date | null;
   location?: string;
 }

@@ -1,7 +1,6 @@
 import useFormLogic from "@/customHooks/useFormLogic";
 import { upcomingEventSchema } from "@/schemas/upcomingEventSchema";
 import { addUpcomingEvent, updateUpcomingEvent } from "@/services/apiServices";
-import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller } from "react-hook-form";
@@ -19,9 +18,6 @@ interface IUpcomingEventsFormProps {
 }
 
 export default function UpcomingEventsForm(props: IUpcomingEventsFormProps) {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-
   const defaultValues = props.upcomingEvent?.data
     ? props.upcomingEvent?.data
     : {};
@@ -44,7 +40,17 @@ export default function UpcomingEventsForm(props: IUpcomingEventsFormProps) {
 
   return (
     <FormSectionContainer>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit((data) => {
+          if (data.startDate === null) {
+            delete data.startDate;
+          }
+          if (data.endDate === null) {
+            delete data.endDate;
+          }
+          onSubmit(data);
+        })}
+      >
         <div className="grid gap-4 mb-4 grid-cols-2">
           {/* Other Fields */}
           <FormSectionContainer>
@@ -87,12 +93,18 @@ export default function UpcomingEventsForm(props: IUpcomingEventsFormProps) {
                     <DatePicker
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block !w-full p-2.5"
                       wrapperClassName="!w-full"
-                      startDate={startDate}
+                      startDate={
+                        typeof value === "string" ? new Date(value) : value
+                      }
                       onChange={(date: Date) => {
-                        if (date) onChange(date);
+                        onChange(date);
                       }}
                       placeholderText="Start Date"
-                      value={(value && new Date(value).toDateString()) || ""}
+                      selected={
+                        typeof value === "string" ? new Date(value) : value
+                      }
+                      isClearable
+                      minDate={new Date()}
                     />
                   )}
                 />
@@ -108,15 +120,26 @@ export default function UpcomingEventsForm(props: IUpcomingEventsFormProps) {
                     <DatePicker
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-accentDark focus:border-accentDark block !w-full p-2.5"
                       wrapperClassName="!w-full"
-                      startDate={endDate}
+                      startDate={
+                        typeof value === "string" ? new Date(value) : value
+                      }
                       onChange={(date: Date) => {
-                        if (date) onChange(date);
+                        onChange(date);
                       }}
+                      isClearable
                       placeholderText="End Date"
-                      value={(value && new Date(value).toDateString()) || ""}
+                      selected={
+                        typeof value === "string" ? new Date(value) : value
+                      }
+                      minDate={new Date()}
                     />
                   )}
                 />
+                {errors.endDate && (
+                  <p className="text-red-500 text-sm">
+                    *{errors.endDate.message}
+                  </p>
+                )}
               </div>
               <div>
                 <p className="block mb-2 text-sm font-medium text-gray-900">

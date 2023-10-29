@@ -32,7 +32,7 @@ import Head from "next/head";
 
 export async function getStaticProps() {
   const hero = JSON.parse(await getHero("home"));
-  const upcomingEvents = JSON.parse(await getPaginated(1, 6, UpcomingEvent));
+  const upcomingEvents = JSON.parse(await getPaginated(1, 4, UpcomingEvent));
   const companies = JSON.parse(await getAll(Company));
   const services = JSON.parse(await getPaginated(1, 3, Service));
   const reviews = JSON.parse(

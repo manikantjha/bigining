@@ -105,7 +105,11 @@ export default function UpcomingEventsRow({
         </Slider>
       </div>
       <div className="mt-12">
-        <LinkBtn href="/upcomingEvents" text="Sell All Events" theme={theme} />
+        <LinkBtn
+          href="/upcomingEvents/1"
+          text="Sell All Events"
+          theme={theme}
+        />
       </div>
     </RowWrapper>
   );
