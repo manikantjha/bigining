@@ -10,7 +10,7 @@ export default function Footer() {
           <span className="text-sm text-textLight sm:text-center">
             © 2023{" "}
             <a href="https://flowbite.com/" className="hover:underline">
-              {companyName}™
+              {companyName} Entertainment™
             </a>{" "}
             All Rights Reserved
           </span>
