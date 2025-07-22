@@ -1,6 +1,7 @@
 import SocialMediaIcons from "@/components/common/SocialMediaIcons";
 import { companyName } from "@/data/data";
 import Link from "next/link";
+import DunsSealScript from "./DunsSealScript";
 
 export default function Footer() {
   return (
@@ -31,6 +32,7 @@ export default function Footer() {
           </li>
         </ul>
       </div>
+      <DunsSealScript />
     </footer>
   );
 }
