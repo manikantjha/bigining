@@ -98,8 +98,7 @@ export default function HomePage({
        
       </Head>
       <Layout>
-         <script lang="JavaScript" src="https://dunsregistered.dnb.com" type="text/javascript"></script>
-        <Hero
+         <Hero
           imgSrc={hero?.image?.original.url}
           imgAlt="home hero"
           hasContent

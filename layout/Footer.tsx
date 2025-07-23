@@ -13,9 +13,12 @@ export default function Footer() {
             <Link href="/" className="hover:underline">
               {companyName} Entertainment™
             </Link>{" "}
-            All Rights Reserved
+            All Rights Reserved 
           </span>
         </div>
+        <div>  <script lang="JavaScript" src="https://dunsregistered.dnb.com" type="text/javascript"></script>
+              
+              </div>
         <ul className="flex flex-wrap items-center md:justify-normal justify-center mt-3 text-sm text-textLight space-x-4 md:space-x-6">
           <li>
             <Link href="/privacy" className="hover:underline">
