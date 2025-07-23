@@ -95,15 +95,17 @@ export default function HomePage({
         <meta name="description" content="Bigining home page" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        <script lang="JavaScript" src="https://dunsregistered.dnb.com" type="text/javascript"></script>
+       
       </Head>
       <Layout>
+         <script lang="JavaScript" src="https://dunsregistered.dnb.com" type="text/javascript"></script>
         <Hero
           imgSrc={hero?.image?.original.url}
           imgAlt="home hero"
           hasContent
           renderContent={() => (
             <>
+
               <div className="absolute top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.75)]" />
               <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 text-center w-full">
                 <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-10 md:space-y-6 space-y-6 flex flex-col items-center justify-center !w-full px-8">
