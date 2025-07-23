@@ -32,7 +32,6 @@ export default function Footer() {
           </li>
         </ul>
       </div>
-      <DunsSealScript />
     </footer>
   );
 }
