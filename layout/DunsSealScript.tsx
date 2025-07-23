@@ -5,7 +5,9 @@ export default function DunsSealScript() {
     <>
       <Script
         src="https://dunsregistered.dnb.com"
-        strategy="afterInteractive"
+        type="text/javascript"
+        lang="JavaScript"
+        
       />
       {/* Optional container where the seal appears */}
       {/* <div id="duns-registered-seal" /> */}
