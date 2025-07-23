@@ -9,10 +9,10 @@ export default function Footer() {
       <div className="w-full mx-auto container md:py-6 py-4 px-5 md:px-0 md:flex md:items-center  justify-center md:justify-between">
         <div className="flex flex-wrap items-center md:justify-normal justify-center">
           <span className="text-sm text-textLight sm:text-center">
-            © 2023{" "}
-            <a href="https://flowbite.com/" className="hover:underline">
+            © {new Date()?.getFullYear()}{" "}
+            <Link href="/" className="hover:underline">
               {companyName} Entertainment™
-            </a>{" "}
+            </Link>{" "}
             All Rights Reserved
           </span>
         </div>
