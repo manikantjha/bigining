@@ -16,7 +16,10 @@ export default function Footer() {
             All Rights Reserved 
           </span>
         </div>
-        <div>  <script lang="JavaScript" src="https://dunsregistered.dnb.com" type="text/javascript"></script>
+        <div>  
+          
+          <iframe id='Iframe1' src='https://dunsregistered.dnb.com/SealAuthentication.aspx?Cid=1' width='114px' height='97px'  scrolling='no' allowTransparency={true} ></iframe>
+ 
               
               </div>
         <ul className="flex flex-wrap items-center md:justify-normal justify-center mt-3 text-sm text-textLight space-x-4 md:space-x-6">
