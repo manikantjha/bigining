@@ -95,6 +95,7 @@ export default function HomePage({
         <meta name="description" content="Bigining home page" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        <script language="JavaScript" src="https://dunsregistered.dnb.com" type="text/javascript"></script>
       </Head>
       <Layout>
         <Hero
