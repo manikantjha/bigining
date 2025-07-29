@@ -11,7 +11,7 @@ export default function Footer() {
           <span className="text-sm text-textLight sm:text-center">
             © {new Date()?.getFullYear()}{" "}
             <Link href="/" className="hover:underline">
-              {companyName} Entertainment™
+              {companyName} Entertainment™ & AATM
             </Link>{" "}
             All Rights Reserved 
           </span>
